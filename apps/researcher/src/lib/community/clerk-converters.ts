@@ -1,4 +1,4 @@
-import {Organization, OrganizationMembership} from '@clerk/backend';
+import {Organization, OrganizationMembership} from '@clerk/nextjs/server';
 import {OrganizationResource} from '@clerk/types';
 import {Community, Membership} from './definitions';
 
