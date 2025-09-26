@@ -22,7 +22,7 @@
     "test:e2e:ci": "NODE_OPTIONS='--no-experimental-strip-types' playwright test"
   },
   "dependencies": {
-    "@clerk/localizations": "1.26.13",
+    "@clerk/localizations": "3.25.3",
     "@clerk/nextjs": "6.32.2",
     "@clerk/types": "4.88.0",
     "@colonial-collections/api": "*",
