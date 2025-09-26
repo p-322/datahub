@@ -1,5 +1,5 @@
 // This file is based on https://github.com/clerk/javascript/blob/aaab21703a239d7bdd4866f9d56fd60cd337813c/packages/localizations/src/nl-NL.ts
-// With the main difference a rename of 'organisatie' to 'community'
+// With the main difference a rename of 'community' to 'community'
 
 import type {LocalizationResource} from '@clerk/types';
 
@@ -165,11 +165,11 @@ export const nlNL: LocalizationResource = {
     year: undefined,
   },
   createOrganization: {
-    formButtonSubmit: 'Creëer organisatie',
+    formButtonSubmit: 'Creëer community',
     invitePage: {
       formButtonReset: 'Overslaan',
     },
-    title: 'Creëer organisatie',
+    title: 'Creëer community',
   },
   dates: {
     lastDay: "Gisteren om {{ date | timeString('nl-NL') }}",
@@ -255,15 +255,15 @@ export const nlNL: LocalizationResource = {
   membershipRole__basicMember: 'Lid',
   membershipRole__guestMember: 'Gast',
   organizationList: {
-    action__createOrganization: 'Creëer organisatie',
+    action__createOrganization: 'Creëer community',
     action__invitationAccept: 'Toetreden',
     action__suggestionsAccept: 'Verzoek om toetreden',
-    createOrganization: 'Creëer organisatie',
+    createOrganization: 'Creëer community',
     invitationAcceptedLabel: 'Toegetreden',
     subtitle: 'om door te gaan naar {{applicationName}}',
     suggestionsAcceptedLabel: 'In behandeling',
-    title: 'Kies een organisatie',
-    titleWithoutPersonal: 'Kies een organisatie',
+    title: 'Kies een community',
+    titleWithoutPersonal: 'Kies een community',
   },
   organizationProfile: {
     apiKeysPage: {
@@ -334,7 +334,7 @@ export const nlNL: LocalizationResource = {
     },
     createDomainPage: {
       subtitle:
-        'Voeg het domein toe om te verifiëren. Gebruikers met e-mailadressen in dit domein kunnen de organisatie automatisch toegang krijgen of een verzoek om toegang te maken.',
+        'Voeg het domein toe om te verifiëren. Gebruikers met e-mailadressen in dit domein kunnen de community automatisch toegang krijgen of een verzoek om toegang te maken.',
       title: 'Domein toevoegen',
     },
     invitePage: {
@@ -342,7 +342,7 @@ export const nlNL: LocalizationResource = {
         'De uitnodigingen konden niet verzonden worden. Los het volgende op en probeer het opnieuw:',
       formButtonPrimary__continue: 'Uitnodigingen verzenden',
       selectDropdown__role: 'Selecteer rol',
-      subtitle: 'Nodig nieuwe leden uit voor deze organisatie',
+      subtitle: 'Nodig nieuwe leden uit voor deze community',
       successMessage: 'Uitnodigingen succesvol verzonden',
       title: 'Leden uitnodigen',
     },
@@ -360,7 +360,7 @@ export const nlNL: LocalizationResource = {
       invitationsTab: {
         autoInvitations: {
           headerSubtitle:
-            'Uitnodig gebruikers door een domein toe te voegen aan je organisatie. Iedereen die zich aanmeldt met een e-mailadres in dit domein kan de organisatie automatisch toegang krijgen of een verzoek om toegang te maken.',
+            'Uitnodig gebruikers door een domein toe te voegen aan je community. Iedereen die zich aanmeldt met een e-mailadres in dit domein kan de community automatisch toegang krijgen of een verzoek om toegang te maken.',
           headerTitle: 'Automatische uitnodigingen',
           primaryButton: 'Beheer geverifieerde domeinen',
         },
@@ -373,7 +373,7 @@ export const nlNL: LocalizationResource = {
       requestsTab: {
         autoSuggestions: {
           headerSubtitle:
-            'Gebruikers die zich aanmelden met een e-mailadres in dit domein, kunnen een verzoek om toegang tot de organisatie zien.',
+            'Gebruikers die zich aanmelden met een e-mailadres in dit domein, kunnen een verzoek om toegang tot de community zien.',
           headerTitle: 'Automatische suggesties',
           primaryButton: 'Beheer geverifieerde domeinen',
         },
@@ -391,10 +391,10 @@ export const nlNL: LocalizationResource = {
     navbar: {
       apiKeys: undefined,
       billing: undefined,
-      description: 'Beheer je organisatie.',
+      description: 'Beheer je community.',
       general: 'Algemeen',
       members: 'Leden',
-      title: 'Organisatie',
+      title: 'Community',
     },
     plansPage: {
       alerts: {
@@ -407,20 +407,19 @@ export const nlNL: LocalizationResource = {
         deleteOrganization: {
           actionDescription:
             'Typ "{{organizationName}}" hieronder om door te gaan.',
-          messageLine1:
-            'Weet je zeker dat je deze organisatie wilt verwijderen?',
+          messageLine1: 'Weet je zeker dat je deze community wilt verwijderen?',
           messageLine2: 'Deze actie is permanent en onomkeerbaar.',
-          successMessage: 'Je hebt deze organisatie verwijderd.',
-          title: 'Organisatie verwijderen',
+          successMessage: 'Je hebt deze community verwijderd.',
+          title: 'Community verwijderen',
         },
         leaveOrganization: {
           actionDescription:
             'Typ "{{organizationName}}" hieronder om door te gaan.',
           messageLine1:
-            'Weet je zeker dat je deze organisatie wilt verlaten? Je zult toegang verliezen tot deze organisatie en haar applicaties.',
+            'Weet je zeker dat je deze community wilt verlaten? Je zult toegang verliezen tot deze community en haar applicaties.',
           messageLine2: 'Deze actie is permanent en onomkeerbaar.',
-          successMessage: 'Je hebt deze organisatie verlaten.',
-          title: 'Verlaat organisatie',
+          successMessage: 'Je hebt deze community verlaten.',
+          title: 'Verlaat community',
         },
         title: 'Gevaar',
       },
@@ -430,16 +429,16 @@ export const nlNL: LocalizationResource = {
         menuAction__verify: 'Verifieer',
         primaryButton: 'Domein toevoegen',
         subtitle:
-          'Laat gebruikers de organisatie automatisch toegang krijgen of een verzoek om toegang maken op basis van een geverifieerd e-maildomein.',
+          'Laat gebruikers de community automatisch toegang krijgen of een verzoek om toegang maken op basis van een geverifieerd e-maildomein.',
         title: 'Geverifieerde domeinen',
       },
-      successMessage: 'De organisatie is bijgewerkt.',
+      successMessage: 'De community is bijgewerkt.',
       title: 'Organisatieprofiel',
     },
     removeDomainPage: {
       messageLine1: 'Het e-maildomein {{domain}} wordt verwijderd.',
       messageLine2:
-        'Gebruikers kunnen de organisatie niet meer automatisch toegang krijgen na dit domein te verwijderen.',
+        'Gebruikers kunnen de community niet meer automatisch toegang krijgen na dit domein te verwijderen.',
       successMessage: '{{domain}} is verwijderd.',
       title: 'Domein verwijderen',
     },
@@ -463,10 +462,10 @@ export const nlNL: LocalizationResource = {
       },
       enrollmentTab: {
         automaticInvitationOption__description:
-          'Gebruikers worden automatisch uitgenodigd om lid te worden van de organisatie wanneer ze zich aanmelden en kunnen lid worden wanneer ze dat willen.',
+          'Gebruikers worden automatisch uitgenodigd om lid te worden van de community wanneer ze zich aanmelden en kunnen lid worden wanneer ze dat willen.',
         automaticInvitationOption__label: 'Automatische uitnodigingen',
         automaticSuggestionOption__description:
-          'Gebruikers ontvangen een aanbeveling om lid te worden, maar moeten worden goedgekeurd door een beheerder voordat ze toegang kunnen krijgen tot de organisatie.',
+          'Gebruikers ontvangen een aanbeveling om lid te worden, maar moeten worden goedgekeurd door een beheerder voordat ze toegang kunnen krijgen tot de community.',
         automaticSuggestionOption__label: 'Automatische suggesties',
         calloutInfoLabel:
           'Wijziging van de inschrijfmodus heeft alleen invloed op nieuwe gebruikers.',
@@ -475,10 +474,10 @@ export const nlNL: LocalizationResource = {
         calloutSuggestionCountLabel:
           'Aanbevelingen verzonden aan gebruikers: {{count}}',
         manualInvitationOption__description:
-          'Gebruikers kunnen alleen handmatig worden uitgenodigd voor de organisatie.',
+          'Gebruikers kunnen alleen handmatig worden uitgenodigd voor de community.',
         manualInvitationOption__label: 'Geen automatische inschrijving',
         subtitle:
-          'Kies hoe gebruikers van dit domein toegang kunnen krijgen tot de organisatie.',
+          'Kies hoe gebruikers van dit domein toegang kunnen krijgen tot de community.',
       },
       start: {
         headerTitle__danger: 'Danger',
@@ -501,11 +500,11 @@ export const nlNL: LocalizationResource = {
     },
   },
   organizationSwitcher: {
-    action__createOrganization: 'Maak organisatie aan',
+    action__createOrganization: 'Maak community aan',
     action__invitationAccept: 'Join',
-    action__manageOrganization: 'Beheer organisatie',
+    action__manageOrganization: 'Beheer community',
     action__suggestionsAccept: 'Verzoek om lid te worden',
-    notSelected: 'Geen organisatie geselecteerd',
+    notSelected: 'Geen community geselecteerd',
     personalWorkspace: 'Persoonlijke werkruimte',
     suggestionsAcceptedLabel: 'In behandeling',
   },
@@ -862,7 +861,7 @@ export const nlNL: LocalizationResource = {
     },
   },
   unstable__errors: {
-    already_a_member_in_organization: 'Je bent al lid van de organisatie.',
+    already_a_member_in_organization: 'Je bent al lid van de community.',
     captcha_invalid:
       'Aanmelding mislukt vanwege mislukte beveiligingsvalidaties. Vernieuw de pagina om het opnieuw te proberen of neem contact op met de ondersteuning voor verdere hulp.',
     captcha_unavailable:
@@ -907,14 +906,13 @@ export const nlNL: LocalizationResource = {
       'Je kunt je laatste identificatie niet verwijderen.',
     not_allowed_access:
       "Je e-mailadres of telefoonnummer is niet toegestaan voor registratie. Dit kan zijn omdat je '+', '=', '#' of '.' in je e-mailadres gebruikt, een domein dat is gekoppeld aan een tijdelijke e-mailservice gebruikt, of een expliciete uitsluiting heeft.",
-    organization_domain_blocked:
-      'Het domein van de organisatie is geblokkeerd.',
-    organization_domain_common: 'Het domein van de organisatie is te algemeen.',
+    organization_domain_blocked: 'Het domein van de community is geblokkeerd.',
+    organization_domain_common: 'Het domein van de community is te algemeen.',
     organization_domain_exists_for_enterprise_connection: undefined,
     organization_membership_quota_exceeded:
-      'Het lidmaatschapsquotum van de organisatie is overschreden.',
+      'Het lidmaatschapsquotum van de community is overschreden.',
     organization_minimum_permissions_needed:
-      'Minimale machtigingen vereist voor de organisatie.',
+      'Minimale machtigingen vereist voor de community.',
     organization_not_found_or_unauthorized: undefined,
     organization_not_found_or_unauthorized_with_create_organization_disabled:
       undefined,

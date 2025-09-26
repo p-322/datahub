@@ -1,5 +1,5 @@
 // This file is based on https://github.com/clerk/javascript/blob/aaab21703a239d7bdd4866f9d56fd60cd337813c/packages/localizations/src/en-US.ts
-// With the main difference a rename of 'organization' to 'community'
+// With the main difference a rename of 'community' to 'community'
 
 import type {LocalizationResource} from '@clerk/types';
 
@@ -178,11 +178,11 @@ export const enUS: LocalizationResource = {
     year: 'Year',
   },
   createOrganization: {
-    formButtonSubmit: 'Create organization',
+    formButtonSubmit: 'Create community',
     invitePage: {
       formButtonReset: 'Skip',
     },
-    title: 'Create organization',
+    title: 'Create community',
   },
   dates: {
     lastDay: "Yesterday at {{ date | timeString('en-US') }}",
@@ -224,7 +224,7 @@ export const enUS: LocalizationResource = {
   formFieldInputPlaceholder__lastName: 'Last name',
   formFieldInputPlaceholder__organizationDomain: 'example.com',
   formFieldInputPlaceholder__organizationDomainEmailAddress: 'you@example.com',
-  formFieldInputPlaceholder__organizationName: 'Organization name',
+  formFieldInputPlaceholder__organizationName: 'Community name',
   formFieldInputPlaceholder__organizationSlug: 'my-org',
   formFieldInputPlaceholder__password: 'Enter your password',
   formFieldInputPlaceholder__phoneNumber: 'Enter your phone number',
@@ -269,15 +269,15 @@ export const enUS: LocalizationResource = {
   membershipRole__basicMember: 'Member',
   membershipRole__guestMember: 'Guest',
   organizationList: {
-    action__createOrganization: 'Create organization',
+    action__createOrganization: 'Create community',
     action__invitationAccept: 'Join',
     action__suggestionsAccept: 'Request to join',
-    createOrganization: 'Create Organization',
+    createOrganization: 'Create Community',
     invitationAcceptedLabel: 'Joined',
     subtitle: 'to continue to {{applicationName}}',
     suggestionsAcceptedLabel: 'Pending approval',
     title: 'Choose an account',
-    titleWithoutPersonal: 'Choose an organization',
+    titleWithoutPersonal: 'Choose a community',
   },
   organizationProfile: {
     apiKeysPage: {
@@ -352,7 +352,7 @@ export const enUS: LocalizationResource = {
     },
     createDomainPage: {
       subtitle:
-        'Add the domain to verify. Users with email addresses at this domain can join the organization automatically or request to join.',
+        'Add the domain to verify. Users with email addresses at this domain can join the community automatically or request to join.',
       title: 'Add domain',
     },
     invitePage: {
@@ -379,7 +379,7 @@ export const enUS: LocalizationResource = {
       invitationsTab: {
         autoInvitations: {
           headerSubtitle:
-            'Invite users by connecting an email domain with your organization. Anyone who signs up with a matching email domain will be able to join the organization anytime.',
+            'Invite users by connecting an email domain with your community. Anyone who signs up with a matching email domain will be able to join the community anytime.',
           headerTitle: 'Automatic invitations',
           primaryButton: 'Manage verified domains',
         },
@@ -392,7 +392,7 @@ export const enUS: LocalizationResource = {
       requestsTab: {
         autoSuggestions: {
           headerSubtitle:
-            'Users who sign up with a matching email domain, will be able to see a suggestion to request to join your organization.',
+            'Users who sign up with a matching email domain, will be able to see a suggestion to request to join your community.',
           headerTitle: 'Automatic suggestions',
           primaryButton: 'Manage verified domains',
         },
@@ -410,15 +410,15 @@ export const enUS: LocalizationResource = {
     navbar: {
       apiKeys: 'API keys',
       billing: 'Billing',
-      description: 'Manage your organization.',
+      description: 'Manage your community.',
       general: 'General',
       members: 'Members',
-      title: 'Organization',
+      title: 'Community',
     },
     plansPage: {
       alerts: {
         noPermissionsToManageBilling:
-          'You do not have permissions to manage billing for this organization.',
+          'You do not have permissions to manage billing for this community.',
       },
       title: 'Plans',
     },
@@ -426,18 +426,18 @@ export const enUS: LocalizationResource = {
       dangerSection: {
         deleteOrganization: {
           actionDescription: 'Type "{{organizationName}}" below to continue.',
-          messageLine1: 'Are you sure you want to delete this organization?',
+          messageLine1: 'Are you sure you want to delete this community?',
           messageLine2: 'This action is permanent and irreversible.',
-          successMessage: 'You have deleted the organization.',
-          title: 'Delete organization',
+          successMessage: 'You have deleted the community.',
+          title: 'Delete community',
         },
         leaveOrganization: {
           actionDescription: 'Type "{{organizationName}}" below to continue.',
           messageLine1:
-            'Are you sure you want to leave this organization? You will lose access to this organization and its applications.',
+            'Are you sure you want to leave this community? You will lose access to this community and its applications.',
           messageLine2: 'This action is permanent and irreversible.',
-          successMessage: 'You have left the organization.',
-          title: 'Leave organization',
+          successMessage: 'You have left the community.',
+          title: 'Leave community',
         },
         title: 'Danger',
       },
@@ -447,16 +447,16 @@ export const enUS: LocalizationResource = {
         menuAction__verify: 'Verify',
         primaryButton: 'Add domain',
         subtitle:
-          'Allow users to join the organization automatically or request to join based on a verified email domain.',
+          'Allow users to join the community automatically or request to join based on a verified email domain.',
         title: 'Verified domains',
       },
-      successMessage: 'The organization has been updated.',
+      successMessage: 'The community has been updated.',
       title: 'Update profile',
     },
     removeDomainPage: {
       messageLine1: 'The email domain {{domain}} will be removed.',
       messageLine2:
-        'Users won’t be able to join the organization automatically after this.',
+        'Users won’t be able to join the community automatically after this.',
       successMessage: '{{domain}} has been removed.',
       title: 'Remove domain',
     },
@@ -465,7 +465,7 @@ export const enUS: LocalizationResource = {
       headerTitle__members: 'Members',
       profileSection: {
         primaryButton: 'Update profile',
-        title: 'Organization Profile',
+        title: 'Community Profile',
         uploadAction__title: 'Logo',
       },
     },
@@ -478,10 +478,10 @@ export const enUS: LocalizationResource = {
       },
       enrollmentTab: {
         automaticInvitationOption__description:
-          'Users are automatically invited to join the organization when they sign-up and can join anytime.',
+          'Users are automatically invited to join the community when they sign-up and can join anytime.',
         automaticInvitationOption__label: 'Automatic invitations',
         automaticSuggestionOption__description:
-          'Users receive a suggestion to request to join, but must be approved by an admin before they are able to join the organization.',
+          'Users receive a suggestion to request to join, but must be approved by an admin before they are able to join the community.',
         automaticSuggestionOption__label: 'Automatic suggestions',
         calloutInfoLabel:
           'Changing the enrollment mode will only affect new users.',
@@ -490,10 +490,9 @@ export const enUS: LocalizationResource = {
         calloutSuggestionCountLabel:
           'Pending suggestions sent to users: {{count}}',
         manualInvitationOption__description:
-          'Users can only be invited manually to the organization.',
+          'Users can only be invited manually to the community.',
         manualInvitationOption__label: 'No automatic enrollment',
-        subtitle:
-          'Choose how users from this domain can join the organization.',
+        subtitle: 'Choose how users from this domain can join the community.',
       },
       start: {
         headerTitle__danger: 'Danger',
@@ -514,11 +513,11 @@ export const enUS: LocalizationResource = {
     },
   },
   organizationSwitcher: {
-    action__createOrganization: 'Create organization',
+    action__createOrganization: 'Create community',
     action__invitationAccept: 'Join',
     action__manageOrganization: 'Manage',
     action__suggestionsAccept: 'Request to join',
-    notSelected: 'No organization selected',
+    notSelected: 'No community selected',
     personalWorkspace: 'Personal account',
     suggestionsAcceptedLabel: 'Pending approval',
   },
@@ -855,22 +854,22 @@ export const enUS: LocalizationResource = {
   socialButtonsBlockButtonManyInView: '{{provider|titleize}}',
   taskChooseOrganization: {
     chooseOrganization: {
-      action__createOrganization: 'Create new organization',
+      action__createOrganization: 'Create new community',
       action__invitationAccept: 'Join',
       action__suggestionsAccept: 'Request to join',
-      subtitle: 'Join an existing organization or create a new one',
+      subtitle: 'Join an existing community or create a new one',
       suggestionsAcceptedLabel: 'Pending approval',
-      title: 'Choose an organization',
+      title: 'Choose a community',
     },
     createOrganization: {
       formButtonReset: 'Cancel',
       formButtonSubmit: 'Continue',
-      formFieldInputPlaceholder__name: 'My Organization',
-      formFieldInputPlaceholder__slug: 'my-organization',
+      formFieldInputPlaceholder__name: 'My Community',
+      formFieldInputPlaceholder__slug: 'my-community',
       formFieldLabel__name: 'Name',
       formFieldLabel__slug: 'Slug',
-      subtitle: 'Enter your organization details to continue',
-      title: 'Setup your organization',
+      subtitle: 'Enter your community details to continue',
+      title: 'Setup your community',
     },
     signOut: {
       actionLink: 'Sign out',
@@ -879,7 +878,7 @@ export const enUS: LocalizationResource = {
   },
   unstable__errors: {
     already_a_member_in_organization:
-      '{{email}} is already a member of the organization.',
+      '{{email}} is already a member of the community.',
     captcha_invalid: undefined,
     captcha_unavailable:
       'Sign up unsuccessful due to failed bot validation. Please refresh the page to try again or reach out to support for more assistance.',
@@ -920,9 +919,9 @@ export const enUS: LocalizationResource = {
     organization_membership_quota_exceeded: undefined,
     organization_minimum_permissions_needed: undefined,
     organization_not_found_or_unauthorized:
-      'You are no longer a member of this organization. Please choose or create another one.',
+      'You are no longer a member of this community. Please choose or create another one.',
     organization_not_found_or_unauthorized_with_create_organization_disabled:
-      'You are no longer a member of this organization. Please choose another one.',
+      'You are no longer a member of this community. Please choose another one.',
     passkey_already_exists: 'A passkey is already registered with this device.',
     passkey_not_supported: 'Passkeys are not supported on this device.',
     passkey_pa_not_supported:
