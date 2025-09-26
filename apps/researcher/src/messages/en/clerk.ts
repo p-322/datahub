@@ -1,9 +1,7 @@
 // This file is based on https://github.com/clerk/javascript/blob/aaab21703a239d7bdd4866f9d56fd60cd337813c/packages/localizations/src/en-US.ts
 // With the main difference a rename of 'community' to 'community'
 
-import type {LocalizationResource} from '@clerk/types';
-
-export const enUS: LocalizationResource = {
+export default {
   locale: 'en-US',
   apiKeys: {
     action__add: 'Add new key',
@@ -1379,5 +1377,3 @@ export const enUS: LocalizationResource = {
     },
   },
 } as const;
-
-export default enUS;

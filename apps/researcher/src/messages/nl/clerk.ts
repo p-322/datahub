@@ -1,9 +1,7 @@
 // This file is based on https://github.com/clerk/javascript/blob/aaab21703a239d7bdd4866f9d56fd60cd337813c/packages/localizations/src/nl-NL.ts
 // With the main difference a rename of 'community' to 'community'
 
-import type {LocalizationResource} from '@clerk/types';
-
-export const nlNL: LocalizationResource = {
+export default {
   locale: 'nl-NL',
   apiKeys: {
     action__add: undefined,
@@ -1376,5 +1374,3 @@ export const nlNL: LocalizationResource = {
     },
   },
 } as const;
-
-export default nlNL;
