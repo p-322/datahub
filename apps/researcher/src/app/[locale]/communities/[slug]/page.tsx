@@ -17,6 +17,7 @@ import {
   Notifications,
   LocalizedMarkdown,
 } from '@colonial-collections/ui';
+import CommunityProfileModal from './community-profile-modal';
 import EditCommunityForm from './edit-community-form';
 import ToFilteredListButton from '@/components/to-filtered-list-button';
 import Protect from '@/lib/community/protect';
@@ -248,10 +249,7 @@ export default async function CommunityPage({params}: Props) {
                   communityId={community.id}
                   permission="org:sys_profile:manage"
                 >
-                  <ManageMembersButton
-                    communityId={community.id}
-                    communitySlug={params.slug}
-                  />
+                  <ManageMembersButton communityId={community.id} />
                 </Protect>
               </div>
             </div>
@@ -286,6 +284,8 @@ export default async function CommunityPage({params}: Props) {
           </aside>
         </SignedIn>
       </div>
+
+      <CommunityProfileModal />
     </>
   );
 }
