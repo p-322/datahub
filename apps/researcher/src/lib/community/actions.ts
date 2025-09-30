@@ -164,7 +164,7 @@ export async function updateCommunity({
   const client = await clerkClient();
   await client.organizations.updateOrganization(id, {
     name,
-    privateMetadata: {
+    publicMetadata: {
       description,
     },
   });
