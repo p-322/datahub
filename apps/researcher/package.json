@@ -19,7 +19,7 @@
     "test:integration:watch": "npm run test:integration -- --watchAll",
     "test:e2e": "NODE_OPTIONS='--no-experimental-strip-types' dotenv -c -- playwright test",
     "test:e2e:open": "NODE_OPTIONS='--no-experimental-strip-types' dotenv -c -- playwright test --ui",
-    "test:e2e:ci": "NODE_OPTIONS='--no-experimental-strip-types' playwright test"
+    "test:e2e:ci": "CI=true NODE_OPTIONS='--no-experimental-strip-types' dotenv -c -- playwright test"
   },
   "dependencies": {
     "@clerk/localizations": "3.25.3",
@@ -61,8 +61,8 @@
     "zustand": "4.5.2"
   },
   "devDependencies": {
-    "@clerk/clerk-sdk-node": "5.0.11",
-    "@clerk/testing": "1.1.5",
+    "@clerk/backend": "2.16.0",
+    "@clerk/testing": "1.13.0",
     "@colonial-collections/eslint-config": "*",
     "@colonial-collections/tailwind-config": "*",
     "@colonial-collections/ts-config": "*",
