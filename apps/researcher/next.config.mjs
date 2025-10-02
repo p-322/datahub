@@ -13,11 +13,11 @@ const nextConfig = {
     mdxRs: true,
   },
   images: {
-    remotePatterns: [
-      {
-        hostname: '*',
-      },
-    ],
+    remotePatterns: [{protocol: 'https', hostname: '**'}],
+    minimumCacheTTL: 2_592_000, // 30 days
+    deviceSizes: [360, 640, 768, 1024, 1280, 1536],
+    imageSizes: [80, 90, 120, 160, 270, 360],
+    formats: ['image/avif', 'image/webp'],
   },
   redirects: async () => [
     {
