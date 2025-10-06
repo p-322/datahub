@@ -13,7 +13,7 @@ const nextConfig = {
     mdxRs: true,
   },
   images: {
-    remotePatterns: [{protocol: 'https', hostname: '**'}],
+    remotePatterns: [{hostname: '**'}],
     minimumCacheTTL: 2_592_000, // 30 days
     deviceSizes: [360, 640, 768, 1024, 1280, 1536],
     imageSizes: [80, 90, 120, 160, 270, 360],
