@@ -12,9 +12,11 @@ const nextConfig = {
   experimental: {
     mdxRs: true,
   },
+  // https://vercel.com/docs/image-optimization
   images: {
     remotePatterns: [{hostname: '**'}],
-    minimumCacheTTL: 2_592_000, // 30 days
+    // https://nextjs.org/docs/app/api-reference/components/image#minimumcachettl
+    minimumCacheTTL: 31_536_000, // 1 year
     deviceSizes: [360, 640, 768, 1024, 1280, 1536],
     imageSizes: [80, 90, 120, 160, 270, 360],
     formats: ['image/avif', 'image/webp'],
