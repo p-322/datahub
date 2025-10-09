@@ -27,11 +27,7 @@ export function organizationToCommunity(
         ? organization.createdAt.getTime()
         : organization.createdAt,
     membershipCount:
-      'membersCount' in organization // Organization
-        ? organization.membersCount
-        : 'membersCount' in organization // OrganizationResource
-          ? organization.membersCount
-          : undefined,
+      'membersCount' in organization ? organization.membersCount : undefined,
   };
 }
 

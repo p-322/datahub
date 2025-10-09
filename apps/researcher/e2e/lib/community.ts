@@ -36,25 +36,15 @@ export async function createUser({
   password,
   testId,
 }: CreateUserProps) {
-  try {
-    return await clerkClient.users.createUser({
-      firstName,
-      lastName,
-      emailAddress: [emailAddress],
-      password,
-      unsafeMetadata: {
-        iri: `https://example.com/${testId}`,
-      },
-    });
-  } catch (error: any) {
-    console.error('Error creating user:', {
-      emailAddress,
-      error: error.message,
-      status: error.status,
-      errors: error.errors,
-    });
-    throw error;
-  }
+  return clerkClient.users.createUser({
+    firstName,
+    lastName,
+    emailAddress: [emailAddress],
+    password,
+    unsafeMetadata: {
+      iri: `https://example.com/${testId}`,
+    },
+  });
 }
 
 interface CreateCommunityProps {

@@ -18,7 +18,7 @@ export function useCommunityProfile({
     // Set the active organization to the community so the correct profile is loaded
     await setActive({organization: communityId});
 
-    // CRITICAL: Set hash BEFORE opening modal to ensure correct initial tab
+    // Set hash BEFORE opening modal so that you don't have a flash of the wrong tab
     const hash = page === 'members' ? '#/organization-members' : '#';
 
     window.location.hash = hash;

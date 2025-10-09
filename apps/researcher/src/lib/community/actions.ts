@@ -97,14 +97,13 @@ export async function getMyCommunities({
   }
 
   const memberships = userId
-    ? await (async () => {
-        const client = await clerkClient();
-        return await client.users.getOrganizationMembershipList({
+    ? await clerkClient().then(client =>
+        client.users.getOrganizationMembershipList({
           userId,
           limit,
           offset,
-        });
-      })()
+        })
+      )
     : {data: [], totalCount: 0};
 
   const organizations = memberships.data.map(
@@ -120,9 +119,10 @@ export async function getMyCommunities({
             await client.organizations.getOrganizationMembershipList({
               organizationId: organization.id,
             });
-          const organizationWithCount = Object.assign({}, organization, {
+          const organizationWithCount = {
+            ...organization,
             membersCount: members.data.length,
-          });
+          } as typeof organization & {membersCount: number};
           return organizationToCommunity(organizationWithCount);
         } catch (err) {
           console.error('Error fetching members count', err);
