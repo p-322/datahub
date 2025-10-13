@@ -54,7 +54,7 @@ export default function CommunityProfileModal({
   }, []);
 
   return (
-    <Modal id={modalId} variant="full">
+    <Modal id={modalId} variant="auto">
       <ModalHeader />
       <div className="mt-4">
         {/*
@@ -66,7 +66,6 @@ export default function CommunityProfileModal({
           routing="hash"
           appearance={{
             variables: {
-              colorBackground: 'transparent',
               colorShadow: 'transparent',
               colorBorder: 'transparent',
             },
