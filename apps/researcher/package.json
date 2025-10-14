@@ -19,7 +19,7 @@
     "test:integration:watch": "npm run test:integration -- --watchAll",
     "test:e2e": "NODE_OPTIONS='--no-experimental-strip-types' dotenv -c -- playwright test",
     "test:e2e:open": "NODE_OPTIONS='--no-experimental-strip-types' dotenv -c -- playwright test --ui",
-    "test:e2e:ci": "CI=true NODE_OPTIONS='--no-experimental-strip-types' dotenv -c -- playwright test"
+    "test:e2e:ci": "NODE_OPTIONS='--no-experimental-strip-types' playwright test"
   },
   "dependencies": {
     "@clerk/localizations": "3.25.3",
