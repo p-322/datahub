@@ -94,8 +94,8 @@ const rawSearchResponseWithAggregationsSchema = rawSearchResponseSchema.merge(
       materials: rawAggregationSchema,
       creators: rawAggregationSchema,
       publishers: rawAggregationSchema,
-      dateCreatedStart: rawAggregationSchema,
-      dateCreatedEnd: rawAggregationSchema,
+      dateCreatedStart: rawAggregationSchema.default({buckets: []}),
+      dateCreatedEnd: rawAggregationSchema.default({buckets: []}),
     }),
   })
 );
@@ -139,8 +139,8 @@ export class HeritageObjectSearcher {
       materials: this.buildAggregation(materialKey),
       creators: this.buildAggregation(`${RawKeys.Creator}.keyword`),
       publishers: this.buildAggregation(publisherKey),
-      dateCreatedStart: this.buildAggregation(RawKeys.YearCreatedStart),
-      dateCreatedEnd: this.buildAggregation(RawKeys.YearCreatedEnd),
+      // DateCreatedStart: this.buildAggregation(RawKeys.YearCreatedStart),
+      // dateCreatedEnd: this.buildAggregation(RawKeys.YearCreatedEnd),
     };
 
     const sortByRawKey = sortByToRawKeys.get(options.sortBy!)!;
@@ -150,9 +150,9 @@ export class HeritageObjectSearcher {
       size: options.limit,
       from: options.offset,
       sort: [
-        {
-          [sortByRawKey]: options.sortOrder,
-        },
+        // {
+        //   [sortByRawKey]: options.sortOrder,
+        // },
       ],
       _source: [RawKeys.Id],
       query: {
@@ -311,6 +311,7 @@ export class HeritageObjectSearcher {
     const searchResponse =
       rawSearchResponseWithAggregationsSchema.parse(rawResponse);
     const searchResult = await this.buildResult(opts, searchResponse);
+    // Console.log(searchResult.heritageObjects);
 
     return searchResult;
   }
