@@ -9,36 +9,36 @@
     "dayInputLabel": "dd"
   },
   "Meta": {
-    "title": "Colonial Collections Datahub"
+    "title": "Harnem-weldegelijk Datahub"
   },
   "Home": {
-    "title": "Colonial Collections Datahub",
-    "description": "The Colonial Collections Datahub is a digital platform that brings together, enriches and provides insights into information on collections from colonial contexts. It includes heritage from Suriname, Indonesia, Sri Lanka, South Africa, Aruba, Curaçao, Sint Maarten and many other countries and areas. The datahub provides communities and researchers space to add perspectives on the included data. <link>See how this works</link>",
-    "searchLabel": "Search for heritage objects",
-    "searchPlaceholder": "Tip: start searching for a location, e.g. Suriname",
-    "narrativeExplainTitle": "Add your narratives to heritage and objects",
-    "narrativeExplainText": "Your knowledge about the heritage on this platform is vital. With your narratives and perspectives, we can present the 'objects' in their context and point to biases in collection metadata.\n\nWhen you create an account, you can add your narrative to these 'objects', make communities and create lists.",
+    "title": "Harnem-weldegelijk Datahub",
+    "description": "The Harnem-weldegelijk Datahub is a digital platform that brings together, enriches, and provides insights into historical finds and excavations in and around Arnhem. It combines data from museums, archives, and research institutions. The Datahub provides archaeologists, researchers, and communities space to add interpretations and context to the data. <link>See how this works</link>",
+    "searchLabel": "Search for historical finds",
+    "searchPlaceholder": "Tip: start searching for a location, e.g. Arnhem",
+    "narrativeExplainTitle": "Add your narratives to historical finds and excavations",
+    "narrativeExplainText": "Your knowledge about the historical material on this platform is vital. With your narratives and perspectives, we can place finds in context and improve metadata quality.\n\nWhen you create an account, you can add your interpretations, join communities, and create thematic lists.",
     "signupLink": "Create an account",
-    "communitiesTitle": "Heritage communities",
-    "communitiesDescription": "Upon creating an account, every individual or group of people can start their own community on this platform. A community is able to create lists of objects, bringing together their heritage. Communities can also add narratives to the objects in these collections.",
-    "communitiesLink": "Below are some communities to inspire you. <link>Click here to see all the communities on the platform.</link>.",
+    "communitiesTitle": "Historical, or present communities",
+    "communitiesDescription": "Anyone can start or join a community to collaborate on historical topics. Communities can create lists of finds and add interpretations to excavation data.",
+    "communitiesLink": "Below are some communities to inspire you. <link>Click here to see all communities on the platform.</link>.",
     "howThisWorksTitle": "How does this platform work?",
-    "howThisWorksText": "Here is a short explanation on how to use the following functionalities on this website: search for objects, add narratives and use communities.",
+    "howThisWorksText": "Here is a short explanation on how to search historical data, add narratives, and use communities.",
     "howThisWorksAlt": "An animation about how this site works."
   },
   "ObjectSearch": {
-    "title": "Search for heritage objects",
-    "description": "Start by typing a keyword to search.\n\nAfter this initial text search, search facets will appear to refine your search results."
+    "title": "Search for historical finds",
+    "description": "Start by typing a keyword to search.\n\nAfter this initial text search, search facets will appear to refine your results."
   },
   "SignUp": {
     "pageTitle": "Create an account",
     "whyTitle": "Why create an account?",
-    "whyText": "With an account, you have access to more functionality on this website. You can add your narratives to the objects, be part of a community, or create lists to organise objects.\n\nThe reason one needs to create an account is that we want to know who adds the data. This is one of the ways we prevent anonymous spamming.",
+    "whyText": "With an account, you can add narratives, join communities, and organize historical finds into lists.\n\nWe require accounts to ensure data integrity and prevent anonymous entries.",
     "whatTitle": "What can I do with an account?",
-    "addTitle": "Add your narratives to objects",
-    "addText": "One of the most important functionalities is that users can add their narratives to the objects on this site. Users can share how the objects are being used or name them in their own language.\n\n<important>Please note</important>: To add a narrative you need to create an account using Google, Facebook or LinkedIn.",
+    "addTitle": "Add your narratives to finds",
+    "addText": "Users can contribute their interpretations or contextual information about historical finds.\n\n<important>Please note</important>: To add a narrative you need to create an account using Google, Facebook or LinkedIn.",
     "useTitle": "Participate in communities",
-    "useText": "Communities are groups of people that represent a specific culture or geographical area. Anyone with an account can become a member of a community. You can also create your own community."
+    "useText": "Communities are groups that focus on specific periods, themes, or excavation sites. Anyone with an account can create or join a community."
   },
   "ObjectSearchResults": {
     "title": "{totalDatasets, plural, =0 {0 Objects} =1 {1 Object} other {# Objects}}",
@@ -66,7 +66,7 @@
   "Navigation": {
     "name": "app",
     "home": "Home",
-    "searchObjects": "Search objects",
+    "searchObjects": "Search finds",
     "about": "About",
     "faq": "FAQ",
     "contact": "Contact",
@@ -76,7 +76,7 @@
     "signIn": "Sign in",
     "datasetBrowser": "Dataset Browser",
     "researchGuide": "Research Aids",
-    "footerText": "The Colonial Collections DataHub is a project of the Colonial Collections Consortium.\n\nThe consortium is a partnership between five organizations with expertise in the field of colonial collections."
+    "footerText": "The Harnem-weldegelijk Datahub is developed as part of the HackaLOD Hackathon initiative to connect and explore historical datasets across institutions."
   },
   "LanguageSelector": {
     "nl": "Nederlands",
@@ -193,7 +193,7 @@
     "title": "Local Contexts Notices",
     "description": "The Local Contexts Collections Care (CC) Notices are visible identifiers developed specifically for institutions and repositories to support proper cultural care and stewardship of collections, led and guided by Indigenous protocols and authority. <link> Learn more about the Local Contexts Collections Care Notices</link>.",
     "listLabel": "Notices for this object",
-    "defaultProvider": "Colonial Collections Consortium",
+    "defaultProvider": "Team Harnem",
     "defaultLabel": "This is a standard Notice added to each object to indicate an incomplete, incorrect and/or missing attribution.",
     "addLocalContextsNoticeButton": "Add your Local Contexts Notice",
     "needAccountToAddLocalContextsNotice": "To add Local Contexts Notices to this object, you need an account.",

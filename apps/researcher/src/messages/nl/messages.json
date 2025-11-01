@@ -1,6 +1,6 @@
 {
   "Meta": {
-    "title": "Koloniale Collecties Datahub"
+    "title": "Harnem-weldegelijk Datahub"
   },
   "FormatDate": {
     "beforeCommonEraFormat": "{date, date, ::yyyy} v.Chr.",
@@ -12,33 +12,33 @@
     "dayInputLabel": "dd"
   },
   "Home": {
-    "title": "Koloniale Collecties Datahub",
-    "description": "De Koloniale Collecties Datahub is een digitaal platform dat informatie over collecties uit koloniale context samenbrengt, verrijkt en inzichtelijk maakt. Het omvat erfgoed uit Suriname, Indonesië, Sri Lanka, Zuid-Afrika, Aruba, Curaçao, Sint Maarten en vele andere landen en gebieden. De datahub biedt gemeenschappen en onderzoekers ruimte om perspectieven op de opgenomen data toe te voegen. <link>Bekijk hoe dit werkt.</link>",
-    "searchLabel": "Zoek naar erfgoedobjecten",
-    "searchPlaceholder": "Tip: begin met zoeken naar een locatie, bijvoorbeeld Suriname",
-    "narrativeExplainTitle": "Voeg je perspectief op erfgoed en objecten toe",
-    "narrativeExplainText": "Jouw kennis over het erfgoed op dit platform is van essentieel belang. Met jouw verhalen en perspectieven kunnen we de 'objecten' in hun context plaatsen en wijzen op 'biases' in collectiemetadata. Het woord 'bias' gebruiken we hier bewust, in plaats van 'vooroordeel', om de nadruk te leggen op het eenzijdige perspectief in de collectiedata.\n\nAls je een account aanmaakt, kun je jouw narratief toevoegen aan deze 'objecten', communities maken en lijsten samenstellen.",
+    "title": "Harnem-weldegelijk Datahub",
+    "description": "De Harnem-weldegelijk Datahub is een digitaal platform dat historische vondsten en opgravingen in en rond Arnhem samenbrengt, verrijkt en inzichtelijk maakt. Het combineert gegevens uit musea, archieven en onderzoeksinstellingen. De Datahub biedt archeologen, onderzoekers en gemeenschappen ruimte om interpretaties en context toe te voegen aan de data. <link>Bekijk hoe dit werkt.</link>",
+    "searchLabel": "Zoek naar historische vondsten",
+    "searchPlaceholder": "Tip: begin met zoeken naar een locatie, bijvoorbeeld Arnhem",
+    "narrativeExplainTitle": "Voeg je interpretaties toe aan vondsten en opgravingen",
+    "narrativeExplainText": "Jouw kennis over het historische materiaal op dit platform is van groot belang. Met jouw interpretaties en perspectieven kunnen we vondsten beter in context plaatsen en de kwaliteit van metadata verbeteren.\n\nWanneer je een account aanmaakt, kun je je interpretaties toevoegen, deelnemen aan gemeenschappen en thematische lijsten maken.",
     "signupLink": "Account aanmaken",
-    "communitiesTitle": "Erfgoedgemeenschap",
-    "communitiesDescription": "Na het aanmaken van een account kan elk individu of elke groep mensen zijn eigen gemeenschap starten op dit platform. Een gemeenschap kan lijsten van objecten maken en zo haar erfgoed samenbrengen. Communities kunnen ook context en perspectieven toevoegen aan de objecten in deze collecties.",
-    "communitiesLink": "Hieronder staan enkele communities om je te inspireren. <link>Klik hier om alle communities op het platform zien.</link>.",
+    "communitiesTitle": "Historische en huidige gemeenschappen",
+    "communitiesDescription": "Iedereen kan een gemeenschap starten of zich aansluiten bij een bestaande gemeenschap om samen te werken rond historische thema’s. Gemeenschappen kunnen lijsten met vondsten maken en interpretaties toevoegen aan opgravingsdata.",
+    "communitiesLink": "Hieronder staan enkele gemeenschappen ter inspiratie. <link>Klik hier om alle gemeenschappen op het platform te bekijken.</link>.",
     "howThisWorksTitle": "Hoe werkt dit platform?",
-    "howThisWorksText": "Hier volgt een korte uitleg over het gebruik van de volgende functionaliteiten op deze website: objecten zoeken, perspectieven toevoegen en communities gebruiken.",
+    "howThisWorksText": "Hier volgt een korte uitleg over hoe je historische data kunt zoeken, interpretaties kunt toevoegen en gemeenschappen kunt gebruiken.",
     "howThisWorksAlt": "Een animatie over hoe deze site werkt."
   },
   "SignUp": {
     "pageTitle": "Maak een account aan",
     "whyTitle": "Waarom een account aanmaken?",
-    "whyText": "Een account geeft je toegang tot meer functionaliteiten op de website. Zo kun je bijvoorbeeld je eigen verhalen koppelen aan objecten, deelnemen aan communities en lijsten maken om je objecten te beheren. De belangrijkste reden om een account aan te maken is dat we willen weten wie er data toevoegt. Dit helpt ons anoniem spammen te voorkomen.",
+    "whyText": "Met een account kun je interpretaties toevoegen, deelnemen aan gemeenschappen en historische vondsten organiseren in lijsten.\n\nWe vragen gebruikers zich te registreren om de integriteit van de data te waarborgen en anonieme invoer te voorkomen.",
     "whatTitle": "Wat kan ik doen met een account?",
-    "addTitle": "Voeg je eigen verhaal toe aan objecten",
-    "addText": "Een van de belangrijkste functionaliteiten van deze site is het toevoegen van je eigen verhalen aan objecten. Gebruikers kunnen bijvoorbeeld vertellen hoe objecten gebruikt werden of het object benoemen in hun eigen taal.\n\n<important>Let op:</important> Om een verhaal toe te voegen, moet je een account aanmaken via Google, Facebook of LinkedIn.",
-    "useTitle": "Deelnemen aan communities",
-    "useText": "Communities zijn groepen mensen die een specifieke cultuur of geografisch gebied vertegenwoordigen. Iedereen met een account kan lid worden van een community. Je kunt ook je eigen community aanmaken."
+    "addTitle": "Voeg je interpretaties toe aan vondsten",
+    "addText": "Gebruikers kunnen hun interpretaties of contextuele informatie over historische vondsten bijdragen.\n\n<important>Let op:</important> Om een interpretatie toe te voegen, moet je een account aanmaken via Google, Facebook of LinkedIn.",
+    "useTitle": "Deelnemen aan gemeenschappen",
+    "useText": "Gemeenschappen richten zich op specifieke periodes, thema’s of opgravingslocaties. Iedereen met een account kan een gemeenschap starten of eraan deelnemen."
   },
   "ObjectSearch": {
-    "title": "Zoek naar erfgoedobjecten",
-    "description": "Begin met zoeken door een trefwoord te typen.\n\nNa deze eerste tekstzoekopdracht verschijnen zoekfacetten om uw zoekresultaten te verfijnen."
+    "title": "Zoek naar historische vondsten",
+    "description": "Begin met zoeken door een trefwoord te typen.\n\nNa deze eerste tekstzoekopdracht verschijnen zoekfacetten om je resultaten te verfijnen."
   },
   "ObjectSearchResults": {
     "title": "{totalDatasets, plural, =0 {0 Objecten} =1 {1 Object} other {# Objecten}}",
