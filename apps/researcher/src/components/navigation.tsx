@@ -6,6 +6,7 @@ import {Link, locales, usePathname} from '@/navigation';
 import {SignInButton, SignedOut, UserButton} from '@clerk/nextjs';
 import {NavigationMenu} from '@colonial-collections/ui';
 import logoImage from '@colonial-collections/ui/branding/logo-colonial-collections-datahub-beta.png';
+import arnemLogoImage from '@colonial-collections/ui/branding/logo.png';
 import {useLocale, useTranslations} from 'next-intl';
 import Image from 'next/image';
 import {useMemo} from 'react';
@@ -56,7 +57,17 @@ export default function Navigation({datasetBrowserUrl}: Props) {
       <div className='class="order-1 grow flex items-center'>
         <Link href="/">
           <div className="flex items-center gap-2">
-            <div className="w-5 sm:w-10">{/* <ConsortiumLogo /> */}</div>
+            <div className="w-5 sm:w-10">
+              <Image
+                src={arnemLogoImage}
+                alt="Colonial Collections Consortium"
+                sizes="33vw"
+                style={{
+                  width: 'auto',
+                  height: '100%',
+                }}
+              />
+            </div>
             <div className="relative h-6 sm:h-9">
               <Image
                 src={logoImage}

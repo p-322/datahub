@@ -1,6 +1,8 @@
 import {Link} from '@/navigation';
 import Image from 'next/image';
 import logoImage from '@colonial-collections/ui/branding/logo-colonial-collections-datahub-beta.png';
+import skylineImage from '@colonial-collections/ui/branding/arnhem-skyline.png';
+
 import {
   ConsortiumLogo,
   FooterBackground,
@@ -70,8 +72,19 @@ export default async function Footer() {
             ))}
           </nav>
         </div>
-        <div className="flex justify-center w-full max-w-3xl lg:absolute bottom-0 opacity-20 z-0">
-          <FooterBackground />
+        <div
+          className="flex justify-center w-full lg:absolute z-0"
+          style={{bottom: 415, left: 0}}
+        >
+          <Image
+            src={skylineImage}
+            alt="Colonial Collections Consortium"
+            sizes="33vw"
+            style={{
+              width: '100%',
+              height: 'auto',
+            }}
+          />
         </div>
       </div>
     </footer>
