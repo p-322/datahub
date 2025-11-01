@@ -7,6 +7,7 @@ import {getTranslations} from 'next-intl/server';
 import {SearchFieldHome} from './search-field';
 import {Link} from '@/navigation';
 import Image from 'next/image';
+import arnhemBg from '@colonial-collections/ui/branding/ArnhemBackground.png';
 
 export default async function Home() {
   const t = await getTranslations('Home');
@@ -25,7 +26,16 @@ export default async function Home() {
   return (
     <div className="flex flex-col md:flex-row grow gap-4 md:gap-16 w-full mx-auto text-consortium-blue-800">
       <main className="w-full flex flex-col  text-white">
-        <div className="w-full bg-consortium-blue-800 flex flex-col justify-center text-consortium-green-400 items-center min-h-[60vh] relative">
+        <div
+          className="w-full flex flex-col justify-center text-consortium-green-400 items-center min-h-[60vh] relative"
+          style={{
+            backgroundImage: `url(${arnhemBg.src})`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundColor: 'rgb(42, 51, 89)',
+            backgroundBlendMode: 'hard-light',
+          }}
+        >
           <div className="flex justify-center w-full max-w-6xl absolute bottom-0 opacity-20">
             <Background />
           </div>
@@ -41,7 +51,7 @@ export default async function Home() {
                     href="#how-this-works"
                     className="italic underline decoration-consortium-blue-100 text-consortium-blue-100"
                   >
-                    {text}
+                    {text}{' '}
                   </Link>
                 ),
               })}
