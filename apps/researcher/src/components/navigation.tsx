@@ -1,16 +1,15 @@
 'use client';
 
-import {Link, usePathname, locales} from '@/navigation';
-import Image from 'next/image';
-import {useLocale, useTranslations} from 'next-intl';
-import {UserButton, SignInButton, SignedOut} from '@clerk/nextjs';
+import { encodeRouteSegment } from '@/lib/clerk-route-segment-transformer';
 import SignedIn from '@/lib/community/signed-in';
-import {ConsortiumLogo} from '@colonial-collections/ui/branding';
-import {NavigationMenu} from '@colonial-collections/ui';
+import { Link, locales, usePathname } from '@/navigation';
+import { SignInButton, SignedOut, UserButton } from '@clerk/nextjs';
+import { NavigationMenu } from '@colonial-collections/ui';
 import logoImage from '@colonial-collections/ui/branding/logo-colonial-collections-datahub-beta.png';
-import {useMemo} from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
+import { useMemo } from 'react';
 import ToFilteredListButton from './to-filtered-list-button';
-import {encodeRouteSegment} from '@/lib/clerk-route-segment-transformer';
 
 interface Props {
   datasetBrowserUrl: string;
@@ -26,12 +25,6 @@ export default function Navigation({datasetBrowserUrl}: Props) {
     () =>
       [
         {name: tNavigation('about'), href: '/about'},
-        {name: tNavigation('faq'), href: '/faq'},
-        {name: tNavigation('contact'), href: '/contact'},
-        {
-          name: tNavigation('consortium'),
-          href: 'https://colonialcollections.nl/',
-        },
         {
           name: tNavigation('datasetBrowser'),
           href: datasetBrowserUrl,
@@ -64,7 +57,7 @@ export default function Navigation({datasetBrowserUrl}: Props) {
         <Link href="/">
           <div className="flex items-center gap-2">
             <div className="w-5 sm:w-10">
-              <ConsortiumLogo />
+              {/* <ConsortiumLogo /> */}
             </div>
             <div className="relative h-6 sm:h-9">
               <Image
@@ -87,7 +80,6 @@ export default function Navigation({datasetBrowserUrl}: Props) {
         <ToFilteredListButton baseUrl="/communities">
           {tNavigation('communities')}
         </ToFilteredListButton>
-        <Link href="/research-aids">{tNavigation('researchGuide')}</Link>
       </nav>
       <nav className="order-2 lg:order-3 text-sm  grow flex items-center justify-end gap-2">
         <Link href="/" className="flex items-center">
