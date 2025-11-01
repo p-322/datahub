@@ -1,14 +1,14 @@
 'use client';
 
-import { encodeRouteSegment } from '@/lib/clerk-route-segment-transformer';
+import {encodeRouteSegment} from '@/lib/clerk-route-segment-transformer';
 import SignedIn from '@/lib/community/signed-in';
-import { Link, locales, usePathname } from '@/navigation';
-import { SignInButton, SignedOut, UserButton } from '@clerk/nextjs';
-import { NavigationMenu } from '@colonial-collections/ui';
+import {Link, locales, usePathname} from '@/navigation';
+import {SignInButton, SignedOut, UserButton} from '@clerk/nextjs';
+import {NavigationMenu} from '@colonial-collections/ui';
 import logoImage from '@colonial-collections/ui/branding/logo-colonial-collections-datahub-beta.png';
-import { useLocale, useTranslations } from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 import Image from 'next/image';
-import { useMemo } from 'react';
+import {useMemo} from 'react';
 import ToFilteredListButton from './to-filtered-list-button';
 
 interface Props {
@@ -56,9 +56,7 @@ export default function Navigation({datasetBrowserUrl}: Props) {
       <div className='class="order-1 grow flex items-center'>
         <Link href="/">
           <div className="flex items-center gap-2">
-            <div className="w-5 sm:w-10">
-              {/* <ConsortiumLogo /> */}
-            </div>
+            <div className="w-5 sm:w-10">{/* <ConsortiumLogo /> */}</div>
             <div className="relative h-6 sm:h-9">
               <Image
                 src={logoImage}
