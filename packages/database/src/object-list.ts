@@ -51,7 +51,9 @@ export async function find(id: number) {
 
 export async function countByCommunityId(communityId: string) {
   const result = await db
-    .select({count: sql<number>`count(*)`})
+    // Postgres returns count(*) as bigint, which the driver hands over as a
+    // string; cast to int and map to a JS number.
+    .select({count: sql<number>`count(*)::int`.mapWith(Number)})
     .from(objectLists)
     .where(eq(objectLists.communityId, communityId));
 
@@ -79,7 +81,8 @@ export async function create({
     createdBy,
   });
 
-  return db.insert(objectLists).values(objectList);
+  // Postgres has no insertId; return the new row's id explicitly.
+  return db.insert(objectLists).values(objectList).returning({id: objectLists.id});
 }
 
 interface UpdateProps {
@@ -133,8 +136,10 @@ export async function deleteObject(id: number) {
 }
 
 export async function deleteList(id: number) {
+  // object_item.object_list_id is ON DELETE CASCADE, so deleting the list
+  // removes its items; the explicit item delete is kept as belt-and-braces.
   return db.transaction(async tx => {
-    await tx.delete(objectLists).where(eq(objectLists.id, id));
     await tx.delete(objectItems).where(eq(objectItems.objectListId, id));
+    await tx.delete(objectLists).where(eq(objectLists.id, id));
   });
 }

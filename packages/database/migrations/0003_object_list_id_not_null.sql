@@ -1,1 +1,0 @@
-ALTER TABLE `object_item` MODIFY COLUMN `object_list_id` int NOT NULL;

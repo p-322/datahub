@@ -1,40 +1,12 @@
 {
   "version": "5",
-  "dialect": "mysql",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1695286867071,
-      "tag": "0000_create_object_list",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1695286872562,
-      "tag": "0001_create_object_item",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1695393273717,
-      "tag": "0002_object_list_name_not_null",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1695717398044,
-      "tag": "0003_object_list_id_not_null",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1696425284032,
-      "tag": "0004_object_item_change_primary_key",
+      "when": 1789658333261,
+      "tag": "0000_sawubona_postgres_baseline",
       "breakpoints": true
     }
   ]

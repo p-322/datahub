@@ -1,18 +1,18 @@
-import {migrate} from 'drizzle-orm/mysql2/migrator';
-import {db} from '../src/db/connection';
-import {exit} from 'node:process';
+import {migrate} from 'drizzle-orm/postgres-js/migrator';
+import {drizzle} from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import {env, exit} from 'node:process';
 
+// A dedicated single connection for migrations (the app pool is not needed here).
 async function runMigrations() {
+  const client = postgres(env['DATABASE_URL'] as string, {max: 1});
   try {
-    await migrate(db, {
-      migrationsFolder: './../database/migrations',
-    });
-    // [BUG]: `await migrate(..)` will keep process open.
-    // Temporary fix: exit process manually.
-    // https://github.com/drizzle-team/drizzle-orm/issues/1222
+    await migrate(drizzle(client), {migrationsFolder: './migrations'});
+    await client.end();
     exit(0);
   } catch (err) {
     console.error(err);
+    await client.end();
     exit(1);
   }
 }

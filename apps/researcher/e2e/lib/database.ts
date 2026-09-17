@@ -26,7 +26,8 @@ export async function createEmptyList(communityId: string, userId: string) {
       'This list is used for end-to-end testing; please do not remove or use this list',
   });
 
-  return objectListInsert[0].insertId;
+  // Postgres: create() returns the inserted rows' ids via RETURNING.
+  return objectListInsert[0].id;
 }
 
 interface AddObjectsToListProps {

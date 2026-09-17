@@ -1,20 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Local development database for the datahub (Postgres, matching Discovery One).
+# Starts a postgres:16 container and prints the DATABASE_URL to put in
+# apps/researcher/.env.local. Then: npm run db:migrate --workspace @colonial-collections/database
+set -euo pipefail
 
-# This script creates a new database in the MySQL container.
-# This is only needed for local development.
+read -r -p "Container name [datahub-postgres]: " container_name
+container_name=${container_name:-datahub-postgres}
+read -r -p "Database name [sawubona_datahub]: " database_name
+database_name=${database_name:-sawubona_datahub}
+read -r -p "User [sawubona_datahub]: " user_name
+user_name=${user_name:-sawubona_datahub}
+read -r -s -p "Password: " password; echo
 
-read -p "What is the MySQL Docker container name? [mysql]: " container_name
-container_name=${container_name:-mysql}
+docker run --name "${container_name}" -d \
+  -e POSTGRES_DB="${database_name}" \
+  -e POSTGRES_USER="${user_name}" \
+  -e POSTGRES_PASSWORD="${password}" \
+  -p 5432:5432 \
+  -v "${container_name}-data:/var/lib/postgresql/data" \
+  postgres:16-alpine
 
-read -p "What is the new database name? [datahub_development]: " database_name
-database_name=${database_name:-datahub_development}
-
-read -p "What is the MySQL username? [root]: " user_name
-user_name=${user_name:-root}
-
-read -p "What is the MySQL password?: " password
-
-docker exec ${container_name} mysql --user="${user_name}" --password="${password}" -e "CREATE DATABASE ${database_name};" && 
-  echo "Database created successfully" &&
-  echo "Add the credentials to the DATABASE_URL in the env file using the following format:" &&
-  echo "mysql://{user_name}:{password}@localhost:3306/{database_name}"
+echo
+echo "DATABASE_URL=postgresql://${user_name}:${password}@localhost:5432/${database_name}"

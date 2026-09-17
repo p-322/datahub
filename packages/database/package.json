@@ -9,7 +9,7 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "db:generate": "dotenv -c -- drizzle-kit generate:mysql",
+    "db:generate": "dotenv -c -- drizzle-kit generate:pg",
     "db:migrate": "dotenv -c -- ts-node ./scripts/migrate.ts",
     "db:drop": "dotenv -c -- drizzle-kit drop",
     "db:studio": "dotenv -c -- drizzle-kit studio",
@@ -28,7 +28,7 @@
     "drizzle-kit": "0.20.14",
     "drizzle-orm": "0.29.4",
     "drizzle-zod": "0.5.1",
-    "mysql2": "3.10.1"
+    "postgres": "3.4.4"
   },
   "jest": {
     "preset": "ts-jest",

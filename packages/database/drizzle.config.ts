@@ -8,8 +8,8 @@ if (!env.DATABASE_URL) {
 export default {
   schema: './src/db/schema.ts',
   out: './migrations',
-  driver: 'mysql2',
+  driver: 'pg',
   dbCredentials: {
-    uri: env.DATABASE_URL as string,
+    connectionString: env.DATABASE_URL as string,
   },
 } satisfies Config;
