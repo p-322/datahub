@@ -42,6 +42,23 @@ ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} \
     NEXT_PUBLIC_COMMUNITY_ENRICHMENT_LICENSE=${NEXT_PUBLIC_COMMUNITY_ENRICHMENT_LICENSE} \
     NEXT_TELEMETRY_DISABLED=1 \
     NODE_ENV=production
+# BUILD-TIME PLACEHOLDERS for server-side config. `next build` imports every
+# page and route module while "collecting page data", and many of them
+# construct Zod-validated clients at module load (lib/*-instance.ts, api/*
+# routes). Without values the build fails; with these it passes. They are NOT
+# baked into the image: server code reads process.env when the container
+# starts, so the real values from the host (Enterprise: /etc/enterprise/
+# datahub.env + /run/datahub.env from 1Password) take effect at runtime. This
+# stage's ENV does not carry over to the runner stage.
+ENV SEARCH_ENDPOINT_URL=http://build-placeholder.invalid/search \
+    SPARQL_ENDPOINT_URL=http://build-placeholder.invalid/sparql \
+    NANOPUB_SPARQL_ENDPOINT_URL=http://build-placeholder.invalid/sparql \
+    NANOPUB_WRITE_ENDPOINT_URL=http://build-placeholder.invalid/ \
+    NANOPUB_WRITE_PROXY_ENDPOINT_URL=http://build-placeholder.invalid/ \
+    DATASET_BROWSER_URL=http://build-placeholder.invalid/ \
+    GEONAMES_USERNAME=build-placeholder \
+    DATABASE_URL=mysql://build:placeholder@build-placeholder.invalid:3306/build \
+    CLERK_SECRET_KEY=sk_test_build-placeholder
 # Build only the target app and the workspace packages it depends on.
 RUN npx turbo run build --filter=${APP}...
 
