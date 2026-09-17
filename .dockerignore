@@ -1,0 +1,20 @@
+# Keep the build context small; npm ci reinstalls, next build rebuilds.
+**/node_modules
+**/.next
+**/.turbo
+**/out
+**/coverage
+**/playwright-report
+**/test-results
+.git
+.github
+docs
+# Root-level docs only; packages/content/**/*.mdx is app content and stays.
+/README.md
+/LICENSE
+
+# Never ship local env files into the image (secrets live in 1Password).
+**/.env*.local
+**/.env.development
+**/.env.test
+.DS_Store

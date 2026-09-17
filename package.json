@@ -23,7 +23,8 @@
     "test:e2e:ci": "turbo run test:e2e",
     "test:e2e:open": "turbo run test:e2e:open",
     "db:generate": "turbo run db:generate",
-    "db:migrate": "turbo run db:migrate"
+    "db:migrate": "turbo run db:migrate",
+    "image:verify": "bash scripts/verify-image.sh"
   },
   "devDependencies": {
     "@colonial-collections/eslint-config": "*",

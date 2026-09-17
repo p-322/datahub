@@ -1,0 +1,101 @@
+name: Build image
+
+# Builds and pushes ghcr.io/p-322/datahub. Deployment onto Enterprise is
+# separate: the datahub runs there as a Terraform-pushed systemd app-unit
+# (p-322/devops, terraform/servers/enterprise). Bump `datahub_image` there to
+# a tag built here and apply; `main` moves with every merge and is what the
+# unit pulls by default (--pull=always).
+#
+# NEXT_PUBLIC_* values are inlined into the browser bundle at build time, so
+# they come in as build args from repository *variables* (Settings → Secrets
+# and variables → Actions → Variables). They are public by design.
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Extra tag to push (defaults to the commit SHA)
+        required: false
+  push:
+    branches: [main]
+
+concurrency:
+  group: build-image
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }} # ghcr.io/p-322/datahub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.tag.outputs.value }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Resolve image tag
+        id: tag
+        run: echo "value=${{ inputs.image_tag || github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Stamp the build time
+        id: built
+        run: echo "at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # BUILD, INSPECT, THEN PUSH (the Argus pattern): `load: true` puts the
+      # image in the local daemon without publishing, verify-image.sh starts it,
+      # and only a running server gets pushed. The second build is a cache hit.
+      - name: Build for inspection (not pushed)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64 # Enterprise's arch
+          load: true
+          push: false
+          tags: datahub:inspect
+          build-args: |
+            APP=researcher
+            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+            NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ vars.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in' }}
+            NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ vars.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Verify the image contents
+        run: bash scripts/verify-image.sh datahub:inspect
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64 # Enterprise's arch
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.value }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
+          labels: |
+            org.opencontainers.image.title=Sawubona datahub
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.created=${{ steps.built.outputs.at }}
+            org.opencontainers.image.version=${{ steps.tag.outputs.value }}
+          build-args: |
+            APP=researcher
+            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+            NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ vars.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/sign-in' }}
+            NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ vars.NEXT_PUBLIC_CLERK_SIGN_UP_URL || '/sign-up' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
