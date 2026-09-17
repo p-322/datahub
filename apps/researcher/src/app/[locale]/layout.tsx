@@ -5,7 +5,6 @@ import {NextIntlClientProvider} from 'next-intl';
 import {ClerkProvider} from '@clerk/nextjs';
 import {getTranslations} from 'next-intl/server';
 import Navigation from '@/components/navigation';
-import {env} from 'node:process';
 import AuthHealthCheck from '@/lib/auth-health-check';
 import Footer from '@/components/footer';
 
@@ -63,7 +62,7 @@ export default async function RootLayout({children, params: {locale}}: Props) {
                 className="w-full bg-consortium-blue-900 text-white py-2"
                 id="top"
               >
-                <Navigation datasetBrowserUrl={env['DATASET_BROWSER_URL']!} />
+                <Navigation />
               </header>
               {children}
               <Footer />

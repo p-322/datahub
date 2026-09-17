@@ -8,7 +8,6 @@ import {
   FooterBackground,
 } from '@colonial-collections/ui/branding';
 import {getTranslations} from 'next-intl/server';
-import {env} from 'node:process';
 import ToFilteredListButton from './to-filtered-list-button';
 
 export const secondaryNavigation = [
@@ -18,10 +17,6 @@ export const secondaryNavigation = [
   {
     translationKey: 'consortium',
     href: 'https://colonialcollections.nl/',
-  },
-  {
-    translationKey: 'datasetBrowser',
-    href: env['DATASET_BROWSER_URL']!,
   },
 ];
 
@@ -62,7 +57,6 @@ export default async function Footer() {
             <ToFilteredListButton baseUrl="/communities">
               {t('communities')}
             </ToFilteredListButton>
-            <Link href="/research-aids">{t('researchGuide')}</Link>
           </nav>
           <nav className="flex flex-col gap-1 text-sm">
             {secondaryNavigation.map(item => (

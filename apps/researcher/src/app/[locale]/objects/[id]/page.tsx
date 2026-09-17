@@ -15,7 +15,6 @@ import {HeritageObjectEnrichmentType} from '@colonial-collections/enricher';
 import ISO6391, {LanguageCode} from 'iso-639-1';
 import {getDateFormatter} from '@/lib/date-formatter/actions';
 import {LocaleEnum} from '@/definitions';
-import {env} from 'node:process';
 import Map from './map';
 import {ReadMoreText} from '@/components/read-more-text';
 
@@ -330,19 +329,6 @@ export default async function Details({params}: Props) {
                         <a href={object.mainEntityOfPage}>
                           {t('objectProviderLink')}
                         </a>
-                      </div>
-                    )}
-                    {object.isPartOf && (
-                      <div className="mt-4 font-semibold">
-                        <a
-                          href={`${
-                            env['DATASET_BROWSER_URL']
-                          }/datasets/${encodeURIComponent(object.isPartOf.id)}`}
-                          target="_blank"
-                        >
-                          {t('linkToDatasetBrowser')}
-                        </a>
-                        <br />
                       </div>
                     )}
                   </div>

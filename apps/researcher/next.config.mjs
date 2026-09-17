@@ -32,18 +32,6 @@ const nextConfig = {
     imageSizes: [80, 90, 120, 160, 270, 360],
     formats: ['image/avif', 'image/webp'],
   },
-  redirects: async () => [
-    {
-      source: '/:locale/research-guide',
-      destination: '/:locale/research-aids',
-      permanent: true,
-    },
-    {
-      source: '/:locale/research-guide/:id',
-      destination: '/:locale/research-aids/:id',
-      permanent: true,
-    },
-  ],
 };
 
 export default withNextIntl(withMDX(nextConfig));

@@ -75,8 +75,6 @@
     "subMenuButton": "About",
     "consortium": "Consortium",
     "signIn": "Sign in",
-    "datasetBrowser": "Dataset Browser",
-    "researchGuide": "Research Aids",
     "footerText": "The Harnem-weldegelijk Datahub is developed as part of the HackaLOD Hackathon initiative to connect and explore historical datasets across institutions."
   },
   "LanguageSelector": {
@@ -112,7 +110,6 @@
     "websiteLabel": "Website",
     "objectIdLabel": "Reference or object ID by the data provider",
     "objectProviderLink": "Link to data provider object page",
-    "linkToDatasetBrowser": "More about the dataset (Dataset Browser)",
     "noData": "No <subject></subject> available",
     "identifier": "ID: {identifier}",
     "metadata": "Metadata",
@@ -537,35 +534,6 @@
     "description": "To add information to this object, you must first join or create a community. <link>See what else you can do with a community</link>.",
     "goToCommunities": "Join a community",
     "cancel": "Cancel"
-  },
-  "ResearchGuide": {
-    "nameVariations": "Name variations",
-    "navText": "Description",
-    "navCitations": "Sources",
-    "citations": "Sources",
-    "relatedItems": "Related research aids",
-    "keywords": "Keywords",
-    "keywordsNewSearch": "Click on the button behind the keyword to start a new object search.",
-    "activityAndTypeOfObjects": "Activity and Type of objects",
-    "contentLocations": "Geographical",
-    "locationsNewSearch": "Click on the button behind the location to start a new object search.",
-    "accessibilitySearch": "Start a new search for ",
-    "contentReferenceTimes": "Period of activity",
-    "noTopLevel": "The research guide will be added soon. Please check back later.",
-    "noEntity": "Research guide could not be found",
-    "backButton": "Back to overview",
-    "noDateRange": "No activity period known",
-    "noStartDate": "No start date known",
-    "noEndDate": "Present",
-    "pageNavigationTopics": "Topics",
-    "pageNavigationLocations": "Locations",
-    "pageNavigationSegments": "Page segments",
-    "pageNavigationSources": "Sources",
-    "pageNavigationRelatedItems": "Related items",
-    "pageNavigationKeywords": "Keywords",
-    "pageNavigationTop": "Top",
-    "primarySources": "Primary sources",
-    "secondarySources": "Secondary sources"
   },
   "Contact": {
     "mailUs": "Mail us"

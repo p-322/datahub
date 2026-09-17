@@ -11,9 +11,9 @@ This repository contains the frontend applications of Colonial Collections
 1. Node.js version 22
 1. NPM version 10+
 
-The following commands will run for all the workspaces. If you want to run a command for one workspace add the `-w` argument. For example, to add a package to the dataset-browser:
+The following commands will run for all the workspaces. If you want to run a command for one workspace add the `-w` argument. For example, to add a package to the researcher app:
 
-    npm install myPackage --save-exact -w dataset-browser
+    npm install myPackage --save-exact -w researcher
 
 #### Install packages
 
@@ -23,17 +23,9 @@ The following commands will run for all the workspaces. If you want to run a com
 
     npm run dev
 
-Open:
-
-- the Dataset Browser on [http://localhost:3000](http://localhost:3000)
-- the Research app on [http://localhost:3001](http://localhost:3001)
+Open the datahub on [http://localhost:3001](http://localhost:3001).
 
 #### Create production build (for testing locally)
-
-Create the file `apps/dataset-browser/.env.production.local` and set the endpoint URLs:
-
-    SEARCH_ENDPOINT_URL=
-    SPARQL_ENDPOINT_URL=
 
 Create the file `apps/researcher/.env.production.local` and set the endpoint URLs:
 
@@ -42,7 +34,6 @@ Create the file `apps/researcher/.env.production.local` and set the endpoint URL
     NANOPUB_WRITE_ENDPOINT_URL=
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=
     NANOPUB_SPARQL_ENDPOINT_URL=
-    DATASET_BROWSER_URL=
     GEONAMES_USERNAME=
 
 Then run:
@@ -75,10 +66,7 @@ Add the environment variables `NANOPUB_WRITE_ENDPOINT_URL`, `NANOPUB_WRITE_PROXY
 
     docker run --rm -it -v "$PWD":/app -w /app -p 3000:3000 -p 3001:3001 node:22 npm run dev
 
-Open:
-
-- the Dataset Browser on [http://localhost:3000](http://localhost:3000)
-- the Research app on [http://localhost:3001](http://localhost:3001)
+Open the datahub on [http://localhost:3001](http://localhost:3001).
 
 #### Create production build (for testing locally)
 
@@ -89,7 +77,6 @@ Create the file `.env.production.local` in the root and set the endpoint URLs:
     NANOPUB_WRITE_ENDPOINT_URL=
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=
     NANOPUB_SPARQL_ENDPOINT_URL=
-    DATASET_BROWSER_URL=
     GEONAMES_USERNAME=
 
 Then run:

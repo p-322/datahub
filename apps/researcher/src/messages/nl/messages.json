@@ -75,8 +75,6 @@
     "subMenuButton": "Over",
     "consortium": "Consortium",
     "signIn": "Inloggen",
-    "datasetBrowser": "Dataset Browser",
-    "researchGuide": "Zoekhulpen",
     "footerText": "De Colonial Collections DataHub is een project van het Colonial Collections Consortium.\n\nHet consortium is een partnerschap tussen vijf organisaties met expertise op het gebied van koloniale collecties."
   },
   "LanguageSelector": {
@@ -112,7 +110,6 @@
     "websiteLabel": "Website",
     "objectIdLabel": "Referentie- of object-ID door de gegevensverstrekker",
     "objectProviderLink": "Link naar objectpagina bronhouder",
-    "linkToDatasetBrowser": "Meer over de dataset (Dataset Browser)",
     "noData": "Geen <subject></subject> beschikbaar",
     "identifier": "ID: {identifier}",
     "metadata": "Metadata",
@@ -537,35 +534,6 @@
     "description": "Om informatie aan dit object toe te voegen, moet je eerst lid worden van of een community creëren. <link>Zie wat je nog meer kunt doen met een community</link>.",
     "goToCommunities": "Word lid van een community",
     "cancel": "Annuleren"
-  },
-  "ResearchGuide": {
-    "nameVariations": "Naamvarianten",
-    "navText": "Beschrijving",
-    "navCitations": "Bronnen",
-    "citations": "Bronnen",
-    "relatedItems": "Gerelateerde zoekhulpen",
-    "keywords": "Trefwoorden",
-    "keywordsNewSearch": "Klik op de knop achter het trefwoord om een ​​nieuwe zoekopdracht te starten.",
-    "activityAndTypeOfObjects": "Activiteit en type objecten",
-    "contentLocations": "Geografisch",
-    "locationsNewSearch": "Klik op de knop achter de locatie om een ​​nieuwe zoekopdracht te starten.",
-    "accessibilitySearch": "Start een nieuwe zoekopdracht voor ",
-    "contentReferenceTimes": "Actieve periode",
-    "noTopLevel": "De onderzoeksgids wordt binnenkort toegevoegd. Kom later terug.",
-    "noEntity": "Onderzoeksgids kon niet worden gevonden",
-    "backButton": "Terug naar overzicht",
-    "noDateRange": "Geen actieve periode bekend",
-    "noStartDate": "Geen startdatum bekend",
-    "noEndDate": "Heden",
-    "pageNavigationTopics": "Onderwerpen",
-    "pageNavigationLocations": "Locaties",
-    "pageNavigationSegments": "Paginasegmenten",
-    "pageNavigationSources": "Bronnen",
-    "pageNavigationRelatedItems": "Gerelateerde items",
-    "pageNavigationKeywords": "Trefwoorden",
-    "pageNavigationTop": "Top",
-    "primarySources": "Primaire bronnen",
-    "secondarySources": "Secundaire bronnen"
   },
   "Contact": {
     "mailUs": "Mail ons"

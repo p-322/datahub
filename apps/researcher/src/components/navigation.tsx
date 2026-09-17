@@ -12,11 +12,7 @@ import Image from 'next/image';
 import {useMemo} from 'react';
 import ToFilteredListButton from './to-filtered-list-button';
 
-interface Props {
-  datasetBrowserUrl: string;
-}
-
-export default function Navigation({datasetBrowserUrl}: Props) {
+export default function Navigation() {
   const pathname = usePathname();
   const locale = useLocale();
 
@@ -24,17 +20,11 @@ export default function Navigation({datasetBrowserUrl}: Props) {
   const tLanguageSelector = useTranslations('LanguageSelector');
   const subMenuItems = useMemo(
     () =>
-      [
-        {name: tNavigation('about'), href: '/about'},
-        {
-          name: tNavigation('datasetBrowser'),
-          href: datasetBrowserUrl,
-        },
-      ].map(item => ({
+      [{name: tNavigation('about'), href: '/about'}].map(item => ({
         ...item,
         active: item.href === pathname,
       })),
-    [datasetBrowserUrl, pathname, tNavigation]
+    [pathname, tNavigation]
   );
 
   const languageMenuItems = useMemo(

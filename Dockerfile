@@ -55,7 +55,6 @@ ENV SEARCH_ENDPOINT_URL=http://build-placeholder.invalid/search \
     NANOPUB_SPARQL_ENDPOINT_URL=http://build-placeholder.invalid/sparql \
     NANOPUB_WRITE_ENDPOINT_URL=http://build-placeholder.invalid/ \
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=http://build-placeholder.invalid/ \
-    DATASET_BROWSER_URL=http://build-placeholder.invalid/ \
     GEONAMES_USERNAME=build-placeholder \
     DATABASE_URL=mysql://build:placeholder@build-placeholder.invalid:3306/build \
     CLERK_SECRET_KEY=sk_test_build-placeholder
