@@ -23,7 +23,6 @@
   "dependencies": {
     "@colonial-collections/api": "*",
     "@colonial-collections/content": "*",
-    "@colonial-collections/email-sender": "*",
     "@colonial-collections/iris": "*",
     "@colonial-collections/list-store": "*",
     "@colonial-collections/playwright-config": "*",

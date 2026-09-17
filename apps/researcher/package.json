@@ -28,7 +28,6 @@
     "@colonial-collections/api": "*",
     "@colonial-collections/content": "*",
     "@colonial-collections/database": "*",
-    "@colonial-collections/email-sender": "*",
     "@colonial-collections/enricher": "*",
     "@colonial-collections/iris": "*",
     "@colonial-collections/list-store": "*",

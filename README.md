@@ -34,9 +34,6 @@ Create the file `apps/dataset-browser/.env.production.local` and set the endpoin
 
     SEARCH_ENDPOINT_URL=
     SPARQL_ENDPOINT_URL=
-    SENDGRID_API_KEY=
-    TO_EMAIL_ADDRESS=
-    FROM_EMAIL_ADDRESS=
 
 Create the file `apps/researcher/.env.production.local` and set the endpoint URLs:
 
@@ -46,9 +43,6 @@ Create the file `apps/researcher/.env.production.local` and set the endpoint URL
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=
     NANOPUB_SPARQL_ENDPOINT_URL=
     DATASET_BROWSER_URL=
-    SENDGRID_API_KEY=
-    TO_EMAIL_ADDRESS=
-    FROM_EMAIL_ADDRESS=
     GEONAMES_USERNAME=
 
 Then run:
@@ -96,9 +90,6 @@ Create the file `.env.production.local` in the root and set the endpoint URLs:
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=
     NANOPUB_SPARQL_ENDPOINT_URL=
     DATASET_BROWSER_URL=
-    SENDGRID_API_KEY=
-    TO_EMAIL_ADDRESS=
-    FROM_EMAIL_ADDRESS=
     GEONAMES_USERNAME=
 
 Then run:

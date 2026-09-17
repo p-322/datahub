@@ -116,7 +116,7 @@
     "identifier": "ID: {identifier}",
     "metadata": "Metadata",
     "name": "Title",
-    "noName":"No title",
+    "noName": "No title",
     "description": "Description",
     "locationsCreated": "Location of creation",
     "license": "License",
@@ -132,7 +132,7 @@
     "addToListSignedOutText": "If you want to add an object to a list you need to <signInLink>login</signInLink> or <signUpLink>create an account</signUpLink>.\n\nIf you have an account you can join a <communityLink>community</communityLink> to create a list.",
     "discussion": "Discussion",
     "types": "Type(s)",
-    "nameSubTitle": "A title or name given to the object by its current holder.", 
+    "nameSubTitle": "A title or name given to the object by its current holder.",
     "descriptionSubTitle": "A description of the object, its features or context.",
     "locationsCreatedSubTitle": "The location, region or part of the world where the object is from.",
     "materialsSubTitle": "What kind of materials the object consists of.",
@@ -404,7 +404,7 @@
     "addCommunity": "Create a community",
     "showMyCommunities": "Show only my communities"
   },
-"Community": {
+  "Community": {
     "title": "Community of",
     "backButton": "All communities",
     "noEntity": "Community could not be found",
@@ -421,8 +421,8 @@
     "error": "Something went wrong while fetching the community. Please try again later.",
     "addObjectListButton": "Add list",
     "editCommunityTitle": "Edit community",
-    "labelName":"Name",
-    "labelDescription":"Description",
+    "labelName": "Name",
+    "labelDescription": "Description",
     "editCommunitySaveButton": "Save",
     "editCommunityCancelButton": "Cancel",
     "communityUpdated": "Description has been updated",
@@ -495,18 +495,6 @@
     "saving": "Saving...",
     "accessibilityCloseButton": "Close form"
   },
-  "ContactForm": {
-    "labelEmailAddress": "Email",
-    "labelSubject": "Subject",
-    "labelMessage": "Message",
-    "sendEmailButton": "Send message",
-    "emailSent": "Your message has been sent successfully.",
-    "sendEmailServerError": "There was a problem sending your message. Please try again later.",
-    "emailAddressInvalid": "Email address is not valid",
-    "subjectRequired": "Subject is required",
-    "subjectTooLarge": "Subject has a maximum of 250 characters",
-    "bodyRequired": "Message is required"
-  },
   "Image": {
     "errorText": "Image currently not available"
   },
@@ -577,5 +565,8 @@
     "pageNavigationTop": "Top",
     "primarySources": "Primary sources",
     "secondarySources": "Secondary sources"
+  },
+  "Contact": {
+    "mailUs": "Mail us"
   }
 }

@@ -1,13 +1,18 @@
 import {LocalizedMarkdown} from '@colonial-collections/ui';
+import {getTranslations} from 'next-intl/server';
 
-// Sawubona: the SendGrid contact form (@colonial-collections/email-sender) is
-// dropped — that package throws at import time without SENDGRID_* env, which
-// also broke `next build`. Contact details live in the localized markdown.
-export default function Contact() {
+// Sawubona: no contact form. Plain "Mail us" text for now; how contact works
+// is decided later.
+export default async function Contact() {
+  const t = await getTranslations('Contact');
+
   return (
-    <LocalizedMarkdown
-      name="contact"
-      contentPath="@colonial-collections/content"
-    />
+    <>
+      <LocalizedMarkdown
+        name="contact"
+        contentPath="@colonial-collections/content"
+      />
+      <p className="font-semibold">{t('mailUs')}</p>
+    </>
   );
 }

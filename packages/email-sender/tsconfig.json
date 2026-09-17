@@ -1,8 +1,0 @@
-{
-  "extends": "@colonial-collections/ts-config/react-library.json",
-  "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./build"
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
-}
