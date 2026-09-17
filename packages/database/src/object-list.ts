@@ -82,7 +82,10 @@ export async function create({
   });
 
   // Postgres has no insertId; return the new row's id explicitly.
-  return db.insert(objectLists).values(objectList).returning({id: objectLists.id});
+  return db
+    .insert(objectLists)
+    .values(objectList)
+    .returning({id: objectLists.id});
 }
 
 interface UpdateProps {
@@ -136,8 +139,8 @@ export async function deleteObject(id: number) {
 }
 
 export async function deleteList(id: number) {
-  // object_item.object_list_id is ON DELETE CASCADE, so deleting the list
-  // removes its items; the explicit item delete is kept as belt-and-braces.
+  // The FK object_item.object_list_id is ON DELETE CASCADE, so deleting the
+  // list removes its items; the explicit item delete is kept as belt-and-braces.
   return db.transaction(async tx => {
     await tx.delete(objectItems).where(eq(objectItems.objectListId, id));
     await tx.delete(objectLists).where(eq(objectLists.id, id));
