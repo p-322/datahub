@@ -27,7 +27,7 @@ export function LocalContextsNoticeSelector({name}: Props) {
         ([key, value]) => (
           <Field as={Fragment} key={key}>
             <Radio
-              className="w-32 flex flex-col justify-between items-center mb-2 bg-neutral-50 border border-neutral-200 p-2 hover:bg-neutral-200 data-[checked]:border-consortium-blue-300 data-[checked]:bg-neutral-200 gap-1"
+              className="w-32 flex flex-col justify-between items-center mb-2 bg-neutral-50 border border-neutral-200 p-2 hover:bg-neutral-200 data-[checked]:border-accent-300 data-[checked]:bg-neutral-200 gap-1"
               value={key}
             >
               <Label className="w-32 text-sm text-center">

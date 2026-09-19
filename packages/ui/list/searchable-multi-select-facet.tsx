@@ -175,11 +175,11 @@ export function SearchableMultiSelectFacet({
       </FacetProvider>
       <ModalButton
         id={filterKey}
-        className="inline-flex items-center text-consortium-blue-600 text-sm"
+        className="inline-flex items-center text-accent-600 text-sm"
         aria-label={t('expandFilterAria')}
       >
         <span>{t('expandFilter')}</span>
-        <ChevronRightIcon className="w-4 h-4 fill-bg-consortium-blue-100" />
+        <ChevronRightIcon className="w-4 h-4 fill-accent-600" />
       </ModalButton>
     </FacetWrapper>
   );

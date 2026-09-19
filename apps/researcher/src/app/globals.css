@@ -2,18 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-h1 {
-  @apply font-semibold
+@layer base {
+  html {
+    @apply bg-surface-muted text-body antialiased;
+  }
+
+  body {
+    @apply font-sans leading-relaxed;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-light uppercase tracking-heading text-heading;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold text-heading;
+  }
+
+  strong {
+    @apply font-bold text-heading;
+  }
+
+  a {
+    @apply underline underline-offset-2 decoration-accent-400/60 hover:decoration-accent-500 transition-colors;
+  }
+
+  ::selection {
+    @apply bg-accent-200/60 text-accent-800;
+  }
+
+  /* @tailwindcss/forms defaults focus rings to blue-600; use the accent. */
+  [type='text']:focus,
+  [type='email']:focus,
+  [type='url']:focus,
+  [type='password']:focus,
+  [type='number']:focus,
+  [type='date']:focus,
+  [type='search']:focus,
+  [type='tel']:focus,
+  [type='checkbox']:focus,
+  [type='radio']:focus,
+  [multiple]:focus,
+  textarea:focus,
+  select:focus {
+    @apply border-accent-400 ring-accent-400;
+  }
+
+  [type='checkbox']:checked,
+  [type='radio']:checked {
+    @apply bg-accent-600;
+  }
 }
 
-h2 {
-  @apply font-semibold
-}
+@layer components {
+  /* Short gradient rule above a section heading, as on sawubona-commons.eu. */
+  .heading-rule {
+    @apply relative pt-5;
+  }
+  .heading-rule::before {
+    content: '';
+    @apply absolute top-0 left-0 h-1 w-16 rounded-full bg-heading-rule;
+  }
 
-h3 {
-  @apply font-semibold
-}
+  /* Small uppercase, widely tracked label text (hero subtitle, table heads). */
+  .kicker {
+    @apply text-xs font-bold uppercase tracking-kicker;
+  }
 
-a {
-  @apply underline underline-offset-2 decoration-neutral-900/30 hover:decoration-neutral-900/60;
+  /* The one content column every section and the footer align to. */
+  .page-column {
+    @apply w-full max-w-[58rem] mx-auto px-6 sm:px-12 lg:px-16;
+  }
+
+  /* Frosted white card floating over the page background. */
+  .frost-card {
+    @apply bg-surface-frost border border-white/75 rounded-2xl shadow-card backdrop-blur-md;
+  }
 }

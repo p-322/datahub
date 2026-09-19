@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <div>
-      <div className="bg-consortium-blue-800 text-white">
+      <div className="bg-ink-800 text-white">
         <div className="max-w-6xl w-full m-auto px-4 sm:px-10">
           <h1 className="text-xl md:text-4xl py-10 md:py-20">
             {t('pageTitle')}

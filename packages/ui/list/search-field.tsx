@@ -28,24 +28,28 @@ export function SearchField({
     setIsMounted(true);
   }, []);
 
-  const inputClassName = classNames(
-    'w-full rounded-l text-consortium-blue-800',
-    {
-      'py-1 px-3 border border-consortium-blue-800': variant === 'default',
-      'p-3 placeholder:text-blue-grey-500 placeholder:italic text-consortium-blue-800 not-italic':
-        variant === 'home',
-    }
-  );
+  const wrapperClassName = classNames('flex justify-between w-full', {
+    // Home: the one thing on the page that must draw the eye.
+    'rounded-full bg-white shadow-card ring-2 ring-accent-500 focus-within:ring-4 focus-within:ring-accent-400 transition':
+      variant === 'home',
+  });
 
-  const buttonClassName = classNames('rounded-r', {
-    'bg-consortium-blue-800 py-1 px-3 border-t border-b border-r border-consortium-blue-800':
+  const inputClassName = classNames('w-full text-ink-800', {
+    'rounded-l py-1 px-3 border border-ink-800': variant === 'default',
+    'rounded-l-full py-5 pl-7 pr-3 text-xl border-0 bg-transparent placeholder:text-ink-500 placeholder:italic not-italic focus:ring-0':
+      variant === 'home',
+  });
+
+  const buttonClassName = classNames({
+    'rounded-r bg-ink-800 py-1 px-3 border-t border-b border-r border-ink-800':
       variant === 'default',
-    'flex items-center p-3 bg-consortium-green-300': variant === 'home',
+    'flex items-center gap-2 m-2 px-7 rounded-full bg-ink-800 hover:bg-accent-600 text-white shadow-md transition':
+      variant === 'home',
   });
 
   const magnifyingGlassClassName = classNames({
     'w-4 h-4 fill-white': variant === 'default',
-    'w-6 h-6 fill-consortium-blue-800': variant === 'home',
+    'w-7 h-7 fill-white': variant === 'home',
   });
 
   useEffect(() => {
@@ -71,7 +75,7 @@ export function SearchField({
 
   return (
     <>
-      <div className="flex justify-between w-full" role="searchbox">
+      <div className={wrapperClassName} role="searchbox">
         <input
           data-testid="searchQuery"
           value={inputText}

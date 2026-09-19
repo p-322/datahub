@@ -38,9 +38,9 @@ export function InitialImageFetchMode() {
           >
             <Radio
               value={option.value}
-              className="mr-2 group flex size-4 items-center justify-center rounded-full border bg-white data-[checked]:border-consortium-blue-400"
+              className="mr-2 group flex size-4 items-center justify-center rounded-full border bg-white data-[checked]:border-accent-400"
             >
-              <span className="invisible size-2 rounded-full bg-consortium-blue-400 group-data-[checked]:visible" />
+              <span className="invisible size-2 rounded-full bg-accent-400 group-data-[checked]:visible" />
             </Radio>
             <Label>{t(option.translationKey)}</Label>
           </Field>

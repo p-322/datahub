@@ -61,14 +61,14 @@ export default async function Details({params}: Props) {
   return (
     <>
       <div className="flex flex-col grow">
-        <div className="bg-consortium-blue-800 text-white w-full">
+        <div className="bg-ink-800 text-white w-full">
           <div className="px-4 sm:px-10 flex gap-2 flex-row sm:justify-between max-w-[1800px] mx-auto pt-10">
             <div>
               <ToFilteredListButton
                 baseUrl="/objects"
-                className="no-underline rounded-full px-2 py-1 sm:px-4 sm:py-2 text-xs md:text-sm bg-consortium-blue-100 text-consortium-blue-800 flex gap-1 items-center"
+                className="no-underline rounded-full px-2 py-1 sm:px-4 sm:py-2 text-xs md:text-sm bg-accent-100 text-ink-800 flex gap-1 items-center"
               >
-                <ChevronLeftIcon className="w-4 h-4 fill-consortium-blue-800" />
+                <ChevronLeftIcon className="w-4 h-4 fill-ink-800" />
                 {t('backButton')}
               </ToFilteredListButton>
             </div>
@@ -79,8 +79,8 @@ export default async function Details({params}: Props) {
 
           <div className="w-full px-4 sm:px-10 max-w-[1800px] mx-auto flex flex-col lg:flex-row gap-4 xl:gap-10 py-4">
             <div className="w-full lg:w-2/3 xl:w-3/4">
-              <div className="text-sm text-consortium-blue-100 mb-4 lg:mb-10 flex gap-1">
-                <ObjectIcon className='w-5 h-5 stroke-consortium-blue-100"' />
+              <div className="text-sm text-accent-200 mb-4 lg:mb-10 flex gap-1">
+                <ObjectIcon className='w-5 h-5 stroke-accent-200"' />
                 {t('object')}
               </div>
               <h1
@@ -89,23 +89,21 @@ export default async function Details({params}: Props) {
                 tabIndex={0}
               >
                 {object.name || (
-                  <span className="text-consortium-blue-100">
-                    {t('noName')}
-                  </span>
+                  <span className="text-accent-200">{t('noName')}</span>
                 )}
               </h1>
 
-              <div className="text-consortium-blue-100 mt-4 lg:mt-10 flex flex-col sm:flex-row gap-5 lg:gap-10">
+              <div className="text-accent-200 mt-4 lg:mt-10 flex flex-col sm:flex-row gap-5 lg:gap-10">
                 {enrichmentsAboutName?.slice(0, 3).map(enrichment => (
                   <div key={enrichment.id} className="font-semibold text-white">
                     <div>{enrichment.description}</div>
-                    <div className="text-sm font-normal text-consortium-blue-100">
+                    <div className="text-sm font-normal text-accent-200">
                       {ISO6391.getName(enrichment.inLanguage as LanguageCode)}
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="text-sm my-4 xl:my-10 text-consortium-blue-100">
+              <div className="text-sm my-4 xl:my-10 text-accent-200">
                 {organization && (
                   <div>
                     {t('providerCurrentHolder')}
@@ -133,21 +131,21 @@ export default async function Details({params}: Props) {
             </div>
           </div>
         </div>
-        <div className="w-full bg-consortium-blue-800 text-consortium-blue-100 sticky top-0 z-30 text-xs shadow-lg border-t border-consortium-blue-600 hidden lg:block">
+        <div className="w-full bg-ink-800 text-accent-200 sticky top-0 z-30 text-xs shadow-lg border-t border-accent-600 hidden lg:block">
           <div className="px-10 max-w-[1800px] mx-auto flex justify-between items-center">
             <div className="w-auto flex justify-end relative py-2">
-              <div className="w-auto flex flex-row items-center gap-3 relative bg-consortium-blue-800 p-0">
+              <div className="w-auto flex flex-row items-center gap-3 relative bg-ink-800 p-0">
                 <div className="italic text-sm">
                   {t('pageNavigationSegments') || 'Page segments:'}
                 </div>
                 <a
-                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-consortium-blue-100 hover:bg-consortium-blue-50 text-consortium-blue-800 transition"
+                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-accent-100 hover:bg-accent-50 text-ink-800 transition"
                   href="#metadata"
                 >
                   {t('pageNavigationMetadata')}
                 </a>
                 <a
-                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-consortium-blue-100 hover:bg-consortium-blue-50 text-consortium-blue-800 transition"
+                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-accent-100 hover:bg-accent-50 text-ink-800 transition"
                   href="#localcontextnotices"
                 >
                   <span className="hidden xl:inline">
@@ -158,19 +156,19 @@ export default async function Details({params}: Props) {
                   </span>
                 </a>
                 <a
-                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-consortium-blue-100 hover:bg-consortium-blue-50 text-consortium-blue-800 transition"
+                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-accent-100 hover:bg-accent-50 text-ink-800 transition"
                   href="#provenance"
                 >
                   {t('pageNavigationProvenance')}
                 </a>
                 <a
-                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-consortium-blue-100 hover:bg-consortium-blue-50 text-consortium-blue-800 transition"
+                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-accent-100 hover:bg-accent-50 text-ink-800 transition"
                   href="#dataprovider"
                 >
                   {t('pageNavigationProvider')}
                 </a>
                 <a
-                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-consortium-blue-100 hover:bg-consortium-blue-50 text-consortium-blue-800 transition"
+                  className="whitespace-nowrap no-underline rounded-full px-2 py-1 text-xs bg-accent-100 hover:bg-accent-50 text-ink-800 transition"
                   href="#top"
                 >
                   {t('pageNavigationTop')}
@@ -273,7 +271,7 @@ export default async function Details({params}: Props) {
           </main>
           <aside className="w-full lg:w-1/3 self-stretch flex flex-col justify-start order-1 lg:order-2">
             {galleryImages.length > 0 && (
-              <div className="flex flex-row md:flex-col gap-1 sticky top-8 lg:-mt-72 z-30 md:mx-0 p-4 rounded bg-consortium-blue-400/10">
+              <div className="flex flex-row md:flex-col gap-1 sticky top-8 lg:-mt-72 z-30 md:mx-0 p-4 rounded bg-accent-400/10">
                 <Gallery
                   images={galleryImages}
                   organizationName={organization?.name}

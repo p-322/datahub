@@ -68,7 +68,7 @@ export function Notifications({prefixFilters = []}: NotificationsProps) {
               className={classNames(
                 'justify-between items-center border p-4 rounded-xl flex my-2',
                 {
-                  'bg-green-grey-50 border-green-grey-100 text-green-grey-800':
+                  'bg-accent-50 border-accent-200 text-accent-800':
                     notification.type === 'success',
                   'bg-yellow-50 border-yellow-100 text-yellow-800':
                     notification.type === 'warning',
@@ -81,7 +81,7 @@ export function Notifications({prefixFilters = []}: NotificationsProps) {
               <button
                 onClick={() => removeNotification(notification)}
                 className={classNames('hover:bg-gray-200 p-1 rounded', {
-                  'text-green-grey-800': notification.type === 'success',
+                  'text-accent-800': notification.type === 'success',
                   'text-yellow-800': notification.type === 'warning',
                   'text-red-800': notification.type === 'error',
                 })}

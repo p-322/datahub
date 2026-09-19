@@ -7,6 +7,23 @@ import {getTranslations} from 'next-intl/server';
 import Navigation from '@/components/navigation';
 import AuthHealthCheck from '@/lib/auth-health-check';
 import Footer from '@/components/footer';
+import localFont from 'next/font/local';
+
+// Self-hosted Montserrat (variable weight, SIL OFL – see src/fonts/LICENSE-Montserrat).
+// Avenir Next is the first choice on the Sawubona site; Montserrat is its
+// cross-platform stand-in, exposed as --font-sans for the Tailwind preset.
+const montserrat = localFont({
+  src: [
+    {path: '../../fonts/montserrat-latin-wght-normal.woff2', style: 'normal'},
+    {
+      path: '../../fonts/montserrat-latin-ext-wght-normal.woff2',
+      style: 'normal',
+    },
+  ],
+  weight: '100 900',
+  display: 'swap',
+  variable: '--font-sans',
+});
 
 interface Props {
   children: ReactNode;
@@ -40,7 +57,7 @@ export default async function RootLayout({children, params: {locale}}: Props) {
   return (
     <ClerkProvider localization={clerkLocale}>
       <link rel="icon" href="/favicon.ico" sizes="any" />
-      <html lang={locale} className="scroll-smooth">
+      <html lang={locale} className={`scroll-smooth ${montserrat.variable}`}>
         <body style={{overscrollBehaviorX: 'auto'}}>
           <div className="min-h-screen flex flex-col">
             <AuthHealthCheck />
@@ -58,10 +75,7 @@ export default async function RootLayout({children, params: {locale}}: Props) {
                   </li>
                 </ul>
               </div>
-              <header
-                className="w-full bg-consortium-blue-900 text-white py-2"
-                id="top"
-              >
+              <header className="w-full bg-ink-800 text-white py-2" id="top">
                 <Navigation />
               </header>
               {children}

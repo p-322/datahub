@@ -8,8 +8,8 @@ export function Loading({variant}: Props) {
   const loadingClassName = classNames(
     'w-full min-h-[80vh] flex justify-center items-center',
     {
-      'text-consortium-green-500 bg-consortium-green-300': variant === 'green',
-      'text-consortium-blue-300 bg-consortium-blue-800': variant === 'blue',
+      'text-accent-600 bg-accent-300': variant === 'green',
+      'text-accent-300 bg-ink-800': variant === 'blue',
     }
   );
   return (

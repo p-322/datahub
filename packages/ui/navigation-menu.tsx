@@ -46,7 +46,7 @@ export function NavigationMenu({
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <MenuItems className="flex-col bg-consortium-blue-600 absolute z-20 shadow-lg flex">
+        <MenuItems className="flex-col bg-accent-600 absolute z-20 shadow-lg flex">
           {menuItems.map(item => (
             <MenuItem key={item.name}>
               <Link

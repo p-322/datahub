@@ -17,9 +17,7 @@ export default async function ObjectCard({objectIri}: Props) {
 
   return (
     <div className="bg-neutral-100 p-2 text-xs">
-      {object.name || (
-        <span className="text-consortium-blue-100">{t('noName')}</span>
-      )}
+      {object.name || <span className="text-accent-200">{t('noName')}</span>}
     </div>
   );
 }

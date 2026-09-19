@@ -78,14 +78,14 @@ export default async function CommunityPage({params}: Props) {
 
   return (
     <>
-      <div className="bg-consortium-green-300 text-consortium-blue-800 relative">
+      <div className="bg-accent-300 text-ink-800 relative">
         <div className="w-full px-4 sm:px-10 max-w-[1800px] mx-auto pt-10 flex justify-between">
           <div>
             <ToFilteredListButton
               baseUrl="/communities"
               className="flex items-center gap-1 no-underline"
             >
-              <ChevronLeftIcon className="w-4 h-4 fill-consortium-blue-800" />
+              <ChevronLeftIcon className="w-4 h-4 fill-ink-800" />
               {t('backButton')}
             </ToFilteredListButton>
           </div>
@@ -98,9 +98,9 @@ export default async function CommunityPage({params}: Props) {
                 <SlideOutButton
                   testId="edit-community"
                   id={slideOutEditFormId}
-                  className="p-1 sm:py-2 sm:px-3 text-sm rounded-full bg-consortium-blue-800 text-consortium-green-300 transition flex items-center gap-1 hover:bg-consortium-blue-700"
+                  className="p-1 sm:py-2 sm:px-3 text-sm rounded-full bg-ink-800 text-accent-200 transition flex items-center gap-1 hover:bg-ink-700"
                 >
-                  <PencilSquareIcon className="w-5 h-5 fill-consortium-green-300" />
+                  <PencilSquareIcon className="w-5 h-5 fill-accent-200" />
                   {t('editButton')}
                 </SlideOutButton>
               </div>
@@ -129,7 +129,7 @@ export default async function CommunityPage({params}: Props) {
               <Image
                 width="0"
                 height="0"
-                className="w-32 h-32 lg:w-48 lg:h-48 rounded-full  border border-consortium-blue-700 object-cover"
+                className="w-32 h-32 lg:w-48 lg:h-48 rounded-full  border border-ink-700 object-cover"
                 sizes="(min-width: 1024px) 192px, 128px"
                 src={community.imageUrl}
                 alt=""
@@ -190,7 +190,7 @@ export default async function CommunityPage({params}: Props) {
           </SlideOut>
 
           {objectLists.length === 0 ? (
-            <div className="bg-consortium-blue-50 px-4 py-8 rounded max-w-3xl">
+            <div className="bg-accent-50 px-4 py-8 rounded max-w-3xl">
               <div className="pb-4">
                 <InformationCircleIcon className="w-6 h-6 stroke-neutral-800" />
                 <LocalizedMarkdown
@@ -206,9 +206,9 @@ export default async function CommunityPage({params}: Props) {
                   data-testid={`object-list-item-${objectList.id}`}
                   href={`/communities/${params.slug}/${objectList.id}`}
                   key={objectList.id}
-                  className="no-underline bg-consortium-light-blue-100 rounded-lg flex flex-col justify-between"
+                  className="no-underline bg-accent-100 rounded-lg flex flex-col justify-between"
                 >
-                  <div className="text-sm text-consortium-blue-500 pt-4 px-4">
+                  <div className="text-sm text-accent-600 pt-4 px-4">
                     {t('objectListsCardType')}
                   </div>
                   <div className="px-4 pb-2">
@@ -228,8 +228,8 @@ export default async function CommunityPage({params}: Props) {
                       ))}
                     </ul>
 
-                    <div className="absolute bg-gradient-to-l from-consortium-blue-800 from-10% w-full top-0 bottom-0 flex justify-end pr-10">
-                      <button className="p-2 self-center flex items-center py-2 px-6 rounded-full bg-consortium-light-blue-100 text-consortium-blue-800 hover:bg-consortium-green-400 transition">
+                    <div className="absolute bg-gradient-to-l from-ink-800 from-10% w-full top-0 bottom-0 flex justify-end pr-10">
+                      <button className="p-2 self-center flex items-center py-2 px-6 rounded-full bg-accent-100 text-ink-800 hover:bg-accent-400 transition">
                         {t('goToListButton')}
                       </button>
                     </div>

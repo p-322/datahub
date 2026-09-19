@@ -2,6 +2,16 @@ import type {Config} from 'tailwindcss';
 import formsPlugin from '@tailwindcss/forms';
 import typographyPlugin from '@tailwindcss/typography';
 import aspectRatioPlugin from '@tailwindcss/aspect-ratio';
+import {
+  colors,
+  fontFamily,
+  boxShadow,
+  backgroundImage,
+  ink,
+  accent,
+} from './sawubona';
+
+export {colors, fontFamily, boxShadow, backgroundImage} from './sawubona';
 
 export default {
   content: [
@@ -10,86 +20,30 @@ export default {
   ],
   theme: {
     extend: {
-      typography: (theme: (color: string) => string) => ({
+      colors,
+      fontFamily,
+      boxShadow,
+      backgroundImage,
+      letterSpacing: {
+        heading: '0.08em',
+        label: '0.12em',
+        kicker: '0.24em',
+      },
+      typography: () => ({
         DEFAULT: {
           css: {
-            color: theme('colors.gray.900'),
+            color: ink[700],
+            '--tw-prose-headings': ink[800],
+            '--tw-prose-links': accent[600],
+            '--tw-prose-bold': ink[800],
+            '--tw-prose-quotes': ink[600],
+            '--tw-prose-quote-borders': accent[200],
+            '--tw-prose-hr': ink[300],
+            '--tw-prose-th-borders': ink[300],
+            '--tw-prose-td-borders': ink[300],
           },
         },
       }),
-      colors: {
-        'consortium-blue': {
-          50: '#c6d5f2',
-          100: '#a9b9db',
-          200: '#6d82ab',
-          300: '#455d8d',
-          400: '#3c5485',
-          500: '#223b6e',
-          600: '#1e386e',
-          700: '#142f65',
-          800: 'hsl(220, 82%, 20%)',
-          900: '#082154',
-          950: '#071e4a',
-          970: '#061a41',
-        },
-        'consortium-green': {
-          50: 'hsl(145, 65%, 96%)',
-          100: 'hsl(145, 65%, 90%)',
-          200: 'hsl(145, 65%, 80%)',
-          300: 'hsla(67.25, 88.84%, 45.69%, 1)',
-          400: 'hsla(67.25, 88.84%, 45.69%, 1)',
-          500: 'hsl(145, 65%, 50%)',
-          600: 'hsl(145, 65%, 40%)',
-          700: 'hsl(145, 65%, 30%)',
-          800: 'hsl(145, 65%, 20%)',
-          900: 'hsl(145, 65%, 10%)',
-        },
-        'consortium-light-blue': {
-          50: 'hsl(187, 20%, 99%)',
-          100: '#D8ECEF',
-        },
-        'consortium-sand': {
-          50: 'hsl(49, 6%, 98%)',
-          100: '#F2EEDF',
-          200: '#E6DFC4',
-          800: '#504B3C',
-        },
-        'blue-grey': {
-          50: 'hsl(216, 35%, 97%)',
-          100: 'hsl(216, 35%, 90%)',
-          200: 'hsl(216, 35%, 80%)',
-          300: 'hsl(216, 35%, 70%)',
-          400: 'hsl(216, 35%, 60%)',
-          500: 'hsl(216, 35%, 52%)',
-          600: 'hsl(216, 35%, 40%)',
-          700: 'hsl(216, 35%, 30%)',
-          800: 'hsl(216, 35%, 20%)',
-          900: 'hsl(216, 35%, 10%)',
-        },
-        'green-grey': {
-          50: 'hsl(170, 35%, 97%)',
-          100: 'hsl(170, 35%, 90%)',
-          200: 'hsl(170, 35%, 80%)',
-          300: 'hsl(170, 35%, 70%)',
-          400: 'hsl(170, 35%, 60%)',
-          500: 'hsl(170, 35%, 52%)',
-          600: 'hsl(170, 35%, 40%)',
-          700: 'hsl(170, 35%, 30%)',
-          800: 'hsl(170, 35%, 20%)',
-          900: 'hsl(170, 35%, 10%)',
-        },
-        'consortium-purple': {
-          50: '#F3E9F7',
-          100: 'hsl(258 26% 90%)',
-          200: 'hsl(258 26% 80%)',
-          300: 'hsl(258 26% 70%)',
-          600: 'hsl(258 26% 40%)',
-          700: 'hsl(258 26% 30%)',
-        },
-        blue: {
-          link: '#22609D',
-        },
-      },
     },
   },
   plugins: [formsPlugin, typographyPlugin, aspectRatioPlugin],

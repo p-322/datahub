@@ -161,9 +161,9 @@ async function AddLocalContextsNotice() {
         <SlideOutButton
           testId="add-local-contexts-notice-button"
           id="add-local-contexts-notice-form"
-          className="mb-4 py-2 px-3 p-1 sm:py-2 sm:px-3 rounded-full text-xs bg-consortium-green-300 text-consortiumBlue-800 transition flex items-center gap-1 hover:bg-consortium-green-200"
+          className="mb-4 py-2 px-3 p-1 sm:py-2 sm:px-3 rounded-full text-xs bg-accent-300 text-ink-800 transition flex items-center gap-1 hover:bg-accent-200"
         >
-          <ChatBubbleBottomCenterTextIcon className="w-4 h-4 stroke-consortium-blue-800" />
+          <ChatBubbleBottomCenterTextIcon className="w-4 h-4 stroke-ink-800" />
           <div className="whitespace-pre-wrap text-left leading-[.5rem]">
             {t('addLocalContextsNoticeButton')}
           </div>

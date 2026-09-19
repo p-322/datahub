@@ -9,13 +9,13 @@
     "dayInputLabel": "dd"
   },
   "Meta": {
-    "title": "Harnem-weldegelijk Datahub"
+    "title": "Sawubona Commons Datahub"
   },
   "Home": {
-    "title": "Harnem-weldegelijk Datahub",
-    "description": "The Harnem-weldegelijk Datahub is a digital platform that brings together, enriches, and provides insights into historical finds and excavations in and around Arnhem. It combines data from museums, archives, and research institutions. The Datahub provides archaeologists, researchers, and communities space to add interpretations and context to the data. <link>See how this works</link>",
-    "searchLabel": "Search for historical finds",
-    "searchPlaceholder": "Tip: start searching for a location, e.g. Arnhem",
+    "title": "Sawubona Commons",
+    "description": "Sawubona Commons enables cultural heritage institutions and communities to publish, connect, and enrich collection data on objects that were acquired and traded over centuries of colonial rule. Contribute local knowledge, perspectives, and research on the events that led to the acquisition and transfer of objects, linked to existing records and traced through transparent provenance. <link>See how this works</link>",
+    "searchLabel": "Search the collections",
+    "searchPlaceholder": "Tip: start with a place, a people or an object type",
     "narrativeExplainTitle": "Add your narratives to historical finds and excavations",
     "narrativeExplainText": "Your knowledge about the historical material on this platform is vital. With your narratives and perspectives, we can place finds in context and improve metadata quality.\n\nWhen you create an account, you can add your interpretations, join communities, and create thematic lists.",
     "signupLink": "Create an account",
@@ -25,7 +25,8 @@
     "howThisWorksTitle": "How does this platform work?",
     "howThisWorksText": "Here is a short explanation on how to search historical data, add narratives, and use communities.",
     "howThisWorksAlt": "An animation about how this site works.",
-    "error": "Something went wrong while loading the home page. Please try again later."
+    "error": "Something went wrong while loading the home page. Please try again later.",
+    "subtitle": "A European data platform and collaboration environment for colonial collection data"
   },
   "ObjectSearch": {
     "title": "Search for historical finds",
@@ -75,7 +76,8 @@
     "subMenuButton": "About",
     "consortium": "Consortium",
     "signIn": "Sign in",
-    "footerText": "The Harnem-weldegelijk Datahub is developed as part of the HackaLOD Hackathon initiative to connect and explore historical datasets across institutions."
+    "footerText": "Sawubona Commons is a neutral, collaborative environment where European institutions and communities of origin connect their collections, share knowledge and develop a shared understanding grounded in many perspectives.",
+    "datahub": "Datahub"
   },
   "LanguageSelector": {
     "nl": "Nederlands",

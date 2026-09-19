@@ -57,14 +57,14 @@ export default async function Page({params}: Props) {
 
   return (
     <div className="grow">
-      <div className="bg-consortium-light-blue-100 w-full pt-12">
+      <div className="bg-accent-100 w-full pt-12">
         <div className="px-10 w-full flex gap-2 flex-row sm:justify-between max-w-[1800px] mx-auto pb-12">
           <div className="flex gap-2">
             <Link
               href={`/communities/${params.slug}`}
               className="no-underline rounded-full px-2 py-1 sm:px-4 sm:py-2 text-xs md:text-sm bg-neutral-100 flex gap-1 items-center"
             >
-              <ChevronLeftIcon className="w-4 h-4 fill-consortium-blue-800" />
+              <ChevronLeftIcon className="w-4 h-4 fill-ink-800" />
               {t('backButton')}
             </Link>
           </div>
@@ -72,7 +72,7 @@ export default async function Page({params}: Props) {
       </div>
 
       <main className="w-full order-2 md:order-1">
-        <div className="bg-consortium-light-blue-100 w-full">
+        <div className="bg-accent-100 w-full">
           <div className="flex flex-col md:flex-row w-full items-stretch grow content-stretch self-stretch gap-4 md:gap-16 max-w-[1800px] mx-auto px-10 pb-10">
             <div className="my-4 flex flex-col gap-4 w-full bg max-w-[1800px] mx-auto">
               <div className="text-sm text-neutral-600">
@@ -169,7 +169,7 @@ export default async function Page({params}: Props) {
           </Protect>
 
           {objectList.objects.length === 0 ? (
-            <div className="bg-consortium-green-100 px-4 py-8 rounded max-w-3xl">
+            <div className="bg-accent-100 px-4 py-8 rounded max-w-3xl">
               <div className="pb-4">
                 <InformationCircleIcon className="w-6 h-6 stroke-neutral-800" />
                 <LocalizedMarkdown

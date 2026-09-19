@@ -31,8 +31,7 @@ export function ProvidedBy({
     <div
       className={classNames('lg:py-3 text-xs my-1 self-start w-full', {
         'text-neutral-900 lg:border-l lg:px-2 ': isCurrentPublisher,
-        'bg-consortium-green-100 text-consortium-blue-800 rounded px-2 ':
-          !isCurrentPublisher,
+        'bg-accent-100 text-ink-800 rounded px-2 ': !isCurrentPublisher,
       })}
     >
       <div>
