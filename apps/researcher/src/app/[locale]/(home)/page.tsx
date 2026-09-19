@@ -117,15 +117,6 @@ export default async function Home() {
             {t('howThisWorksTitle')}
           </h2>
           <p className="max-w-[46rem] text-ink-600">{t('howThisWorksText')}</p>
-          <div className="rounded-2xl overflow-hidden shadow-card-sm">
-            <Image
-              src="/images/onboarding.gif"
-              alt={t('howThisWorksAlt')}
-              width="900"
-              height="300"
-              className="w-full h-auto"
-            />
-          </div>
         </div>
       </div>
     </main>
