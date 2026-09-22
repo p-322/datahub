@@ -41,14 +41,12 @@ export default async function Details({params}: Props) {
     enrichment => enrichment.type === HeritageObjectEnrichmentType.Name
   );
 
-  let organization;
-  if (object.isPartOf?.publisher?.id) {
-    organization = await organizations.getById({
-      id: object.isPartOf.publisher.id,
-      locale,
-    });
-    organization && useObject.setState({organization});
-  }
+  // The holding organization is part of the object's search document.
+  const organization = await organizations.getByHeritageObjectId({
+    heritageObjectId: object.id,
+    locale,
+  });
+  organization && useObject.setState({organization});
 
   const galleryImages =
     object.images?.map((image, i) => ({
@@ -89,7 +87,11 @@ export default async function Details({params}: Props) {
                 tabIndex={0}
               >
                 {object.name || (
-                  <span className="text-accent-200">{t('noName')}</span>
+                  <span className="text-accent-200">
+                    {object.nameFallback
+                      ? t('nameFallback', {kind: object.nameFallback})
+                      : t('noName')}
+                  </span>
                 )}
               </h1>
 

@@ -2,7 +2,7 @@ import {GetByIdOptions, ProvenanceEventsFetcher} from './fetcher';
 import {z} from 'zod';
 
 const constructorOptionsSchema = z.object({
-  sparqlEndpointUrl: z.string(),
+  elasticSearchEndpointUrl: z.string(),
 });
 
 export type ProvenanceEventsConstructorOptions = z.infer<
@@ -18,7 +18,7 @@ export class ProvenanceEvents {
     const opts = constructorOptionsSchema.parse(options);
 
     this.provenanceEventsFetcher = new ProvenanceEventsFetcher({
-      endpointUrl: opts.sparqlEndpointUrl,
+      endpointUrl: opts.elasticSearchEndpointUrl,
     });
   }
 

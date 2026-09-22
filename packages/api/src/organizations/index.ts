@@ -1,8 +1,8 @@
-import {GetByIdOptions, OrganizationFetcher} from './fetcher';
+import {GetByHeritageObjectIdOptions, OrganizationFetcher} from './fetcher';
 import {z} from 'zod';
 
 const constructorOptionsSchema = z.object({
-  sparqlEndpointUrl: z.string(),
+  elasticSearchEndpointUrl: z.string(),
 });
 
 export type OrganizationsConstructorOptions = z.infer<
@@ -18,11 +18,12 @@ export class Organizations {
     const opts = constructorOptionsSchema.parse(options);
 
     this.organizationFetcher = new OrganizationFetcher({
-      endpointUrl: opts.sparqlEndpointUrl,
+      endpointUrl: opts.elasticSearchEndpointUrl,
     });
   }
 
-  async getById(options: GetByIdOptions) {
-    return this.organizationFetcher.getById(options);
+  // The organization that holds the given heritage object.
+  async getByHeritageObjectId(options: GetByHeritageObjectIdOptions) {
+    return this.organizationFetcher.getByHeritageObjectId(options);
   }
 }

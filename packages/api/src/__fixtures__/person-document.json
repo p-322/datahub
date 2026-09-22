@@ -1,0 +1,11 @@
+{
+  "id": "https://example.org/agents/j-smith",
+  "kind": "Person",
+  "name": "J. Smith",
+  "person": {
+    "id": "https://example.org/agents/j-smith",
+    "type": "Person",
+    "name": {"en": "J. Smith"},
+    "birthDate": {"id": "https://example.org/agents/j-smith#birth", "edtf": "1860"}
+  }
+}

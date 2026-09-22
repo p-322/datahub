@@ -50,9 +50,7 @@ ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} \
 # starts, so the real values from the host (Enterprise: /etc/enterprise/
 # datahub.env + /run/datahub.env from 1Password) take effect at runtime. This
 # stage's ENV does not carry over to the runner stage.
-ENV SEARCH_ENDPOINT_URL=http://build-placeholder.invalid/search \
-    SPARQL_ENDPOINT_URL=http://build-placeholder.invalid/sparql \
-    NANOPUB_SPARQL_ENDPOINT_URL=http://build-placeholder.invalid/sparql \
+ENV SEARCH_ENDPOINT_URL=http://build-placeholder.invalid/sawubona \
     NANOPUB_WRITE_ENDPOINT_URL=http://build-placeholder.invalid/ \
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=http://build-placeholder.invalid/ \
     GEONAMES_USERNAME=build-placeholder \

@@ -30,7 +30,6 @@ Open the datahub on [http://localhost:3001](http://localhost:3001).
 Create the file `apps/researcher/.env.production.local` and set the endpoint URLs:
 
     SEARCH_ENDPOINT_URL=
-    SPARQL_ENDPOINT_URL=
     NANOPUB_WRITE_ENDPOINT_URL=
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=
     NANOPUB_SPARQL_ENDPOINT_URL=
@@ -73,7 +72,6 @@ Open the datahub on [http://localhost:3001](http://localhost:3001).
 Create the file `.env.production.local` in the root and set the endpoint URLs:
 
     SEARCH_ENDPOINT_URL=
-    SPARQL_ENDPOINT_URL=
     NANOPUB_WRITE_ENDPOINT_URL=
     NANOPUB_WRITE_PROXY_ENDPOINT_URL=
     NANOPUB_SPARQL_ENDPOINT_URL=

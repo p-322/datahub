@@ -1,0 +1,88 @@
+{
+  "id": "https://data.sawubona-commons.eu/objects/1234",
+  "kind": "HeritageObject",
+  "search": {
+    "en": [["Ceremonial mask Wooden mask with pigment. 1234"], ["South Africa"], ["mask"], ["wood", "pigment"], [], ["Unknown maker"]],
+    "nl": [["Ceremonieel masker Houten masker met pigment. 1234"], ["Zuid-Afrika"], ["masker"], ["hout", "pigment"], [], ["Onbekende maker"]]
+  },
+  "facets": {
+    "types": {"en": ["mask"], "nl": ["masker"]},
+    "subjects": {"en": ["ritual"], "nl": ["ritueel"]},
+    "materials": {"en": ["wood", "pigment"], "nl": ["hout", "pigment"]},
+    "creators": ["Unknown maker"],
+    "publisher": {"en": ["Museum X"], "nl": ["Museum X"]},
+    "countriesCreated": {"en": ["South Africa"], "nl": ["Zuid-Afrika"]},
+    "typesPath": {"en": ["mask", "costume accessories"], "nl": ["masker", "kostuumaccessoires"]},
+    "subjectsPath": {"en": ["ritual"], "nl": ["ritueel"]},
+    "materialsPath": {"en": ["wood", "plant material", "pigment"], "nl": ["hout", "plantaardig materiaal", "pigment"]},
+    "locationsCreatedPath": {"en": ["KwaZulu-Natal", "South Africa", "Southern Africa", "Africa"], "nl": ["KwaZoeloe-Natal", "Zuid-Afrika", "Zuidelijk Afrika", "Afrika"]},
+    "yearCreatedStart": "1880",
+    "yearCreatedEnd": "1899",
+    "hasImage": true
+  },
+  "sort": {"name": {"en": "ceremonial mask", "nl": "ceremonieel masker"}},
+  "object": {
+    "id": "https://data.sawubona-commons.eu/objects/1234",
+    "identifier": "1234",
+    "name": {"en": "Ceremonial mask", "nl": "Ceremonieel masker"},
+    "description": {"en": "Wooden mask with pigment.", "nl": "Houten masker met pigment."},
+    "inscriptions": [],
+    "types": [{"id": "http://vocab.getty.edu/aat/300138758", "name": {"en": "mask", "nl": "masker"}}],
+    "subjects": [{"id": "https://example.org/subjects/ritual", "name": {"en": "ritual", "nl": "ritueel"}}],
+    "materials": [
+      {"id": "http://vocab.getty.edu/aat/300011914", "name": {"en": "wood", "nl": "hout"}},
+      {"id": "http://vocab.getty.edu/aat/300014109", "name": {"en": "pigment"}}
+    ],
+    "techniques": [{"id": "http://vocab.getty.edu/aat/300053149", "name": {"en": "carving", "nl": "houtsnijwerk"}}],
+    "creators": [{"id": "https://example.org/agents/unknown", "type": "Unknown", "name": {"en": "Unknown maker", "nl": "Onbekende maker"}}],
+    "locationsCreated": [
+      {"id": "https://sws.geonames.org/972062/", "name": {"en": "KwaZulu-Natal", "nl": "KwaZoeloe-Natal"},
+       "isPartOf": {"id": "https://sws.geonames.org/953987/", "name": {"en": "South Africa", "nl": "Zuid-Afrika"}}}
+    ],
+    "dateCreated": {"id": "https://data.sawubona-commons.eu/objects/1234#dateCreated", "edtf": "188X", "startDate": "1880-01-01", "endDate": "1889-12-31"},
+    "images": [
+      {"id": "https://images.example.org/1234.jpg", "contentUrl": "https://images.example.org/1234.jpg",
+       "license": {"id": "https://creativecommons.org/licenses/by/4.0/", "name": {"en": "CC BY 4.0", "nl": "CC BY 4.0"}}}
+    ],
+    "mainEntityOfPage": "https://museum-x.example.org/collection/1234",
+    "isPartOf": {
+      "id": "https://data.sawubona-commons.eu/datasets/museum-x", "name": {"en": "Museum X collection", "nl": "Collectie Museum X"},
+      "publisher": {"id": "https://data.sawubona-commons.eu/organizations/museum-x", "type": "Organization", "name": {"en": "Museum X", "nl": "Museum X"}}
+    }
+  },
+  "organization": {
+    "id": "https://data.sawubona-commons.eu/organizations/museum-x",
+    "type": "Organization",
+    "name": {"en": "Museum X", "nl": "Museum X"},
+    "url": "https://museum-x.example.org/",
+    "address": {
+      "streetAddress": "Museumstraat 1", "postalCode": "1000 AA",
+      "addressLocality": {"en": "Amsterdam", "nl": "Amsterdam"},
+      "addressCountry": {"en": "Netherlands", "nl": "Nederland"}
+    }
+  },
+  "events": [
+    {
+      "id": "https://data.sawubona-commons.eu/objects/1234/events/1",
+      "type": "acquisition",
+      "additionalTypes": [{"id": "http://vocab.getty.edu/aat/300417642", "name": {"en": "purchase", "nl": "aankoop"}}],
+      "date": {"id": "https://data.sawubona-commons.eu/objects/1234/events/1#date", "edtf": "1902", "startDate": "1902-01-01", "endDate": "1902-12-31"},
+      "transferredFrom": {"id": "https://example.org/agents/j-smith", "type": "Person", "name": {"en": "J. Smith"}},
+      "transferredTo": {"id": "https://data.sawubona-commons.eu/organizations/museum-x", "type": "Organization", "name": {"en": "Museum X", "nl": "Museum X"}},
+      "description": {"en": "Bought at auction.", "nl": "Gekocht op een veiling."},
+      "location": {"id": "https://sws.geonames.org/2643743/", "name": {"en": "London", "nl": "Londen"}}
+    },
+    {
+      "id": "https://data.sawubona-commons.eu/objects/1234/events/2",
+      "type": "transferOfCustody",
+      "startsAfter": "https://data.sawubona-commons.eu/objects/1234/events/1"
+    },
+    {
+      "id": "https://data.sawubona-commons.eu/objects/1234/events/3",
+      "type": "production",
+      "carriedOutBy": {"id": "https://example.org/agents/unknown", "type": "Unknown", "name": {"en": "Unknown maker", "nl": "Onbekende maker"}},
+      "date": {"id": "https://data.sawubona-commons.eu/objects/1234/events/3#date", "edtf": "188X", "startDate": "1880-01-01", "endDate": "1889-12-31"},
+      "label": {"en": "Production", "nl": "Vervaardiging"}
+    }
+  ]
+}

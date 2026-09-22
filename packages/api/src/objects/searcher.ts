@@ -1,3 +1,6 @@
+// Sawubona: faceted search over the sawubona-objects index. One request
+// returns facets and complete result cards; there is no second lookup.
+// Field names follow docs/elasticsearch-mapping.md.
 import {
   localeSchema,
   SearchResultFilter,
@@ -7,36 +10,52 @@ import {
   SortOrderEnum,
 } from '../definitions';
 import type {HeritageObjectSearchResult} from './definitions';
-import {HeritageObjectFetcher} from './fetcher';
-import {search} from '../elastic-client';
+import {ElasticClient} from '../elastic-client';
+import {
+  Locale,
+  objectDocumentSchema,
+  toHeritageObject,
+} from '../index-documents';
 import {z} from 'zod';
 
 const constructorOptionsSchema = z.object({
   endpointUrl: z.string(),
-  heritageObjectFetcher: z.instanceof(HeritageObjectFetcher),
 });
 
 export type ConstructorOptions = z.infer<typeof constructorOptionsSchema>;
 
-enum RawKeys {
-  Id = '@id',
-  Type = 'http://www w3 org/1999/02/22-rdf-syntax-ns#type',
-  AdditionalType = 'https://colonialcollections nl/schema#additionalType',
-  Name = 'https://colonialcollections nl/schema#name',
-  About = 'https://colonialcollections nl/schema#about',
-  Creator = 'https://colonialcollections nl/schema#creator',
-  Material = 'https://colonialcollections nl/schema#material',
-  Technique = 'https://colonialcollections nl/schema#technique',
-  Publisher = 'https://colonialcollections nl/schema#publisher',
-  YearCreatedStart = 'https://colonialcollections nl/schema#yearCreatedStart',
-  YearCreatedEnd = 'https://colonialcollections nl/schema#yearCreatedEnd',
-  CountryCreated = 'https://colonialcollections nl/schema#countryCreated',
-}
+// Facet name in the app (SearchOptions.filters / result filters) → index
+// field. Localized facets get ".<locale>" appended.
+//
+// The *Path fields carry a term AND its thesaurus ancestors (self-inclusive),
+// so filtering on a broad term matches the narrower ones: "headgear" catches
+// "hats", "Asia" catches "Java". Worth having — but in the first Wereldmuseum
+// delivery the Path fields are English in both locales (AAT and GeoNames are
+// English), while the plain fields are properly localized. So:
+//   types, subjects, materials → plain fields: Dutch labels for Dutch users,
+//     at the cost of the hierarchy roll-up.
+//   locations → Path: countriesCreated is English in both locales anyway, so
+//     the hierarchy is free there.
+// Flip a line back to its *Path field once Tabulous localizes those fields.
+const facetFields = {
+  types: {field: 'facets.types', localized: true},
+  subjects: {field: 'facets.subjects', localized: true},
+  locations: {field: 'facets.locationsCreatedPath', localized: true},
+  materials: {field: 'facets.materials', localized: true},
+  creators: {field: 'facets.creators', localized: false},
+  publishers: {field: 'facets.publisher', localized: true},
+} as const;
 
-const sortByToRawKeys = new Map<string, string>([
-  [SortBy.DateCreated, RawKeys.YearCreatedStart],
-  [SortBy.Name, `${RawKeys.Name}.keyword`],
-]);
+type FacetName = keyof typeof facetFields;
+
+const yearCreatedStartField = 'facets.yearCreatedStart';
+const yearCreatedEndField = 'facets.yearCreatedEnd';
+
+// Facet menus render every bucket and the UI searches within them, so a
+// truncated list makes a term unreachable. The Wereldmuseum delivery has
+// >2,400 distinct subjects and >1,300 types in a 4% sample alone, so keep
+// upstream's 10,000. Exact counts: one shard, so no shard_size skew.
+const facetBucketSize = 10000;
 
 const searchOptionsSchema = z.object({
   locale: localeSchema,
@@ -79,240 +98,149 @@ const rawSearchResponseSchema = z.object({
     }),
     hits: z.array(
       z.object({
-        _source: z.object({}).setKey(RawKeys.Id, z.string()),
+        _source: objectDocumentSchema,
       })
     ),
   }),
+  aggregations: z.object({
+    types: rawAggregationSchema,
+    subjects: rawAggregationSchema,
+    locations: rawAggregationSchema,
+    materials: rawAggregationSchema,
+    creators: rawAggregationSchema,
+    publishers: rawAggregationSchema,
+  }),
 });
 
-const rawSearchResponseWithAggregationsSchema = rawSearchResponseSchema.merge(
-  z.object({
-    aggregations: z.object({
-      types: rawAggregationSchema,
-      subjects: rawAggregationSchema,
-      locations: rawAggregationSchema,
-      materials: rawAggregationSchema,
-      creators: rawAggregationSchema,
-      publishers: rawAggregationSchema,
-      dateCreatedStart: rawAggregationSchema.default({buckets: []}),
-      dateCreatedEnd: rawAggregationSchema.default({buckets: []}),
-    }),
-  })
-);
-
-type RawSearchResponseWithAggregations = z.infer<
-  typeof rawSearchResponseWithAggregationsSchema
->;
+type RawSearchResponse = z.infer<typeof rawSearchResponseSchema>;
 
 export class HeritageObjectSearcher {
-  private readonly endpointUrl: string;
-  private readonly heritageObjectFetcher: HeritageObjectFetcher;
+  private readonly client: ElasticClient;
 
   constructor(options: ConstructorOptions) {
     const opts = constructorOptionsSchema.parse(options);
-
-    this.endpointUrl = opts.endpointUrl;
-    this.heritageObjectFetcher = opts.heritageObjectFetcher;
+    this.client = new ElasticClient({endpointUrl: opts.endpointUrl});
   }
 
-  private buildAggregation(id: string) {
-    const aggregation = {
-      terms: {
-        size: 10000, // TBD: revisit this - return fewer terms instead
-        field: id,
-      },
-    };
-
-    return aggregation;
+  private facetField(name: FacetName, locale: Locale) {
+    const {field, localized} = facetFields[name];
+    return localized ? `${field}.${locale}` : field;
   }
 
-  private buildRequest(options: SearchOptions) {
-    const locationKey = `${RawKeys.CountryCreated}_${options.locale}.keyword`;
-    const typeKey = `${RawKeys.AdditionalType}_${options.locale}.keyword`;
-    const materialKey = `${RawKeys.Material}_${options.locale}.keyword`;
-    const publisherKey = `${RawKeys.Publisher}_${options.locale}.keyword`;
+  private sortClause(sortBy: SortBy, sortOrder: SortOrder, locale: Locale) {
+    const field =
+      sortBy === SortBy.Name ? `sort.name.${locale}` : yearCreatedStartField;
 
-    const aggregations = {
-      types: this.buildAggregation(typeKey),
-      subjects: this.buildAggregation(`${RawKeys.About}.keyword`),
-      locations: this.buildAggregation(locationKey),
-      materials: this.buildAggregation(materialKey),
-      creators: this.buildAggregation(`${RawKeys.Creator}.keyword`),
-      publishers: this.buildAggregation(publisherKey),
-      // DateCreatedStart: this.buildAggregation(RawKeys.YearCreatedStart),
-      // dateCreatedEnd: this.buildAggregation(RawKeys.YearCreatedEnd),
-    };
+    // Undated / unnamed objects go last whichever way we sort.
+    return [{[field]: {order: sortOrder, missing: '_last'}}];
+  }
 
-    const sortByRawKey = sortByToRawKeys.get(options.sortBy!)!;
+  private buildRequest(options: z.output<typeof searchOptionsSchema>) {
+    const {locale} = options;
 
-    const searchRequest = {
+    const filter: Record<string, unknown>[] = [
+      {term: {kind: 'HeritageObject'}},
+    ];
+
+    for (const name of Object.keys(facetFields) as FacetName[]) {
+      const values = options.filters?.[name] ?? [];
+      // Each selected value is its own clause: selections within a facet are
+      // ANDed, as upstream did.
+      for (const value of values) {
+        filter.push({term: {[this.facetField(name, locale)]: value}});
+      }
+    }
+
+    if (options.filters?.dateCreatedStart !== undefined) {
+      filter.push({
+        range: {
+          [yearCreatedStartField]: {gte: options.filters.dateCreatedStart},
+        },
+      });
+    }
+    if (options.filters?.dateCreatedEnd !== undefined) {
+      filter.push({
+        range: {[yearCreatedEndField]: {lte: options.filters.dateCreatedEnd}},
+      });
+    }
+
+    const aggregations = Object.fromEntries(
+      (Object.keys(facetFields) as FacetName[]).map(name => [
+        name,
+        {terms: {field: this.facetField(name, locale), size: facetBucketSize}},
+      ])
+    );
+
+    return {
       track_total_hits: true,
       size: options.limit,
       from: options.offset,
-      sort: [
-        // {
-        //   [sortByRawKey]: options.sortOrder,
-        // },
-      ],
-      _source: [RawKeys.Id],
+      sort: this.sortClause(options.sortBy, options.sortOrder, locale),
+      // Cards need id, name, first image and the publisher; the whole payload
+      // is small enough that selecting inside it isn't worth the coupling.
+      _source: ['id', 'object'],
       query: {
         bool: {
           must: [
             {
               simple_query_string: {
                 query: options.query,
+                fields: [`search.${locale}`],
                 default_operator: 'and',
               },
             },
           ],
-          filter: [
-            {
-              // Only return documents of a specific type
-              terms: {
-                [`${RawKeys.Type}.keyword` as string]: [
-                  'https://colonialcollections.nl/schema#HeritageObject',
-                ],
-              },
-            },
-          ],
+          filter,
         },
       },
-      aggregations: {
-        ...aggregations,
-      },
+      aggregations,
     };
-
-    const queryFilters: Map<string, string[] | undefined> = new Map([
-      [typeKey, options.filters?.types],
-      [`${RawKeys.About}.keyword`, options.filters?.subjects],
-      [locationKey, options.filters?.locations],
-      [materialKey, options.filters?.materials],
-      [`${RawKeys.Creator}.keyword`, options.filters?.creators],
-      [publisherKey, options.filters?.publishers],
-    ]);
-
-    for (const [rawHeritageObjectKey, filters] of queryFilters) {
-      if (filters !== undefined) {
-        const andFilters = filters.map(filter => {
-          return {
-            terms: {
-              [rawHeritageObjectKey]: [filter],
-            },
-          };
-        });
-
-        searchRequest.query.bool.filter.push(...andFilters);
-      }
-    }
-
-    const dateCreatedStart = options.filters?.dateCreatedStart;
-    if (dateCreatedStart !== undefined) {
-      searchRequest.query.bool.filter.push({
-        // @ts-expect-error:TS2345
-        range: {
-          [RawKeys.YearCreatedStart]: {
-            gte: dateCreatedStart,
-          },
-        },
-      });
-    }
-
-    const dateCreatedEnd = options.filters?.dateCreatedEnd;
-    if (dateCreatedEnd !== undefined) {
-      searchRequest.query.bool.filter.push({
-        // @ts-expect-error:TS2345
-        range: {
-          [RawKeys.YearCreatedEnd]: {
-            lte: dateCreatedEnd,
-          },
-        },
-      });
-    }
-
-    return searchRequest;
   }
 
-  private toMatchedFilter(bucket: RawBucket): SearchResultFilter {
-    const totalCount = bucket.doc_count;
-    const id = bucket.key;
-    const name = bucket.key;
-
-    return {totalCount, id, name};
+  private buildFilters(buckets: RawBucket[]): SearchResultFilter[] {
+    return buckets.map(bucket => ({
+      totalCount: bucket.doc_count,
+      id: bucket.key,
+      name: bucket.key,
+    }));
   }
 
-  private buildFilters(rawMatchedFilters: RawBucket[]) {
-    const matchedFilters = rawMatchedFilters.map(rawMatchedFilter =>
-      this.toMatchedFilter(rawMatchedFilter)
-    );
+  private buildResult(
+    options: z.output<typeof searchOptionsSchema>,
+    response: RawSearchResponse
+  ): HeritageObjectSearchResult {
+    const {hits, aggregations} = response;
 
-    // TBD: sort filters by totalCount, descending + subsort by totalCount, ascending?
-
-    return matchedFilters;
-  }
-
-  private async buildResult(
-    options: SearchOptions,
-    rawSearchResponse: RawSearchResponseWithAggregations
-  ) {
-    const {hits, aggregations} = rawSearchResponse;
-
-    const rawHeritageObjects = hits.hits.map(hit => hit._source);
-    const ids = rawHeritageObjects.map(
-      rawHeritageObject => rawHeritageObject['@id']
-    );
-    const heritageObjects = await this.heritageObjectFetcher.getByIds({
-      locale: options.locale,
-      ids,
-    });
-
-    const typeFilters = this.buildFilters(aggregations.types.buckets);
-    const subjectFilters = this.buildFilters(aggregations.subjects.buckets);
-    const locationFilters = this.buildFilters(aggregations.locations.buckets);
-    const materialFilters = this.buildFilters(aggregations.materials.buckets);
-    const creatorFilters = this.buildFilters(aggregations.creators.buckets);
-    const publisherFilters = this.buildFilters(aggregations.publishers.buckets);
-    const dateCreatedStartFilters = this.buildFilters(
-      aggregations.dateCreatedStart.buckets
-    );
-    const dateCreatedEndFilters = this.buildFilters(
-      aggregations.dateCreatedEnd.buckets
-    );
-
-    const searchResult: HeritageObjectSearchResult = {
+    return {
       totalCount: hits.total.value,
-      offset: options.offset!,
-      limit: options.limit!,
-      sortBy: options.sortBy!,
-      sortOrder: options.sortOrder!,
-      heritageObjects,
+      offset: options.offset,
+      limit: options.limit,
+      sortBy: options.sortBy,
+      sortOrder: options.sortOrder,
+      heritageObjects: hits.hits.map(hit =>
+        toHeritageObject(hit._source, options.locale)
+      ),
       filters: {
-        types: typeFilters,
-        subjects: subjectFilters,
-        locations: locationFilters,
-        materials: materialFilters,
-        creators: creatorFilters,
-        publishers: publisherFilters,
-        dateCreatedStart: dateCreatedStartFilters,
-        dateCreatedEnd: dateCreatedEndFilters,
+        types: this.buildFilters(aggregations.types.buckets),
+        subjects: this.buildFilters(aggregations.subjects.buckets),
+        locations: this.buildFilters(aggregations.locations.buckets),
+        materials: this.buildFilters(aggregations.materials.buckets),
+        creators: this.buildFilters(aggregations.creators.buckets),
+        publishers: this.buildFilters(aggregations.publishers.buckets),
+        // Year range is a slider in the UI, driven by min/max, not buckets.
+        dateCreatedStart: [],
+        dateCreatedEnd: [],
       },
     };
-
-    return searchResult;
   }
 
   async search(options?: SearchOptions) {
     const opts = searchOptionsSchema.parse(options ?? {});
 
     const searchRequest = this.buildRequest(opts);
-    const rawResponse = await search<RawSearchResponseWithAggregations>(
-      this.endpointUrl,
-      searchRequest
-    );
-    const searchResponse =
-      rawSearchResponseWithAggregationsSchema.parse(rawResponse);
-    const searchResult = await this.buildResult(opts, searchResponse);
-    // Console.log(searchResult.heritageObjects);
+    const rawResponse = await this.client.search<unknown>(searchRequest);
+    const response = rawSearchResponseSchema.parse(rawResponse);
 
-    return searchResult;
+    return this.buildResult(opts, response);
   }
 }

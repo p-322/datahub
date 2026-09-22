@@ -95,7 +95,8 @@
   "HeritageObjectCard": {
     "heritageObject": "Erfgoedobject",
     "noImage": "Geen afbeelding",
-    "noName": "Geen titel"
+    "noName": "Geen titel",
+    "nameFallback": "Geen titel — {kind}"
   },
   "ObjectDetails": {
     "backButton": "Zoeken",
@@ -158,7 +159,8 @@
     "pageNavigationLocalContextShort": "Local Contexts",
     "pageNavigationProvenance": "Herkomst",
     "pageNavigationProvider": "Data provider",
-    "pageNavigationTop": "Top"
+    "pageNavigationTop": "Top",
+    "nameFallback": "Geen titel — {kind}"
   },
   "LocalContextsNotices": {
     "attributionIncomplete": "Onvolledige Toeschrijving",

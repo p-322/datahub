@@ -34,7 +34,11 @@ export function HeritageObjectCard({
         data-testid="object-card-name"
       >
         {heritageObject.name || (
-          <span className="text-sm text-neutral-600">{t('noName')}</span>
+          <span className="text-sm text-neutral-600">
+            {heritageObject.nameFallback
+              ? t('nameFallback', {kind: heritageObject.nameFallback})
+              : t('noName')}
+          </span>
         )}
       </div>
       <div className="text-sm text-neutral-600 px-2 mb-4 grow">
@@ -107,7 +111,11 @@ export function HeritageObjectListItem({
       <div className="flex flex-col items-baseline gap-1">
         <div data-testid="object-card-name">
           {heritageObject.name || (
-            <span className="text-sm text-neutral-600">{t('noName')}</span>
+            <span className="text-sm text-neutral-600">
+              {heritageObject.nameFallback
+                ? t('nameFallback', {kind: heritageObject.nameFallback})
+                : t('noName')}
+            </span>
           )}
         </div>
         <div className="text-sm text-neutral-600">

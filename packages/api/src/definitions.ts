@@ -63,6 +63,9 @@ export type TimeSpan = {
 };
 
 export type HeritageObject = Thing & {
+  // Sawubona: the object's kind, supplied by the index for objects the museum
+  // gave no title. Not a title — render it as such.
+  nameFallback?: string;
   identifier?: string;
   inscriptions?: string[];
   types?: Term[];
