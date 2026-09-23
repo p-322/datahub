@@ -3,8 +3,14 @@
 //   npm run build:scripts        # once, after changing this or edtf.ts
 //   set -o pipefail              # or a broken stage looks like success
 //   jq -cn --stream 'fromstream(1|truncate_stream(inputs))' objects.json \
-//     | node build-scripts/scripts/enrich-dates.js \
-//     | ../devops/scripts/es-bulk-load.py http://<voyager>:9200 sawubona-objects-v2 -
+//     | node build-scripts/scripts/enrich-dates.js 2>/tmp/enrich.log \
+//     | ../devops/scripts/es-bulk-load.py http://<voyager>:9200 sawubona-objects-v2 - \
+//         --expect <the delivery's document count>
+//
+// Send this script's stderr to a file, as above. Both it and the loader
+// report progress by rewriting one terminal line with \r, and on a shared
+// terminal they overwrite each other into nonsense. The log still has the
+// abort message if a line fails to parse; `tail -f` it to watch.
 //
 // Reads newline-delimited documents on stdin, writes them back with the date
 // facets added, and leaves everything else untouched.
