@@ -5,13 +5,13 @@ import {
   SlideOutButton,
   LocalizedMarkdown,
   Notifications,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import {UserEnrichmentForm} from './user-enrichment-form';
 import {ChatBubbleBottomCenterTextIcon} from '@heroicons/react/24/outline';
 import type {
   Actor,
   HeritageObjectEnrichmentType,
-} from '@colonial-collections/enricher';
+} from '@p-322/enricher';
 import {ReadMoreText} from '@/components/read-more-text';
 import {SignedInWithCommunitySideOut} from '@/components/slide-outs';
 import {ProvidedBy} from './provided-by';

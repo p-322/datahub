@@ -1,7 +1,7 @@
 // Import `LocalContextsNoticeEnrichmentType` directly from the definitions file.
-// Importing from "@colonial-collections/enricher" will result in an error in client code,
+// Importing from "@p-322/enricher" will result in an error in client code,
 // because the package uses "node:crypto" which is not available in the browser.
-import {LocalContextsNoticeEnrichmentType} from '@colonial-collections/enricher/src/local-contexts-notices/definitions';
+import {LocalContextsNoticeEnrichmentType} from '@p-322/enricher/src/local-contexts-notices/definitions';
 
 // Re-export the type, so it can be used in the client code.
 export {LocalContextsNoticeEnrichmentType};

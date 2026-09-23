@@ -1,6 +1,6 @@
 'use client';
 
-import {useListStore} from '@colonial-collections/list-store';
+import {useListStore} from '@p-322/list-store';
 
 // A checked checkbox will set the filter 'onlyMyCommunities' to the string 'true'.
 // The value must be a string so the list updater can place it into the search params.

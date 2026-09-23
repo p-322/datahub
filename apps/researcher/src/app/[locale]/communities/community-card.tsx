@@ -4,7 +4,7 @@ import {useTranslations} from 'next-intl';
 import {Link} from '@/navigation';
 import Image from 'next/image';
 import {Suspense} from 'react';
-import {objectList} from '@colonial-collections/database';
+import {objectList} from '@p-322/database';
 
 interface MembershipCountProps {
   communityId: string;

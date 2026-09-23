@@ -1,6 +1,6 @@
 'use client';
 
-import {SlideOut, SlideOutButton} from '@colonial-collections/ui';
+import {SlideOut, SlideOutButton} from '@p-322/ui';
 import classNames from 'classnames';
 import {useTranslations} from 'next-intl';
 import {useDateFormatter} from '@/lib/date-formatter/hooks';

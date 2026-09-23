@@ -1,6 +1,6 @@
 'use client';
 
-import {useListStore, SortBy} from '@colonial-collections/list-store';
+import {useListStore, SortBy} from '@p-322/list-store';
 import {useTranslations} from 'next-intl';
 
 const defaultValues = [SortBy.RelevanceDesc, SortBy.NameAsc, SortBy.NameDesc];

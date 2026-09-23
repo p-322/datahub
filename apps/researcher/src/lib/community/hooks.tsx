@@ -1,5 +1,5 @@
 import {useClerk} from '@clerk/nextjs';
-import {useModal} from '@colonial-collections/ui/modal';
+import {useModal} from '@p-322/ui/modal';
 
 interface UseCommunityProfile {
   communitySlug: string;

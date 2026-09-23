@@ -1,6 +1,6 @@
 import {create} from 'zustand';
-import {Organization} from '@colonial-collections/api';
-import {HeritageObjectEnrichment} from '@colonial-collections/enricher';
+import {Organization} from '@p-322/api';
+import {HeritageObjectEnrichment} from '@p-322/enricher';
 
 interface State {
   organization?: Organization;

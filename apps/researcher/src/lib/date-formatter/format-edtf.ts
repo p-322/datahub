@@ -1,10 +1,10 @@
 // Imported from the module rather than the package, on purpose. The
 // provenance timeline formats dates in the browser, so this file is bundled
-// for the client, and `@colonial-collections/api` is a server-side barrel:
-// it reaches the SPARQL fetchers and, through @colonial-collections/iris,
-// node:crypto, which webpack cannot bundle. `edtf.ts` has no such
-// dependencies — only the EDTF parser, which is browser-safe.
-import {describeEdtf, type EdtfDate} from '@colonial-collections/api/src/edtf';
+// for the client, and `@p-322/api` is a server-side barrel: it reaches the
+// SPARQL fetchers and, through @p-322/iris, node:crypto, which webpack
+// cannot bundle. `edtf.ts` has no such dependencies — only the EDTF parser,
+// which is browser-safe.
+import {describeEdtf, type EdtfDate} from '@p-322/api/src/edtf';
 
 // Sawubona: putting an EDTF date into words.
 //

@@ -1,5 +1,5 @@
 import {LocaleEnum} from '@/definitions';
-import {GeoNamesLocationSearcher} from '@colonial-collections/api';
+import {GeoNamesLocationSearcher} from '@p-322/api';
 import {getLocale} from 'next-intl/server';
 import {NextRequest} from 'next/server';
 import {env} from 'node:process';

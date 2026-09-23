@@ -15,7 +15,7 @@ import {
   FacetSortBy,
   FacetProvider,
   mostPopulated,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 
 const sortOptionLabels: Record<FacetSortBy, string> = {
   [FacetSortBy.alphabetical]: 'orderAlphabetically',

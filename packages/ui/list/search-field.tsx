@@ -1,6 +1,6 @@
 'use client';
 
-import {useListStore} from '@colonial-collections/list-store';
+import {useListStore} from '@p-322/list-store';
 import {MagnifyingGlassIcon} from '@heroicons/react/24/solid';
 import {useTranslations} from 'next-intl';
 import {useEffect, useState} from 'react';

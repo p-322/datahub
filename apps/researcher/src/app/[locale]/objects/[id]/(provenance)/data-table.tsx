@@ -1,6 +1,6 @@
 'use client';
 
-import {SlideOut, SlideOutButton} from '@colonial-collections/ui';
+import {SlideOut, SlideOutButton} from '@p-322/ui';
 import type {UserProvenanceEvent} from './definitions';
 import {useTranslations} from 'next-intl';
 import {useProvenance} from './provenance-store';

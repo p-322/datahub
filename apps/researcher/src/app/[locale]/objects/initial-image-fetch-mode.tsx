@@ -1,6 +1,6 @@
 'use client';
 
-import {ImageFetchMode, useListStore} from '@colonial-collections/list-store';
+import {ImageFetchMode, useListStore} from '@p-322/list-store';
 import {Field, Label, Radio, RadioGroup} from '@headlessui/react';
 import {useTranslations} from 'next-intl';
 

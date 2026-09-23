@@ -1,4 +1,4 @@
-import {HeritageObjects} from '@colonial-collections/api';
+import {HeritageObjects} from '@p-322/api';
 import {env} from 'node:process';
 
 // Sawubona: SEARCH_ENDPOINT_URL is the Elasticsearch alias base URL

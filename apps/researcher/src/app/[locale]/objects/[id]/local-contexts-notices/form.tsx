@@ -4,7 +4,7 @@ import {
   useSlideOut,
   useNotifications,
   SlideOutButton,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import {useForm, SubmitHandler, FormProvider} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useLocale, useTranslations} from 'next-intl';

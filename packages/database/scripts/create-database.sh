@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Local development database for the datahub (Postgres, matching Discovery One).
 # Starts a postgres:16 container and prints the DATABASE_URL to put in
-# apps/researcher/.env.local. Then: npm run db:migrate --workspace @colonial-collections/database
+# apps/researcher/.env.local. Then: npm run db:migrate --workspace @p-322/database
 set -euo pipefail
 
 read -r -p "Container name [datahub-postgres]: " container_name

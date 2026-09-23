@@ -9,7 +9,7 @@ import {
   objectDocumentSchema,
   toHeritageObject,
 } from '../index-documents';
-import {isIri} from '@colonial-collections/iris';
+import {isIri} from '@p-322/iris';
 import {z} from 'zod';
 
 const constructorOptionsSchema = z.object({

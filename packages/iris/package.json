@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/iris",
+  "name": "@p-322/iris",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -23,8 +23,8 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@colonial-collections/eslint-config": "*",
-    "@colonial-collections/ts-config": "*",
+    "@p-322/eslint-config": "*",
+    "@p-322/ts-config": "*",
     "@jest/globals": "29.7.0",
     "@types/jest": "29.5.12",
     "@types/node": "20.12.12",

@@ -11,7 +11,7 @@ import {
 import {useLocale, useTranslations} from 'next-intl';
 import {Fragment, ReactNode, useMemo, useState} from 'react';
 import classNames from 'classnames';
-import {useNotifications, useSlideOut} from '@colonial-collections/ui';
+import {useNotifications, useSlideOut} from '@p-322/ui';
 import {
   useForm,
   SubmitHandler,

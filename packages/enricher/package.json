@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/enricher",
+  "name": "@p-322/enricher",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -21,7 +21,7 @@
     "test:integration:watch": "npm run test:integration -- --watchAll"
   },
   "dependencies": {
-    "@colonial-collections/iris": "*",
+    "@p-322/iris": "*",
     "defu": "6.1.4",
     "edtf": "4.6.0",
     "fetch-sparql-endpoint": "4.1.0",
@@ -33,8 +33,8 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@colonial-collections/eslint-config": "*",
-    "@colonial-collections/ts-config": "*",
+    "@p-322/eslint-config": "*",
+    "@p-322/ts-config": "*",
     "@jest/globals": "29.7.0",
     "@rdfjs/types": "1.1.0",
     "@types/jest": "29.5.12",

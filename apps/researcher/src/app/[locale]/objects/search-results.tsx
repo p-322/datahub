@@ -14,7 +14,7 @@ import {
   ImageFetchMode,
   ListView,
   Type as SearchParamType,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 import {
   HeritageObjectSearchResult,
   SearchResultFilter,
@@ -22,7 +22,7 @@ import {
   SortByEnum,
   SortOrder,
   SortOrderEnum,
-} from '@colonial-collections/api';
+} from '@p-322/api';
 import {
   MultiSelectFacet,
   SearchableMultiSelectFacet,
@@ -30,12 +30,12 @@ import {
   SelectedFilters,
   SearchFieldWithLabel,
   OrderSelector,
-} from '@colonial-collections/ui/list';
+} from '@p-322/ui/list';
 import {
   SmallScreenSubMenu,
   SubMenuButton,
   SubMenuDialog,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import {AdjustmentsHorizontalIcon} from '@heroicons/react/20/solid';
 import {ElementType} from 'react';
 import {ListStoreUpdater} from '@/components/list-store-updater';

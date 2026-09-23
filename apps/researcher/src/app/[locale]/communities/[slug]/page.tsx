@@ -7,7 +7,7 @@ import {getMemberships, getCommunityBySlug} from '@/lib/community/actions';
 import ErrorMessage from '@/components/error-message';
 import {isClerkAPIResponseError} from '@clerk/nextjs/errors';
 import {revalidatePath} from 'next/cache';
-import {objectList} from '@colonial-collections/database';
+import {objectList} from '@p-322/database';
 import ObjectCard from './object';
 import CreateObjectListForm from '@/components/object-list-form/create-form';
 import {
@@ -16,7 +16,7 @@ import {
   SlideOutClosed,
   Notifications,
   LocalizedMarkdown,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import CommunityProfileModal from './community-profile-modal';
 import EditCommunityForm from './edit-community-form';
 import ToFilteredListButton from '@/components/to-filtered-list-button';

@@ -9,10 +9,10 @@ import {
   addObjectToList,
   deleteObjectFromList,
 } from './actions';
-import {ObjectList} from '@colonial-collections/database';
-import {useNotifications} from '@colonial-collections/ui';
+import {ObjectList} from '@p-322/database';
+import {useNotifications} from '@p-322/ui';
 import {Link} from '@/navigation';
-import {Modal, useModal} from '@colonial-collections/ui/modal';
+import {Modal, useModal} from '@p-322/ui/modal';
 import ObjectListForm from '@/components/object-list-form/form';
 import {addList} from '@/components/object-list-form/actions';
 import PopoverMenu from '@/components/popover';

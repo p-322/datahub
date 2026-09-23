@@ -1,5 +1,5 @@
 import {Link} from '@/navigation';
-import {FundingDisclosure, Wordmark} from '@colonial-collections/ui/branding';
+import {FundingDisclosure, Wordmark} from '@p-322/ui/branding';
 import {getTranslations} from 'next-intl/server';
 import ToFilteredListButton from './to-filtered-list-button';
 

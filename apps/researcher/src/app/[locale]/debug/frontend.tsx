@@ -3,7 +3,7 @@
 import {backendLogAction} from './backend';
 import {useAuth} from '@clerk/nextjs';
 import {jwtDecode} from 'jwt-decode';
-import {useNotifications} from '@colonial-collections/ui';
+import {useNotifications} from '@p-322/ui';
 
 const dateTimeFormat = new Intl.DateTimeFormat('nl', {
   dateStyle: 'full',

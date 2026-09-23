@@ -1,5 +1,5 @@
 {
-  "extends": "@colonial-collections/ts-config/react-library.json",
+  "extends": "@p-322/ts-config/react-library.json",
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

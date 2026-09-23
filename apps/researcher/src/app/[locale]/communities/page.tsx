@@ -8,7 +8,7 @@ import {
   Paginator,
   SearchField,
   OrderSelector,
-} from '@colonial-collections/ui/list';
+} from '@p-322/ui/list';
 import {AddCommunityButton} from './buttons';
 import {MyCommunityToggle} from './my-community-toggle';
 import SignedIn from '@/lib/community/signed-in';

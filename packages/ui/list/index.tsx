@@ -1,4 +1,4 @@
-// All components in 'ui/list' are dependent on the '@colonial-collections/list-store'.
+// All components in 'ui/list' are dependent on the '@p-322/list-store'.
 // And expect the store to be initialized in the application using 'ui/list'.
 
 export * from './paginator';

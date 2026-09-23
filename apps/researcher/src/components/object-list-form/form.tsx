@@ -3,9 +3,9 @@
 import {useAuth} from '@clerk/nextjs';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {insertObjectListSchema} from '@colonial-collections/database/client';
+import {insertObjectListSchema} from '@p-322/database/client';
 import {useTranslations} from 'next-intl';
-import {useNotifications} from '@colonial-collections/ui';
+import {useNotifications} from '@p-322/ui';
 import {camelCase} from 'tiny-case';
 import {usePathname} from '@/navigation';
 import {ActionProps} from './actions';

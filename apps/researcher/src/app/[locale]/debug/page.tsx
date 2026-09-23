@@ -1,5 +1,5 @@
 import {DebugButton, AuthenticationObjectFrontend} from './frontend';
-import {Notifications} from '@colonial-collections/ui';
+import {Notifications} from '@p-322/ui';
 import {auth} from '@clerk/nextjs/server';
 
 export default async function DebugPage() {

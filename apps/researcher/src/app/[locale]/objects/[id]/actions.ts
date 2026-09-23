@@ -1,13 +1,13 @@
 'use server';
 
 import {getCommunityBySlug} from '@/lib/community/actions';
-import {objectList} from '@colonial-collections/database';
-import {ObjectItemBeingCreated} from '@colonial-collections/database';
+import {objectList} from '@p-322/database';
+import {ObjectItemBeingCreated} from '@p-322/database';
 import {revalidatePath} from 'next/cache';
 import {creator} from '@/lib/enricher-instances';
 import {encodeRouteSegment} from '@/lib/clerk-route-segment-transformer';
 import {enrichmentLicence} from '@/lib/enrichment-licence';
-import type {HeritageObjectEnrichmentType} from '@colonial-collections/enricher';
+import type {HeritageObjectEnrichmentType} from '@p-322/enricher';
 import {getIriOfUser} from '@/lib/user/actions';
 
 export async function getCommunityLists(communityId: string, objectId: string) {

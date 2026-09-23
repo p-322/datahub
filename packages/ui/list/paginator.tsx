@@ -1,6 +1,6 @@
 'use client';
 
-import {useListStore} from '@colonial-collections/list-store';
+import {useListStore} from '@p-322/list-store';
 import {useTranslations} from 'next-intl';
 
 export function Paginator() {

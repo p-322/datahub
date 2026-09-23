@@ -1,4 +1,4 @@
-import {LocalizedMarkdown} from '@colonial-collections/ui';
+import {LocalizedMarkdown} from '@p-322/ui';
 import {getTranslations} from 'next-intl/server';
 
 // Sawubona: no contact form. Plain "Mail us" text for now; how contact works
@@ -10,7 +10,7 @@ export default async function Contact() {
     <>
       <LocalizedMarkdown
         name="contact"
-        contentPath="@colonial-collections/content"
+        contentPath="@p-322/content"
       />
       <p className="font-semibold">{t('mailUs')}</p>
     </>

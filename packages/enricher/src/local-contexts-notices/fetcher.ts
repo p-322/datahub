@@ -1,6 +1,6 @@
 import {ontologyUrl} from '../definitions';
 import {toLocalContextsNoticeEnrichment} from './rdf-helpers';
-import {isIri} from '@colonial-collections/iris';
+import {isIri} from '@p-322/iris';
 import {SparqlEndpointFetcher} from 'fetch-sparql-endpoint';
 import type {Readable} from 'node:stream';
 import {RdfObjectLoader} from 'rdf-object';

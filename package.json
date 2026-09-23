@@ -1,5 +1,5 @@
 {
-  "name": "colonial-collections",
+  "name": "sawubona",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -28,7 +28,7 @@
     "build:scripts": "tsc -p tsconfig.scripts.json"
   },
   "devDependencies": {
-    "@colonial-collections/eslint-config": "*",
+    "@p-322/eslint-config": "*",
     "gts": "5.3.0",
     "turbo": "1.13.3"
   },

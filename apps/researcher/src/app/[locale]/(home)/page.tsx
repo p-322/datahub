@@ -1,4 +1,4 @@
-import {heroImage, PartnerStrip} from '@colonial-collections/ui/branding';
+import {heroImage, PartnerStrip} from '@p-322/ui/branding';
 import CommunityCard from '../communities/community-card';
 import {getCommunities} from '@/lib/community/actions';
 import ErrorMessage from '@/components/error-message';

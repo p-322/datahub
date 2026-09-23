@@ -2,7 +2,7 @@
 
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {useTranslations} from 'next-intl';
-import {useSlideOut, useNotifications} from '@colonial-collections/ui';
+import {useSlideOut, useNotifications} from '@p-322/ui';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {updateCommunityAndRevalidate} from './actions';

@@ -2,7 +2,7 @@
 
 import {useState, useEffect} from 'react';
 import {OrganizationProfile} from '@clerk/nextjs';
-import {Modal, ModalHeader} from '@colonial-collections/ui/modal';
+import {Modal, ModalHeader} from '@p-322/ui/modal';
 
 /**
  * CLERK V6 WORKAROUND: Hash-Aware Organization Profile Modal

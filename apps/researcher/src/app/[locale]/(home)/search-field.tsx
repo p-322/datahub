@@ -1,6 +1,6 @@
 'use client';
 
-import {SearchField} from '@colonial-collections/ui/list';
+import {SearchField} from '@p-322/ui/list';
 import {useRouter} from '@/navigation';
 import {useTranslations} from 'next-intl';
 

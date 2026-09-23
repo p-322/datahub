@@ -1,4 +1,4 @@
-import {ListProvider} from '@colonial-collections/list-store';
+import {ListProvider} from '@p-322/list-store';
 import {defaultSortBy} from '@/lib/community/actions';
 import {ReactNode} from 'react';
 import {itemsPerPageLimit} from './settings';

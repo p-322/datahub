@@ -1,5 +1,5 @@
 import {clerkClient} from '@clerk/nextjs/server';
-import {createPersistentIri} from '@colonial-collections/iris';
+import {createPersistentIri} from '@p-322/iris';
 import {unstable_noStore as noStore} from 'next/cache';
 
 export async function getIriOfUser(userId: string) {

@@ -1,6 +1,6 @@
 import {Link} from '@/navigation';
 import {ExclamationCircleIcon, XMarkIcon} from '@heroicons/react/24/outline';
-import {SlideOut, SlideOutButton} from '@colonial-collections/ui';
+import {SlideOut, SlideOutButton} from '@p-322/ui';
 import {getTranslations} from 'next-intl/server';
 import {PropsWithChildren, ReactNode} from 'react';
 import {auth} from '@clerk/nextjs/server';

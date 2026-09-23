@@ -1,6 +1,6 @@
 import {defineConfig, devices} from '@playwright/test';
 // @ts-expect-error: TS5097
-import getBaseConfig from '@colonial-collections/playwright-config/index.ts';
+import getBaseConfig from '@p-322/playwright-config/index.ts';
 
 //See https://playwright.dev/docs/test-configuration.
 export default defineConfig({

@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/database",
+  "name": "@p-322/database",
   "version": "0.0.0",
   "private": true,
   "engines": {
@@ -19,8 +19,8 @@
     "test:watch": "npm test -- --watchAll"
   },
   "devDependencies": {
-    "@colonial-collections/eslint-config": "*",
-    "@colonial-collections/ts-config": "*",
+    "@p-322/eslint-config": "*",
+    "@p-322/ts-config": "*",
     "dotenv-cli": "7.4.1",
     "ts-node": "10.9.2"
   },

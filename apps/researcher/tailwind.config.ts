@@ -1,4 +1,4 @@
-import config from '@colonial-collections/tailwind-config';
+import config from '@p-322/tailwind-config';
 
 export default {
   presets: [config],

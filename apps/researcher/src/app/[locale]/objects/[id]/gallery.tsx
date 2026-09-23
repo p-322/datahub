@@ -2,7 +2,7 @@
 
 import {Tab} from '@headlessui/react';
 import classNames from 'classnames';
-import {SlideOver, SlideOverOpenButton} from '@colonial-collections/ui';
+import {SlideOver, SlideOverOpenButton} from '@p-322/ui';
 import dynamic from 'next/dynamic';
 import {useTranslations} from 'next-intl';
 import ImageWithFallback from '@/components/image-with-fallback';

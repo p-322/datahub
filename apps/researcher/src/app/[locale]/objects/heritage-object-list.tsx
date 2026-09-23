@@ -5,8 +5,8 @@ import {
   HeritageObjectListItem,
 } from './heritage-object-card';
 import {useTranslations} from 'next-intl';
-import type {HeritageObjectSearchResult} from '@colonial-collections/api';
-import {useListStore} from '@colonial-collections/list-store';
+import type {HeritageObjectSearchResult} from '@p-322/api';
+import {useListStore} from '@p-322/list-store';
 
 interface Props {
   heritageObjects: HeritageObjectSearchResult['heritageObjects'];

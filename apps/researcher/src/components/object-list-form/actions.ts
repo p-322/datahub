@@ -1,6 +1,6 @@
 'use server';
 
-import {objectList} from '@colonial-collections/database';
+import {objectList} from '@p-322/database';
 import {revalidatePath} from 'next/cache';
 
 interface List {

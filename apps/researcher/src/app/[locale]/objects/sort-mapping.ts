@@ -1,7 +1,7 @@
 import {
   SortBy as SortBySearchOption,
   SortOrder,
-} from '@colonial-collections/api';
+} from '@p-322/api';
 
 export enum SortByUserOption {
   DateCreatedDesc = 'dateCreatedDesc',

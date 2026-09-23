@@ -1,5 +1,5 @@
 import {getTranslations} from 'next-intl/server';
-import {objectList as objectListDb} from '@colonial-collections/database';
+import {objectList as objectListDb} from '@p-322/database';
 import ErrorMessage from '@/components/error-message';
 import Link from 'next/link';
 import {ChevronLeftIcon, PencilSquareIcon} from '@heroicons/react/24/solid';
@@ -11,7 +11,7 @@ import {
   SlideOut,
   SlideOutButton,
   SlideOutClosed,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import Protect from '@/lib/community/protect';
 import {InformationCircleIcon, XMarkIcon} from '@heroicons/react/24/outline';
 import ManageObjectCard from './manage-object-card';

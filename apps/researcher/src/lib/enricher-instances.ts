@@ -4,7 +4,7 @@ import {
   NanopubClient,
   ProvenanceEventEnrichmentFetcher,
   LocalContextsNoticesEnrichmentFetcher,
-} from '@colonial-collections/enricher';
+} from '@p-322/enricher';
 import {env} from 'node:process';
 
 // Community enrichments come from Nanopublications — a third-party service

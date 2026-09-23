@@ -1,11 +1,11 @@
 'use client';
 
-import {SearchFieldWithLabel} from '@colonial-collections/ui/list';
+import {SearchFieldWithLabel} from '@p-322/ui/list';
 import {useRouter} from '@/navigation';
 import {
   defaultImageFetchMode,
   useListStore,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 
 export function InitialSearchField() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["@colonial-collections/eslint-config/index"],
+  "extends": ["@p-322/eslint-config/index"],
   "settings": {
     "next": {
       "rootDir": ["apps/*/"]

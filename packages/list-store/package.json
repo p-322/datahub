@@ -1,5 +1,5 @@
 {
-  "name": "@colonial-collections/list-store",
+  "name": "@p-322/list-store",
   "version": "0.0.0",
   "type": "module",
   "main": "./src/index.ts",
@@ -9,10 +9,10 @@
     "node": "22.x"
   },
   "devDependencies": {
-    "@colonial-collections/eslint-config": "*",
+    "@p-322/eslint-config": "*",
     "jest": "29.7.0",
     "ts-jest": "29.1.2",
-    "@colonial-collections/ts-config": "*"
+    "@p-322/ts-config": "*"
   },
   "scripts": {
     "test": "jest",

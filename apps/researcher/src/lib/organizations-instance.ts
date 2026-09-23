@@ -1,4 +1,4 @@
-import {Organizations} from '@colonial-collections/api';
+import {Organizations} from '@p-322/api';
 import {env} from 'node:process';
 
 const organizations = new Organizations({

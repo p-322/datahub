@@ -5,7 +5,7 @@ import {Badge, BadgeAction, BadgeIcon} from '../badge';
 import {
   useListStore,
   Type as SearchParamType,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 import {SearchResultFilter} from './definitions';
 import {useMemo} from 'react';
 import {MagnifyingGlassIcon, TagIcon} from '@heroicons/react/24/solid';

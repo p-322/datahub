@@ -1,6 +1,6 @@
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
-import {createPersistentIri} from '@colonial-collections/iris';
+import {createPersistentIri} from '@p-322/iris';
 import {getCommunityBySlug, addIriToCommunity} from '@/lib/community/actions';
 
 interface Props {

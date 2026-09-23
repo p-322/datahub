@@ -8,7 +8,7 @@ interface Props {
   // Note: the path prefix for dynamic imports must be static to work correctly.
   // See the issue: https://github.com/webpack/webpack/issues/6680
   // That is why `contentPath` can only be fixed values.
-  contentPath: '@colonial-collections/content' | '@/messages';
+  contentPath: '@p-322/content' | '@/messages';
   textSize?: 'small' | 'normal';
   textProps?: {[key: string]: string | number | boolean};
 }
@@ -33,9 +33,9 @@ export async function LocalizedMarkdown({
   );
   let Markdown;
   try {
-    if (contentPath === '@colonial-collections/content') {
+    if (contentPath === '@p-322/content') {
       Markdown = dynamic(
-        () => import(`@colonial-collections/content/${locale}/${name}.mdx`)
+        () => import(`@p-322/content/${locale}/${name}.mdx`)
       );
     }
     if (contentPath === '@/messages') {

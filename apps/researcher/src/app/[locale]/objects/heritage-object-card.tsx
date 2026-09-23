@@ -1,10 +1,10 @@
 import {Link} from '@/navigation';
 import {useTranslations} from 'next-intl';
-import {HeritageObject} from '@colonial-collections/api';
+import {HeritageObject} from '@p-322/api';
 import {encodeRouteSegment} from '@/lib/clerk-route-segment-transformer';
 import ImageWithFallback from '@/components/image-with-fallback';
 import classNames from 'classnames';
-import {ImageFetchMode} from '@colonial-collections/list-store';
+import {ImageFetchMode} from '@p-322/list-store';
 
 interface Props {
   heritageObject: HeritageObject;

@@ -8,7 +8,7 @@ import {
   useListStore,
   useSearchParamsUpdate,
   useUpdateListStore,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 import {saveLastSearch} from '@/lib/last-search';
 
 interface Props<SortBy> {

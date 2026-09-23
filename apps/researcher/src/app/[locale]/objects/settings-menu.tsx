@@ -5,7 +5,7 @@ import {
   useListStore,
   ImageFetchMode,
   ListView,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 import {ListBulletIcon, Squares2X2Icon} from '@heroicons/react/24/solid';
 import {useTranslations} from 'next-intl';
 

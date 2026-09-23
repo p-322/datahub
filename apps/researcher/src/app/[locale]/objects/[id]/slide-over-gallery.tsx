@@ -6,7 +6,7 @@ import {
   SlideOverDialog,
   SlideOverHeader,
   SlideOverContent,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import Image from 'next/image';
 import {Tab} from '@headlessui/react';
 import classNames from 'classnames';

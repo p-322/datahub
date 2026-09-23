@@ -9,7 +9,7 @@ import {
   createContext,
   useContext,
 } from 'react';
-import {useListStore} from '@colonial-collections/list-store';
+import {useListStore} from '@p-322/list-store';
 import {useTranslations} from 'next-intl';
 
 interface FacetContextProps {

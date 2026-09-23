@@ -3,7 +3,7 @@ import {
   ListView,
   defaultImageFetchMode,
   defaultLimit,
-} from '@colonial-collections/list-store';
+} from '@p-322/list-store';
 import {defaultSortByUserOption} from './sort-mapping';
 import {ReactNode} from 'react';
 

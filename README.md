@@ -1,6 +1,14 @@
-# Colonial Collections
+# Sawubona
 
-This repository contains the frontend applications of Colonial Collections
+The Sawubona Commons datahub: the researcher application, its workspace
+packages, and the container image the Hetzner deployment runs. Search and the
+object pages read an Elasticsearch index on Voyager, written from a Tabulous
+delivery; community enrichments are Nanopublications.
+
+A fork of the Colonial Collections datahub
+([colonial-heritage](https://github.com/colonial-heritage)), with no upstream
+remote — the two have diverged. The infrastructure lives in the separate
+`devops` repository; `docs/` covers the index and the data we receive.
 
 ## Development
 

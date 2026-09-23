@@ -6,12 +6,12 @@ import {ProvenanceProvider} from './provenance-store';
 import {ToggleViewButtons} from './buttons';
 import {LocaleEnum} from '@/definitions';
 import dynamic from 'next/dynamic';
-import {SlideOutButton, LocalizedMarkdown} from '@colonial-collections/ui';
+import {SlideOutButton, LocalizedMarkdown} from '@p-322/ui';
 import {XMarkIcon} from '@heroicons/react/24/outline';
 import AddProvenanceForm from './add-form';
 import {provenanceEventEnrichmentFetcher} from '@/lib/enricher-instances';
 import {SignedInWithCommunitySideOut} from '@/components/slide-outs';
-import {Notifications} from '@colonial-collections/ui';
+import {Notifications} from '@p-322/ui';
 import {transformEvents} from './transform-events';
 import {ChatBubbleBottomCenterTextIcon} from '@heroicons/react/24/outline';
 

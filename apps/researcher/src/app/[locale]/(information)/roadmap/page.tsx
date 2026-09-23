@@ -1,10 +1,10 @@
-import {LocalizedMarkdown} from '@colonial-collections/ui';
+import {LocalizedMarkdown} from '@p-322/ui';
 
 export default function Roadmap() {
   return (
     <LocalizedMarkdown
       name="roadmap"
-      contentPath="@colonial-collections/content"
+      contentPath="@p-322/content"
     />
   );
 }

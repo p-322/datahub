@@ -4,7 +4,7 @@ import {
   useSlideOut,
   useNotifications,
   SlideOutButton,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import {useForm, SubmitHandler, FormProvider} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useLocale, useTranslations} from 'next-intl';
@@ -20,7 +20,7 @@ import {
   CommunitySelector,
   ButtonGroup,
 } from '@/components/form';
-import type {HeritageObjectEnrichmentType} from '@colonial-collections/enricher';
+import type {HeritageObjectEnrichmentType} from '@p-322/enricher';
 import {Fragment, ReactNode} from 'react';
 import {useUser} from '@/lib/user/hooks';
 import {CheckboxWithLabel} from '@/components/form/checkbox-with-label';

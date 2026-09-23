@@ -3,7 +3,7 @@
 import {useTranslations} from 'next-intl';
 import ObjectListForm from './form';
 import {addList} from './actions';
-import {useSlideOut} from '@colonial-collections/ui';
+import {useSlideOut} from '@p-322/ui';
 
 interface ObjectListFormProps {
   communityId: string;

@@ -1,5 +1,5 @@
 import {LocaleEnum} from '@/definitions';
-import {WikidataConstituentSearcher} from '@colonial-collections/api';
+import {WikidataConstituentSearcher} from '@p-322/api';
 import {getLocale} from 'next-intl/server';
 import {NextRequest} from 'next/server';
 

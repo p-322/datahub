@@ -1,5 +1,5 @@
-import {ProvenanceEvent} from '@colonial-collections/api';
-import {ProvenanceEventEnrichment} from '@colonial-collections/enricher';
+import {ProvenanceEvent} from '@p-322/api';
+import {ProvenanceEventEnrichment} from '@p-322/enricher';
 
 export function sortEvents(
   events: (ProvenanceEvent | ProvenanceEventEnrichment)[]

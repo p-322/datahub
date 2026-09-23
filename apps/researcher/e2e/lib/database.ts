@@ -1,4 +1,4 @@
-import {objectList} from '@colonial-collections/database';
+import {objectList} from '@p-322/database';
 import heritageObjects from '@/lib/heritage-objects-instance';
 import {encodeRouteSegment} from '@/lib/clerk-route-segment-transformer';
 

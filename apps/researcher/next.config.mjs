@@ -10,7 +10,7 @@ const withMDX = MDXPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@colonial-collections/ui'],
+  transpilePackages: ['@p-322/ui'],
   // Self-contained server bundle for the container image (see /Dockerfile):
   // .next/standalone holds server.js plus only the node_modules actually
   // imported. outputFileTracingRoot points at the monorepo root so workspace

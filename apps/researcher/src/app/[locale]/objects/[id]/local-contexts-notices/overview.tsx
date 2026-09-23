@@ -9,11 +9,11 @@ import {
   LocalizedMarkdown,
   Notifications,
   SlideOutButton,
-} from '@colonial-collections/ui';
+} from '@p-322/ui';
 import {ChatBubbleBottomCenterTextIcon} from '@heroicons/react/24/outline';
 import {SignedInWithCommunitySideOut} from '@/components/slide-outs';
 import {LocalContextsNoticeForm} from './form';
-import {LocalContextsNoticeEnrichment} from '@colonial-collections/enricher';
+import {LocalContextsNoticeEnrichment} from '@p-322/enricher';
 import {ProvidedBy} from '../provided-by';
 import Language from '../language';
 import {getTranslations} from 'next-intl/server';

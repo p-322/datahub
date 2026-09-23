@@ -1,4 +1,4 @@
-import {TimeSpan} from '@colonial-collections/api';
+import {TimeSpan} from '@p-322/api';
 
 export type UserProvenanceEvent = {
   id: string;

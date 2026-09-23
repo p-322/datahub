@@ -4,9 +4,9 @@ import {XMarkIcon} from '@heroicons/react/24/outline';
 import {deleteObjectFromList, deleteList} from './actions';
 import {usePathname} from '@/navigation';
 import {useTranslations} from 'next-intl';
-import {Modal, ModalButton, ModalHeader} from '@colonial-collections/ui/modal';
+import {Modal, ModalButton, ModalHeader} from '@p-322/ui/modal';
 import {useRouter} from '@/navigation';
-import {useNotifications} from '@colonial-collections/ui';
+import {useNotifications} from '@p-322/ui';
 
 interface DeleteObjectButtonProps {
   id: number;
