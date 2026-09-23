@@ -1,10 +1,13 @@
 // Sawubona: thin Elasticsearch HTTP client. Plain fetch, no client library.
 //
 // `endpointUrl` is the alias base URL, e.g. http://100.117.15.56:9200/sawubona
-// (the datahub's SEARCH_ENDPOINT_URL). Paths are appended here:
-//   /_search           search
-//   /_doc/<id>         one document by _id (the resource IRI, URL-encoded)
-//   /_mget             several documents by _id
+// (the datahub's SEARCH_ENDPOINT_URL). Everything goes through `<base>/_search`.
+//
+// Reads by id use an `ids` query rather than `_doc/<id>` or `_mget`: those are
+// single-index operations, and the alias deliberately spans two indices
+// (objects and persons), which Elasticsearch refuses with "has more than one
+// index associated with it, can't execute a single index op". An `ids` query
+// matches on `_id` across every index behind the alias.
 // See docs/elasticsearch-mapping.md.
 import {z} from 'zod';
 
@@ -16,13 +19,15 @@ export type ElasticClientConstructorOptions = z.infer<
   typeof constructorOptionsSchema
 >;
 
-const getResponseSchema = z.object({
-  found: z.boolean(),
-  _source: z.record(z.unknown()).optional(),
-});
-
-const mgetResponseSchema = z.object({
-  docs: z.array(getResponseSchema),
+const hitsResponseSchema = z.object({
+  hits: z.object({
+    hits: z.array(
+      z.object({
+        _id: z.string(),
+        _source: z.record(z.unknown()),
+      })
+    ),
+  }),
 });
 
 export class ElasticClient {
@@ -33,20 +38,14 @@ export class ElasticClient {
     this.endpointUrl = opts.endpointUrl.replace(/\/+$/, '');
   }
 
-  private async request<T>(
-    method: 'GET' | 'POST',
-    path: string,
-    body?: unknown,
-    // HTTP statuses that are a valid answer, not an error (e.g. 404 on GET)
-    acceptStatuses: number[] = []
-  ): Promise<T> {
-    const response = await fetch(`${this.endpointUrl}${path}`, {
-      method,
-      body: body === undefined ? undefined : JSON.stringify(body),
+  async search<T>(searchRequest: Record<string, unknown>): Promise<T> {
+    const response = await fetch(`${this.endpointUrl}/_search`, {
+      method: 'POST',
+      body: JSON.stringify(searchRequest),
       headers: {'Content-Type': 'application/json'},
     });
 
-    if (!response.ok && !acceptStatuses.includes(response.status)) {
+    if (!response.ok) {
       throw new Error(
         `Failed to retrieve information: ${response.statusText} (${response.status})`
       );
@@ -55,35 +54,34 @@ export class ElasticClient {
     return response.json();
   }
 
-  async search<T>(searchRequest: Record<string, unknown>): Promise<T> {
-    return this.request<T>('POST', '/_search', searchRequest);
-  }
-
   // Returns the document's _source, or undefined if there is no such document.
   async get(id: string): Promise<Record<string, unknown> | undefined> {
-    const rawResponse = await this.request<unknown>(
-      'GET',
-      `/_doc/${encodeURIComponent(id)}`,
-      undefined,
-      [404]
-    );
-    const response = getResponseSchema.parse(rawResponse);
-
-    return response.found ? response._source : undefined;
+    const documents = await this.mget([id]);
+    return documents[0];
   }
 
-  // Returns the _source of every document that exists, in request order.
+  // Returns the _source of every document that exists, in the order asked for.
   // Missing ids are skipped silently.
   async mget(ids: string[]): Promise<Record<string, unknown>[]> {
     if (ids.length === 0) {
       return [];
     }
 
-    const rawResponse = await this.request<unknown>('POST', '/_mget', {ids});
-    const response = mgetResponseSchema.parse(rawResponse);
+    const rawResponse = await this.search<unknown>({
+      query: {ids: {values: ids}},
+      size: ids.length,
+    });
+    const response = hitsResponseSchema.parse(rawResponse);
 
-    return response.docs
-      .filter(doc => doc.found && doc._source !== undefined)
-      .map(doc => doc._source!);
+    // Elasticsearch returns hits in score order; restore the caller's order.
+    const sourcesById = new Map(
+      response.hits.hits.map(hit => [hit._id, hit._source])
+    );
+
+    return ids
+      .map(id => sourcesById.get(id))
+      .filter(
+        (source): source is Record<string, unknown> => source !== undefined
+      );
   }
 }

@@ -28,9 +28,11 @@ Settings for both: `number_of_shards: 1`, `number_of_replicas: 0`. Voyager is a
 single node, and with the default of one replica the cluster would sit at
 yellow forever.
 
-Documents are looked up by id with `GET sawubona/_doc/<url-encoded IRI>` and
-`_mget`; that is what makes `_id = IRI` a requirement rather than a
-convenience.
+Documents are looked up by id with an `ids` query on the alias, not with
+`_doc/<id>` or `_mget`: those are single-index operations and Elasticsearch
+refuses them against an alias that spans more than one index ("has more than
+one index associated with it, can't execute a single index op"). `_id = IRI`
+is therefore still a requirement — the `ids` query matches on `_id`.
 
 ## 2. Conventions
 
@@ -294,9 +296,10 @@ Object search, on the alias:
 - `_source`: `object.id`, `object.name`, `object.images`, `object.isPartOf`
   for cards — no second request.
 
-Object detail: `GET sawubona/_doc/<id>` → `object`, `organization`,
-`provenanceEvents`. Object lists: `_mget`. Autocomplete: `match_phrase_prefix`
-on `name`, `filter kind = Person`, sort `name.keyword`.
+Object detail: `_search` with `{"query": {"ids": {"values": ["<id>"]}}}` →
+`object`, `organization`, `events`. Object lists: the same with several ids,
+re-ordered client-side. Autocomplete: `match_phrase_prefix` on `name`,
+`filter kind = Person`, sort `name.keyword`.
 
 ## 6. Application changes (done)
 
