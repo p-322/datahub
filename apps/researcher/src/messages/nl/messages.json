@@ -407,7 +407,11 @@
       "openStart": "Begin onbekend",
       "openEnd": "Eind onbekend",
       "unbounded": "Begin noch eind bekend"
-    }
+    },
+    "treeExpand": "Toon wat onder {name} valt",
+    "treeCollapse": "Verberg wat onder {name} valt",
+    "treeNoMatches": "Geen termen komen overeen met je zoekopdracht.",
+    "treeAboutText": "Deze termen komen uit een thesaurus en vallen onder bredere termen. Kies je een brede term, dan vind je ook de objecten die onder alles daaronder zijn beschreven — kies je 'hoofddeksels', dan zitten de hoeden erbij. Het getal naast een term telt die objecten mee."
   },
   "Sort": {
     "dateCreatedDesc": "Datum gemaakt - Aflopend",

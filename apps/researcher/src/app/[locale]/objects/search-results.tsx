@@ -26,6 +26,7 @@ import {
 import {
   MultiSelectFacet,
   SearchableMultiSelectFacet,
+  TreeFacet,
   Paginator,
   SelectedFilters,
   SearchFieldWithLabel,
@@ -88,8 +89,13 @@ const periodFacetProps = {
 // everything dated — was dropped the moment a start year was typed, because
 // it has no start year to compare. Periods are now browsable buckets read
 // from the museum's own dating statement.
+//
+// The four thesaurus facets filter on their *Path field, whose values are
+// whole chains, and TreeFacet renders those as the hierarchy they describe:
+// the sidebar keeps the five broadest terms, the modal opens the tree.
+// Choosing a broad term finds everything catalogued beneath it.
 const facets: ReadonlyArray<Facet> = [
-  {name: 'locations', Component: SearchableMultiSelectFacet},
+  {name: 'locations', Component: TreeFacet},
   {
     name: 'centuries',
     Component: SearchableMultiSelectFacet,
@@ -101,18 +107,16 @@ const facets: ReadonlyArray<Facet> = [
   {name: 'decades', Component: MultiSelectFacet, onlyWith: 'centuries'},
   {name: 'datePrecision', Component: MultiSelectFacet},
   {name: 'dateOpenness', Component: MultiSelectFacet},
-  {name: 'types', Component: SearchableMultiSelectFacet},
+  {name: 'types', Component: TreeFacet},
   // Subjects: thousands of distinct terms in the Sawubona data, where the
-  // Triply index had a handful. MultiSelectFacet renders every bucket, which
-  // buried the rest of the menu; this shows the top five with the usual
-  // search / A-Z / sort modal behind "more", as types and makers do.
-  {name: 'subjects', Component: SearchableMultiSelectFacet},
-  {name: 'materials', Component: SearchableMultiSelectFacet},
+  // Triply index had a handful — which is exactly what a tree is for.
+  {name: 'subjects', Component: TreeFacet},
+  {name: 'materials', Component: TreeFacet},
   // New in the second delivery. Where an object was made is `locations`;
   // what it depicts is its own question, and the culture it belongs to is a
   // third. Both used to land in `subjects` as bare thesaurus IRIs.
   {name: 'placesDepicted', Component: SearchableMultiSelectFacet},
-  {name: 'cultures', Component: SearchableMultiSelectFacet},
+  {name: 'cultures', Component: TreeFacet},
   {name: 'creators', Component: SearchableMultiSelectFacet},
   {name: 'publishers', Component: MultiSelectFacet},
 ];
@@ -145,19 +149,6 @@ const asDecade: Labeller = (filters, t) =>
     .sort((a, b) => Number(a.id) - Number(b.id))
     .map(filter => ({...filter, name: t('decade', {decade: filter.id})}));
 
-// A *Path value is the whole chain in one string —
-// "Asia|South-eastern Asia|Indonesia|North Maluku|Moluccas" — which is what
-// the locations facet has been putting in its checkboxes. Show the term
-// itself. The ancestry is what makes the filter roll up; it is not what the
-// label needs to say, and the id keeps the full chain so filtering is
-// unaffected. Superseded by the tree facet, which can show the depth
-// instead of discarding it.
-const asPathLeaf: Labeller = filters =>
-  filters.map(filter => {
-    const path = String(filter.name ?? filter.id);
-    return {...filter, name: path.split('|').pop() || path};
-  });
-
 // Fixed vocabularies, so each value gets its own message key.
 const asTerm =
   (prefix: string): Labeller =>
@@ -167,7 +158,6 @@ const asTerm =
 const labellers: Partial<
   Record<keyof HeritageObjectSearchResult['filters'], Labeller>
 > = {
-  locations: asPathLeaf,
   centuries: asCentury,
   decades: asDecade,
   datePrecision: asTerm('datePrecisionValue'),

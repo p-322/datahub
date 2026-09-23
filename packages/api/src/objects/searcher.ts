@@ -39,27 +39,22 @@ export type ConstructorOptions = z.infer<typeof constructorOptionsSchema>;
 //   typesPath, subjectsPath, materialsPath, culturesPath   0.0% identical
 //   placesDepictedPath, locationsCreatedPath             100.0% identical
 //
-// So the AAT-backed fields are now Dutch. They are still NOT used here, for
-// a different reason: a Path value is the whole chain in one string —
+// So the AAT-backed fields are now Dutch, and the facets that have a tree to
+// draw take their Path field: Dutch labels AND the roll-up, with the chain
+// rendered as depth rather than as sixty characters of text. `locations`
+// keeps its Path as it always had — English on both sides, so the hierarchy
+// there costs nothing.
 //
-//   "kostuum (wijze van mode)|kledingaccessoires|…|hoeden"
-//
-// — and a flat checkbox list has nowhere to put that. The plain fields
-// already give these facets their Dutch labels, so flipping would trade a
-// readable label for an unreadable one and gain only the roll-up, which
-// needs a facet that can draw a tree. That is the next piece of work; the
-// flip belongs with it, not before it.
-//
-// `locations` is the exception, and not a happy one: it has no plain
-// equivalent, so it has been on its Path field all along, rendering those
-// chains verbatim in the sidebar. Until the tree facet lands, the search
-// page labels it with the last segment alone.
+// `placesDepicted` is the one that does not: its Path is English while its
+// plain field is localized for 74% of values ("Indonesië" against
+// "Indonesia"), and Dutch labels are worth more than a roll-up over a
+// vocabulary this shallow.
 const facetFields = {
-  types: {field: 'facets.types', localized: true},
-  subjects: {field: 'facets.subjects', localized: true},
+  types: {field: 'facets.typesPath', localized: true},
+  subjects: {field: 'facets.subjectsPath', localized: true},
   locations: {field: 'facets.locationsCreatedPath', localized: true},
-  materials: {field: 'facets.materials', localized: true},
-  cultures: {field: 'facets.cultures', localized: true},
+  materials: {field: 'facets.materialsPath', localized: true},
+  cultures: {field: 'facets.culturesPath', localized: true},
   placesDepicted: {field: 'facets.placesDepicted', localized: true},
   creators: {field: 'facets.creators', localized: false},
   publishers: {field: 'facets.publisher', localized: true},

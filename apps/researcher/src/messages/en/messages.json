@@ -407,7 +407,11 @@
       "openStart": "Start unknown",
       "openEnd": "End unknown",
       "unbounded": "Neither end known"
-    }
+    },
+    "treeExpand": "Show what is under {name}",
+    "treeCollapse": "Hide what is under {name}",
+    "treeNoMatches": "No terms match your search.",
+    "treeAboutText": "These terms come from a thesaurus, so they sit inside broader ones. Choosing a broad term also finds the objects catalogued under everything below it — picking 'headgear' includes the hats. The number beside a term counts those objects too."
   },
   "Sort": {
     "dateCreatedDesc": "Date made - Descending",

@@ -8,3 +8,4 @@ export * from './order-selector';
 export * from './multi-select-facet';
 export * from './searchable-multi-select-facet';
 export * from './date-range-facet';
+export * from './tree-facet';

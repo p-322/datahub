@@ -77,7 +77,9 @@ describe('search', () => {
     ]);
     expect(body.query.bool.filter).toStrictEqual([
       {term: {kind: 'HeritageObject'}},
-      {term: {'facets.materials.nl': 'hout'}},
+      // A selected value is the whole chain, because that is what the Path
+      // field holds and what the tree facet checkbox carries as its id.
+      {term: {'facets.materialsPath.nl': 'hout'}},
       // Overlap against the range field, so an object whose start year is
       // unknown is not silently dropped by a "from" year.
       {range: {'facets.dateCreated': {gte: 1800, relation: 'intersects'}}},
@@ -95,16 +97,24 @@ describe('search', () => {
     // Which field a facet aggregates on is a judgement — Dutch labels from
     // the plain field, or the thesaurus roll-up from the Path one — so it is
     // asserted rather than left to drift. See the note above facetFields.
-    expect(body.aggregations.types.terms.field).toBe('facets.types.nl');
-    expect(body.aggregations.subjects.terms.field).toBe('facets.subjects.nl');
-    expect(body.aggregations.materials.terms.field).toBe('facets.materials.nl');
-    expect(body.aggregations.cultures.terms.field).toBe('facets.cultures.nl');
-    expect(body.aggregations.placesDepicted.terms.field).toBe(
-      'facets.placesDepicted.nl'
+    // The four the tree facet draws:
+    expect(body.aggregations.types.terms.field).toBe('facets.typesPath.nl');
+    expect(body.aggregations.subjects.terms.field).toBe(
+      'facets.subjectsPath.nl'
     );
-    // The one facet with no plain equivalent, so it carries the chains.
+    expect(body.aggregations.materials.terms.field).toBe(
+      'facets.materialsPath.nl'
+    );
     expect(body.aggregations.locations.terms.field).toBe(
       'facets.locationsCreatedPath.nl'
+    );
+    expect(body.aggregations.cultures.terms.field).toBe(
+      'facets.culturesPath.nl'
+    );
+    // And the one that stays on its plain field, because its Path is English
+    // while this is localized.
+    expect(body.aggregations.placesDepicted.terms.field).toBe(
+      'facets.placesDepicted.nl'
     );
 
     expect(result.totalCount).toBe(1);
