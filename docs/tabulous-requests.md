@@ -26,6 +26,7 @@ which ~28 minutes is the load).
 | 5 | Split `facets.subjects` into subjects / places / cultures | agreed, building |
 | 6 | Flatten `search.<locale>` | on hold |
 | 7 | Dutch names in `facets.countriesCreated.nl` | on hold |
+| 8 | `locationsCreatedPath`: the same place filed at two depths | **question first** |
 
 Agreed sequence: 1 and 2 together, then 5, then 3 — three commits on their side,
 **one delivery**, so the datahub reindexes once. Their pipeline's Temporal
@@ -346,6 +347,82 @@ worth blocking a delivery for.
 `facets.countriesCreated.<locale>`, so Dutch values simply start appearing. It
 would also remove the reason locations are the one facet allowed to use its
 `*Path` field today (request 2).
+
+---
+
+## 8. `locationsCreatedPath`: the same place filed at two depths
+
+**A question before a request.** We cannot tell from the delivery whether this
+is intended, so the first thing we want is an answer, not a change.
+
+**What we see.** The locations facet is now a tree, built from
+`facets.locationsCreatedPath` by splitting each value on `|` and nesting each
+chain under the chain it extends. That works: five continents come out on top
+with the counts you would expect. But alongside them sit about twenty other
+roots — values with no `|` in them at all, so nothing to nest them under.
+From `sawubona-objects-v3` (the full index, 1,039,214 documents):
+
+    Asia 346040   Americas 75469   Africa 70348   Oceania 20288   Europe 6040
+    Central Africa 763    Western Africa 730    North America 629
+    Southern Africa 516   Eastern Africa 459    Northern Africa 352
+    South America 352     Northern Europe 322   Sahara 311
+    Caribbean 117         Davis Strait 110      Middle America 103
+    Melanesia 78          Central Asia 35       Polynesia 35
+    Atlas Mountains 32    Andes Mountains 19    Atlantic Ocean 17   Taiwan 16
+
+**The part that looks like a defect.** Seven of these also appear *as a child
+of a continent* elsewhere in the same field: South America, Northern Africa,
+Western Africa, Caribbean, Southern Africa, Eastern Africa, Polynesia. So
+`"Western Africa"` and `"Africa|Western Africa"` are both values of the same
+field, in the same index, for the same place — which object you are looking at
+decides which one you get. That reads like the ancestry lookup succeeding for
+some objects and not for others, rather than a deliberate distinction.
+
+That finding comes from a 20,000-document sample, and the sample is taken from
+the head of the file, which is not randomly ordered. The authoritative list is
+
+    curl -s -H 'Content-Type: application/json' \
+      "$ES/sawubona-objects-v3/_search?size=0" -d '{"aggs":{"roots":
+      {"terms":{"field":"facets.locationsCreatedPath.en","size":10000,
+      "include":"[^|]*"}}}}' | jq -r '.aggregations.roots.buckets[]
+      | "\(.doc_count)\t\(.key)"'
+
+**The part that is probably just GeoNames.** The rest — Sahara, Atlantic
+Ocean, Andes Mountains, Davis Strait, Atlas Mountains, Taiwan, Central Africa,
+North America, Middle America, Northern Europe, Melanesia, Central Asia — are
+features and regions that plausibly have no continent above them in the
+GeoNames hierarchy you are walking. If that is so, say so and we will present
+them as what they are rather than chase it.
+
+**So, three questions.**
+
+1. For the seven: is a place sometimes resolved with its continent and
+   sometimes without, or are these genuinely different GeoNames entries that
+   happen to share a name?
+2. If it is a resolution gap — can a value always carry its full ancestry, so
+   that a place appears at exactly one depth?
+3. For the rest: is "no continent above it" the truth of the source, or the
+   walk stopping early?
+
+**What we are not asking for.** Do not collapse them on your side by guessing
+a parent. A wrong parent is worse than no parent: it puts objects under a
+continent they do not belong to and nothing downstream can tell.
+
+**Then on our side.** If the seven get their ancestry, nothing — the tree
+nests them automatically, because it is built from the chains. Until then we
+leave them as roots. We will not fold `"Western Africa"` into
+`"Africa|Western Africa"` in the interface, because they are different index
+values: a merged row would show a count that clicking it cannot reproduce.
+That is the same rule that makes a parent's count come from the index rather
+than from summing its children. The most we will do is group the parentless
+ones under a heading that says they are not placed in a continent —
+`packages/ui/list/tree-facet.tsx`, one extra section in the modal.
+
+Worth noting this affects only the display of locations. Filtering is correct
+either way: selecting `"Africa"` returns every object whose path starts with
+Africa, and selecting `"Western Africa"` returns the ones filed under the bare
+value. No object is unreachable; some are reachable from a place you would not
+think to look.
 
 ---
 
