@@ -240,12 +240,36 @@ const precisionsWithinADecade: ReadonlySet<DatePrecision> = new Set([
   'decade',
 ]);
 
+/**
+ * Whether a date can be placed on the browsable period scale at all.
+ *
+ * Nothing in a museum was made after today, so a creation year in the future
+ * is a cataloguing error. The first Wereldmuseum delivery has twenty: `2500`
+ * seventeen times, plus `2450`, `3000~` and `9131-05-21`. The first three sit
+ * beside correctly signed BCE dates in the same collection (`-2449~`,
+ * `-2999`, `-3499`), so they read as BCE dates that lost their minus.
+ *
+ * Twenty records out of a million change no search result, but each one adds
+ * a row to the period facet, and "92nd century" next to "19th century" makes
+ * the whole facet look untrustworthy. So they keep their date and their
+ * label — we are not correcting anybody's data — and are simply left off the
+ * scale.
+ */
+function isPlausible(year: number) {
+  return year <= new Date().getUTCFullYear();
+}
+
 function spread(
   precision: DatePrecision,
   startYear?: number,
   endYear?: number
 ) {
-  if (startYear === undefined || endYear === undefined) {
+  if (
+    startYear === undefined ||
+    endYear === undefined ||
+    !isPlausible(startYear) ||
+    !isPlausible(endYear)
+  ) {
     return {centuries: [], decades: []};
   }
 

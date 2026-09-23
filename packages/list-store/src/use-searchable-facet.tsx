@@ -6,6 +6,12 @@ import {useMemo, useRef, createContext, useContext} from 'react';
 export enum FacetSortBy {
   alphabetical = 'alphabetical',
   count = 'count',
+  // For facets whose ids are numbers on a scale rather than labels — the
+  // period facet, whose ids are the first year of each century. Neither of
+  // the other two can order those: by count the list jumps about, and
+  // alphabetically "10th century" lands before "1st century". Sorts by the
+  // id, so it never depends on how a locale words the label.
+  chronological = 'chronological',
 }
 
 export interface Filter {
@@ -179,18 +185,41 @@ export function getFilteredFilters({
     letterCategory
   );
 
+  // Sorting a copy: when nothing is filtered out the array above is the
+  // memoized one, and sorting it in place mutates a value React is holding.
+  const sorted = [...filtersFilteredByLetterCategory];
+
   if (sortBy === FacetSortBy.alphabetical) {
-    return filtersFilteredByLetterCategory.sort((a, b) => {
+    return sorted.sort((a, b) => {
       if (a.name && b.name) {
         return a.name.localeCompare(b.name);
       }
       return 0;
     });
-  } else {
-    return filtersFilteredByLetterCategory.sort((a, b) => {
-      return b.totalCount - a.totalCount;
-    });
   }
+
+  if (sortBy === FacetSortBy.chronological) {
+    return sorted.sort((a, b) => byId(a) - byId(b));
+  }
+
+  return sorted.sort((a, b) => b.totalCount - a.totalCount);
+}
+
+// An id that is not a number sorts last rather than scrambling the scale.
+function byId(filter: SearchableFilter) {
+  const value = Number(filter.id);
+  return Number.isNaN(value) ? Number.POSITIVE_INFINITY : value;
+}
+
+/**
+ * The most populated filters, whatever order the expanded facet is in. The
+ * sidebar shows a handful as a summary — "this collection is mostly 19th and
+ * 20th century" — while browsing the whole scale happens in the modal.
+ */
+export function mostPopulated<T extends Filter>(filters: T[], limit: number) {
+  return [...filters]
+    .sort((a, b) => b.totalCount - a.totalCount)
+    .slice(0, limit);
 }
 
 export function useSearchableMultiSelectFacet() {

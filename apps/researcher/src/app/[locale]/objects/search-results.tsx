@@ -8,6 +8,7 @@ import {
 } from './sort-mapping';
 import {
   defaultLimit,
+  FacetSortBy,
   fromSearchParamsToSearchOptions,
   getClientSortBy,
   ImageFetchMode,
@@ -68,7 +69,20 @@ interface Facet {
   Component: ElementType;
   // Render this facet only when another one has a selection.
   onlyWith?: keyof HeritageObjectSearchResult['filters'];
+  // Passed through to the component, for facets that need it.
+  props?: Record<string, unknown>;
 }
+
+// The collection spans the 101st century BCE to the 21st, so the period
+// facet has some seventy buckets — too many for the sidebar, and neither of
+// the usual orders reads as a scale. The sidebar shows the five biggest,
+// which says at a glance where this collection sits; the modal lists every
+// period in order.
+const periodFacetProps = {
+  defaultSortBy: FacetSortBy.chronological,
+  sortOptions: [FacetSortBy.chronological, FacetSortBy.count],
+  showLetterCategories: false,
+};
 
 // The two "from"/"to" year boxes are gone. They asked the user to know the
 // numbers, they filtered by containment so an object dated 1830/1860 vanished
@@ -78,9 +92,14 @@ interface Facet {
 // from the museum's own dating statement.
 const facets: ReadonlyArray<Facet> = [
   {name: 'locations', Component: SearchableMultiSelectFacet},
-  {name: 'centuries', Component: MultiSelectFacet},
+  {
+    name: 'centuries',
+    Component: SearchableMultiSelectFacet,
+    props: periodFacetProps,
+  },
   // Decades only once a century is chosen: a hundred decades in the sidebar
-  // helps nobody, and drilling in is what the century list is for.
+  // helps nobody, and drilling in is what the century list is for. With a
+  // century picked there are at most ten, so the plain list is right.
   {name: 'decades', Component: MultiSelectFacet, onlyWith: 'centuries'},
   {name: 'datePrecision', Component: MultiSelectFacet},
   {name: 'dateOpenness', Component: MultiSelectFacet},
@@ -104,21 +123,19 @@ type Labeller = (
   t: (key: string, values?: Record<string, string | number>) => string
 ) => SearchResultFilter[];
 
+// Ordering is the facet's job here — it sorts by id, which is the century's
+// first year, so it stays chronological in any language.
 const asCentury: Labeller = (filters, t) =>
-  [...filters]
-    // Chronological, not by count: a list of periods that jumps about is
-    // unreadable.
-    .sort((a, b) => Number(a.id) - Number(b.id))
-    .map(filter => {
-      const firstYear = Number(filter.id);
-      const ordinal = Math.floor(Math.abs(firstYear) / 100) + 1;
-      return {
-        ...filter,
-        name: t(firstYear < 0 ? 'centuryBeforeCommonEra' : 'century', {
-          century: ordinal,
-        }),
-      };
-    });
+  filters.map(filter => {
+    const firstYear = Number(filter.id);
+    const ordinal = Math.floor(Math.abs(firstYear) / 100) + 1;
+    return {
+      ...filter,
+      name: t(firstYear < 0 ? 'centuryBeforeCommonEra' : 'century', {
+        century: ordinal,
+      }),
+    };
+  });
 
 const asDecade: Labeller = (filters, t) =>
   [...filters]
@@ -151,7 +168,7 @@ async function FacetMenu({filters, selected}: FacetMenuProps) {
   return (
     <div className="w-full flex flex-col gap-6">
       <SearchFieldWithLabel />
-      {facets.map(({name, Component, onlyWith}) => {
+      {facets.map(({name, Component, onlyWith, props}) => {
         if (onlyWith !== undefined && !hasSelection(selected[onlyWith])) {
           return null;
         }
@@ -166,6 +183,7 @@ async function FacetMenu({filters, selected}: FacetMenuProps) {
             testId={`${name}Filter`}
             filterKey={name}
             filters={label ? label(filters[key], t) : filters[key]}
+            {...props}
           />
         );
       })}

@@ -374,6 +374,7 @@
     "filterPlaceholder": "Filter {filterName}",
     "orderAlphabetically": "Sorteer alfabetisch",
     "orderByCount": "Sorteer op aantal",
+    "orderChronologically": "Sorteer op periode",
     "selectedFilters": "Geselecteerde filters",
     "aboutFacetsHeader": "Over de facetten",
     "aboutFacetsText": "De gegevens van deze facetten worden verzameld uit meerdere datasets. We zijn bezig de kwaliteit van deze facetten te verbeteren.",

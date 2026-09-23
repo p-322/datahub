@@ -14,13 +14,28 @@ import {
   useSearchableMultiSelectFacet,
   FacetSortBy,
   FacetProvider,
+  mostPopulated,
 } from '@colonial-collections/list-store';
+
+const sortOptionLabels: Record<FacetSortBy, string> = {
+  [FacetSortBy.alphabetical]: 'orderAlphabetically',
+  [FacetSortBy.count]: 'orderByCount',
+  [FacetSortBy.chronological]: 'orderChronologically',
+};
+
+const defaultSortOptions = [FacetSortBy.alphabetical, FacetSortBy.count];
 
 interface ExpandedFacetProps {
   filterKey: string;
+  sortOptions: FacetSortBy[];
+  showLetterCategories: boolean;
 }
 
-function ExpandedFacet({filterKey}: ExpandedFacetProps) {
+function ExpandedFacet({
+  filterKey,
+  sortOptions,
+  showLetterCategories,
+}: ExpandedFacetProps) {
   const {
     searchValue,
     setSearchValue,
@@ -52,20 +67,25 @@ function ExpandedFacet({filterKey}: ExpandedFacetProps) {
           </div>
           <div className="py-4 my-4 border-y flex flex-col lg:flex-row justify-between">
             <div className="flex flex-row gap-2">
-              {letterCategories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => toggleLetterCategory(category)}
-                  className={
-                    letterCategory === category
-                      ? 'px-1 bg-black text-white rounded'
-                      : ''
-                  }
-                  aria-label={t('accessibilityInitLetter', {category})}
-                >
-                  {category}
-                </button>
-              ))}
+              {/* Jumping to an initial only helps where the labels are
+                  names. On a numeric scale it groups "1st", "10th" and
+                  "19th century" under 1, so the facet says so and the strip
+                  is left out. */}
+              {showLetterCategories &&
+                letterCategories.map(category => (
+                  <button
+                    key={category}
+                    onClick={() => toggleLetterCategory(category)}
+                    className={
+                      letterCategory === category
+                        ? 'px-1 bg-black text-white rounded'
+                        : ''
+                    }
+                    aria-label={t('accessibilityInitLetter', {category})}
+                  >
+                    {category}
+                  </button>
+                ))}
             </div>
             <div>
               <select
@@ -75,8 +95,11 @@ function ExpandedFacet({filterKey}: ExpandedFacetProps) {
                 value={sortBy}
                 onChange={event => setSortBy(event.target.value as FacetSortBy)}
               >
-                <option value="alphabetical">{t('orderAlphabetically')}</option>
-                <option value="count">{t('orderByCount')}</option>
+                {sortOptions.map(option => (
+                  <option key={option} value={option}>
+                    {t(sortOptionLabels[option])}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -121,13 +144,19 @@ export function FirstFilters({
   filterKey: string;
   filters: SearchResultFilter[];
 }) {
-  const {filteredFilters, setFilters} = useSearchableMultiSelectFacet();
+  const {setFilters} = useSearchableMultiSelectFacet();
   useEffect(() => {
     setFilters(filters);
   }, [filters, setFilters]);
+
+  // Always the biggest five, whatever order the modal is in. The sidebar is
+  // a summary of where the collection actually sits; the modal is for
+  // browsing the rest.
+  const preview = mostPopulated(filters, 5);
+
   return (
     <>
-      {filteredFilters.slice(0, 5).map(filter => (
+      {preview.map(filter => (
         <FacetCheckBox
           key={`SearchableMultiSelectFacet-${filter.id}`}
           filterKey={filterKey}
@@ -145,6 +174,12 @@ interface Props {
   filters: SearchResultFilter[];
   filterKey: string;
   testId?: string;
+  // How the expanded facet orders its list, and which orders it offers. The
+  // default suits facets whose values are names; a facet on a numeric scale
+  // passes chronological.
+  defaultSortBy?: FacetSortBy;
+  sortOptions?: FacetSortBy[];
+  showLetterCategories?: boolean;
 }
 
 export function SearchableMultiSelectFacet({
@@ -152,6 +187,9 @@ export function SearchableMultiSelectFacet({
   filters,
   filterKey,
   testId,
+  defaultSortBy = FacetSortBy.count,
+  sortOptions = defaultSortOptions,
+  showLetterCategories = true,
 }: Props) {
   const t = useTranslations('Filters');
 
@@ -164,12 +202,16 @@ export function SearchableMultiSelectFacet({
       <div className="flex items-center w-full my-1">
         <FacetTitle />
       </div>
-      <FacetProvider filters={filters}>
+      <FacetProvider filters={filters} sortBy={defaultSortBy}>
         <>
           <FirstFilters filterKey={filterKey} filters={filters} />
           <Modal id={filterKey}>
             <ModalHeader title={title} />
-            <ExpandedFacet filterKey={filterKey} />
+            <ExpandedFacet
+              filterKey={filterKey}
+              sortOptions={sortOptions}
+              showLetterCategories={showLetterCategories}
+            />
           </Modal>
         </>
       </FacetProvider>

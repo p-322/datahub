@@ -155,4 +155,29 @@ describe('toDateFacets', () => {
     expect(toDateFacets(undefined)).toStrictEqual({});
     expect(toDateFacets('not a date')).toStrictEqual({});
   });
+
+  // The four impossible periods in the first delivery. Each record keeps its
+  // date and its label; it just does not join the period scale, so one
+  // mistyped year cannot put a "92nd century" row in the facet.
+  it.each(['2450', '2500', '3000~', '9131-05-21'])(
+    'keeps a creation year in the future off the period scale: %s',
+    value => {
+      const facets = toDateFacets(value);
+      expect(facets.dateCreated).toBeDefined();
+      expect(facets.centuries).toBeUndefined();
+      expect(facets.decades).toBeUndefined();
+    }
+  );
+
+  it('still places a date from this year', () => {
+    const thisYear = new Date().getUTCFullYear();
+    expect(toDateFacets(String(thisYear)).centuries).toStrictEqual([
+      Math.floor(thisYear / 100) * 100,
+    ]);
+  });
+
+  it('places the BCE dates those errors were probably meant to be', () => {
+    expect(describeEdtf('-2449~')?.centuries).toStrictEqual([-2500]);
+    expect(describeEdtf('-3499')?.centuries).toStrictEqual([-3500]);
+  });
 });
