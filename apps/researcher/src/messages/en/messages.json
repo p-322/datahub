@@ -358,6 +358,8 @@
     "deathPlacesFilter": "Death places",
     "publishersFilter": "Data providers",
     "materialsFilter": "Materials",
+    "placesDepictedFilter": "Places depicted",
+    "culturesFilter": "Cultures",
     "creatorsFilter": "Maker(s)",
     "locationsFilter": "Locations of creation",
     "search": "Search for text",
@@ -563,7 +565,15 @@
     "loot": "Loot",
     "lootDescription": "The status or condition of property having been damaged or carried off as booty in time of war or unrest.",
     "confiscated": "Confiscated",
-    "confiscatedDescription": "The status or condition of property having been taken or forfeited by a governmental or other entity in power or having authority."
+    "confiscatedDescription": "The status or condition of property having been taken or forfeited by a governmental or other entity in power or having authority.",
+    "kind": {
+      "acquisition": "Acquisition",
+      "production": "Production",
+      "transferOfCustody": "Transfer of custody",
+      "historicalEvent": "Historical event",
+      "destruction": "Destruction",
+      "activity": "Activity"
+    }
   },
   "SignedOutSlideOut": {
     "description": "With this account you can unlock more functionality of this platform. Creating an account free of charge. <link>See what else you can do with an account</link>.",

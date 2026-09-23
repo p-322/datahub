@@ -31,6 +31,8 @@ const response = {
         {key: 'pigment', doc_count: 1},
       ],
     },
+    cultures: {buckets: [{key: 'Melanesisch', doc_count: 1}]},
+    placesDepicted: emptyAggregation,
     creators: emptyAggregation,
     publishers: emptyAggregation,
     centuries: {buckets: [{key: 1800, doc_count: 1}]},
@@ -88,6 +90,21 @@ describe('search', () => {
     });
     expect(body.aggregations.publishers.terms.field).toBe(
       'facets.publisher.nl'
+    );
+
+    // Which field a facet aggregates on is a judgement — Dutch labels from
+    // the plain field, or the thesaurus roll-up from the Path one — so it is
+    // asserted rather than left to drift. See the note above facetFields.
+    expect(body.aggregations.types.terms.field).toBe('facets.types.nl');
+    expect(body.aggregations.subjects.terms.field).toBe('facets.subjects.nl');
+    expect(body.aggregations.materials.terms.field).toBe('facets.materials.nl');
+    expect(body.aggregations.cultures.terms.field).toBe('facets.cultures.nl');
+    expect(body.aggregations.placesDepicted.terms.field).toBe(
+      'facets.placesDepicted.nl'
+    );
+    // The one facet with no plain equivalent, so it carries the chains.
+    expect(body.aggregations.locations.terms.field).toBe(
+      'facets.locationsCreatedPath.nl'
     );
 
     expect(result.totalCount).toBe(1);

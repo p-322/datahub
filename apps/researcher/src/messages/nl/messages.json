@@ -359,6 +359,8 @@
     "publishersFilter": "Bronhouders",
     "locationsFilter": "Locaties van creatie",
     "materialsFilter": "Materialen",
+    "placesDepictedFilter": "Afgebeelde plaatsen",
+    "culturesFilter": "Culturen",
     "creatorsFilter": "Maker(s)",
     "search": "Zoeken",
     "filters": "Filters",
@@ -563,7 +565,15 @@
     "loot": "Buit",
     "lootDescription": "De status of toestand van eigendom dat als oorlogsbuit beschadigd of meegenomen is in tijden van oorlog of onrust.",
     "confiscated": "Geconfisqueerd",
-    "confiscatedDescription": "De status of toestand van eigendom dat is ingenomen of verbeurd verklaard door een regeringsinstantie of andere machthebbende entiteit."
+    "confiscatedDescription": "De status of toestand van eigendom dat is ingenomen of verbeurd verklaard door een regeringsinstantie of andere machthebbende entiteit.",
+    "kind": {
+      "acquisition": "Verwerving",
+      "production": "Vervaardiging",
+      "transferOfCustody": "Overdracht van beheer",
+      "historicalEvent": "Historische gebeurtenis",
+      "destruction": "Vernietiging",
+      "activity": "Activiteit"
+    }
   },
   "SignedOutSlideOut": {
     "description": "Met dit account kun je meer functionaliteit van deze platform ontgrendelen. Een account aanmaken is gratis. <link>Zie wat je nog meer kunt doen met een account</link>.",

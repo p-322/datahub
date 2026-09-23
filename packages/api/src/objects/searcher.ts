@@ -29,19 +29,38 @@ export type ConstructorOptions = z.infer<typeof constructorOptionsSchema>;
 //
 // The *Path fields carry a term AND its thesaurus ancestors (self-inclusive),
 // so filtering on a broad term matches the narrower ones: "headgear" catches
-// "hats", "Asia" catches "Java". Worth having — but in the first Wereldmuseum
-// delivery the Path fields are English in both locales (AAT and GeoNames are
-// English), while the plain fields are properly localized. So:
-//   types, subjects, materials → plain fields: Dutch labels for Dutch users,
-//     at the cost of the hierarchy roll-up.
-//   locations → Path: countriesCreated is English in both locales anyway, so
-//     the hierarchy is free there.
-// Flip a line back to its *Path field once Tabulous localizes those fields.
+// "hats", "Asia" catches "Java". The first delivery had them English in both
+// locales, which was worth more in Dutch labels than in hierarchy, so the
+// thesaurus facets used the plain fields instead.
+//
+// The second delivery localizes them, measured over 20,000 documents by how
+// often the nl array is identical to the en one:
+//
+//   typesPath, subjectsPath, materialsPath, culturesPath   0.0% identical
+//   placesDepictedPath, locationsCreatedPath             100.0% identical
+//
+// So the AAT-backed fields are now Dutch. They are still NOT used here, for
+// a different reason: a Path value is the whole chain in one string —
+//
+//   "kostuum (wijze van mode)|kledingaccessoires|…|hoeden"
+//
+// — and a flat checkbox list has nowhere to put that. The plain fields
+// already give these facets their Dutch labels, so flipping would trade a
+// readable label for an unreadable one and gain only the roll-up, which
+// needs a facet that can draw a tree. That is the next piece of work; the
+// flip belongs with it, not before it.
+//
+// `locations` is the exception, and not a happy one: it has no plain
+// equivalent, so it has been on its Path field all along, rendering those
+// chains verbatim in the sidebar. Until the tree facet lands, the search
+// page labels it with the last segment alone.
 const facetFields = {
   types: {field: 'facets.types', localized: true},
   subjects: {field: 'facets.subjects', localized: true},
   locations: {field: 'facets.locationsCreatedPath', localized: true},
   materials: {field: 'facets.materials', localized: true},
+  cultures: {field: 'facets.cultures', localized: true},
+  placesDepicted: {field: 'facets.placesDepicted', localized: true},
   creators: {field: 'facets.creators', localized: false},
   publishers: {field: 'facets.publisher', localized: true},
   // Derived from the EDTF statement at index time; see packages/api/src/edtf.ts.
@@ -77,6 +96,8 @@ const searchOptionsSchema = z.object({
       subjects: z.array(z.string()).optional().default([]),
       locations: z.array(z.string()).optional().default([]),
       materials: z.array(z.string()).optional().default([]),
+      cultures: z.array(z.string()).optional().default([]),
+      placesDepicted: z.array(z.string()).optional().default([]),
       creators: z.array(z.string()).optional().default([]),
       publishers: z.array(z.string()).optional().default([]),
       centuries: z.array(z.string()).optional().default([]),
@@ -122,6 +143,8 @@ const rawSearchResponseSchema = z.object({
     subjects: rawAggregationSchema,
     locations: rawAggregationSchema,
     materials: rawAggregationSchema,
+    cultures: rawAggregationSchema,
+    placesDepicted: rawAggregationSchema,
     creators: rawAggregationSchema,
     publishers: rawAggregationSchema,
     centuries: rawAggregationSchema,
@@ -249,6 +272,8 @@ export class HeritageObjectSearcher {
         subjects: this.buildFilters(aggregations.subjects.buckets),
         locations: this.buildFilters(aggregations.locations.buckets),
         materials: this.buildFilters(aggregations.materials.buckets),
+        cultures: this.buildFilters(aggregations.cultures.buckets),
+        placesDepicted: this.buildFilters(aggregations.placesDepicted.buckets),
         creators: this.buildFilters(aggregations.creators.buckets),
         publishers: this.buildFilters(aggregations.publishers.buckets),
         centuries: this.buildFilters(aggregations.centuries.buckets),

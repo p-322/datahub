@@ -17,6 +17,12 @@ export type HeritageObjectSearchResult = {
     subjects: SearchResultFilter[];
     locations: SearchResultFilter[];
     materials: SearchResultFilter[];
+    // The culture an object belongs to (AAT), and the places it depicts
+    // (GeoNames) as distinct from where it was made. Both arrived with the
+    // second delivery; before it, these values fell back to raw thesaurus
+    // IRIs inside `subjects`.
+    cultures: SearchResultFilter[];
+    placesDepicted: SearchResultFilter[];
     creators: SearchResultFilter[];
     publishers: SearchResultFilter[];
     // Dates, read from the museum's EDTF statement at index time

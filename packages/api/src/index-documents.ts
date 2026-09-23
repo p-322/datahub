@@ -199,7 +199,12 @@ export function localize(
 
 // ── Mappers: document → application type ────────────────────────────────────
 
-// The first delivery writes event types as CURIEs ("aat:300157782").
+// The first delivery wrote every event type as a CURIE ("aat:300157782") —
+// all 1,656 of them in a 500-document sample. The second writes objects with
+// full IRIs instead, and not one string in 68,839. Kept anyway: the shape
+// changed once between deliveries, the schema still accepts both, and
+// without this a regression would not degrade but throw, because a document
+// that fails to parse takes its whole detail page with it.
 const curiePrefixes: Record<string, string> = {
   aat: 'http://vocab.getty.edu/aat/',
 };
