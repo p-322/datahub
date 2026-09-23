@@ -57,6 +57,10 @@ interface FacetCheckBoxProps {
   id: string | number;
   count: number;
   filterKey: string;
+  // The sidebar is a narrow column, so a long term is clipped there. A modal
+  // has the width to show it whole, and clipping a term the user opened the
+  // modal to read is the wrong trade in that direction.
+  clipName?: boolean;
 }
 
 export function FacetCheckBox({
@@ -64,6 +68,7 @@ export function FacetCheckBox({
   id,
   count,
   filterKey,
+  clipName = true,
 }: FacetCheckBoxProps) {
   const selectedFilters = useListStore(s => s.selectedFilters);
   const filterChange = useListStore(s => s.filterChange);
@@ -113,7 +118,7 @@ export function FacetCheckBox({
           disabled={!isMounted || newDataNeeded}
         />
         <div
-          className="truncate max-w-[230px]"
+          className={clipName ? 'truncate max-w-[230px]' : ''}
           aria-label={t('accessibilityFacetLabel', {title, name})}
         >
           {name}

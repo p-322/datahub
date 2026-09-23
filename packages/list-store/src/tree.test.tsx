@@ -36,6 +36,17 @@ describe('buildTree', () => {
     expect(indonesia.id).toBe('Asia|South-eastern Asia|Indonesia');
   });
 
+  // The searcher builds each filter with name === id, because a bucket key is
+  // all Elasticsearch returns. Trusting that name is how every row of the
+  // tree came out reading "Asia|South-eastern Asia|Indonesia".
+  it('ignores a name that is just the chain again', () => {
+    const roots = buildTree([
+      {id: 'Asia|Eastern Asia', name: 'Asia|Eastern Asia', totalCount: 1},
+    ] as never);
+
+    expect(roots[0].name).toBe('Eastern Asia');
+  });
+
   it('keeps the count the index gave, never the sum of its children', () => {
     // Asia's 346,040 is not 220,111 + 4,000. An object under Indonesia is
     // counted under Indonesia and under every ancestor, so adding children

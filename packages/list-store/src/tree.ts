@@ -23,7 +23,6 @@ export const pathSeparator = '|';
 
 export interface PathFilter {
   id: string | number;
-  name?: string | number;
   totalCount: number;
 }
 
@@ -58,7 +57,11 @@ export function buildTree(filters: PathFilter[]): TreeNode[] {
     const id = String(filter.id);
     nodes.set(id, {
       id,
-      name: filter.name !== undefined ? String(filter.name) : leafOf(id),
+      // Always the last segment, never the bucket's own name: for a *Path
+      // field those are the same string, so trusting the name is how the
+      // tree ended up printing "Asia|South-eastern Asia|Indonesia" on every
+      // row it drew.
+      name: leafOf(id),
       totalCount: filter.totalCount,
       depth: id.split(pathSeparator).length - 1,
       children: [],

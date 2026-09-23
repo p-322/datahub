@@ -16,8 +16,16 @@ import {
   filterTree,
   idsToExpand,
   mostPopulated,
+  pathSeparator,
   TreeNode,
 } from '@p-322/list-store';
+
+// The sidebar rows come straight from the facet, where a value is its whole
+// chain. Only the tree runs them through buildTree.
+const leafName = (filter: SearchResultFilter) => {
+  const parts = String(filter.name ?? filter.id).split(pathSeparator);
+  return parts[parts.length - 1];
+};
 
 // A facet whose values are thesaurus chains — "kostuum (wijze van mode)|
 // kledingaccessoires|hoeden" — shown as the tree they describe.
@@ -75,6 +83,7 @@ function Row({node, filterKey, expanded, toggle}: RowProps) {
             name={node.name}
             id={node.id}
             count={node.totalCount}
+            clipName={false}
           />
         </div>
       </div>
@@ -203,9 +212,7 @@ export function TreeFacet({title, filters, filterKey, testId}: Props) {
         <FacetCheckBox
           key={`TreeFacet-${filter.id}`}
           filterKey={filterKey}
-          name={String(filter.name ?? filter.id)
-            .split('|')
-            .pop()}
+          name={leafName(filter)}
           id={filter.id}
           count={filter.totalCount}
         />
