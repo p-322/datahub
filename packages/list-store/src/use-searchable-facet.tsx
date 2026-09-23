@@ -2,17 +2,13 @@
 
 import {createStore, useStore} from 'zustand';
 import {useMemo, useRef, createContext, useContext} from 'react';
-
-export enum FacetSortBy {
-  alphabetical = 'alphabetical',
-  count = 'count',
-  // For facets whose ids are numbers on a scale rather than labels — the
-  // period facet, whose ids are the first year of each century. Neither of
-  // the other two can order those: by count the list jumps about, and
-  // alphabetically "10th century" lands before "1st century". Sorts by the
-  // id, so it never depends on how a locale words the label.
-  chronological = 'chronological',
-}
+// Not defined here. A server component picks the order a facet opens in, and
+// every export of a 'use client' module becomes a client reference: reading
+// FacetSortBy.chronological on the server then yields an unresolvable
+// reference rather than the string, which took the search page down with
+// "Could not find the module ... in the React Client Manifest". An enum is
+// data, so it lives with the other enums in definitions.ts.
+import {FacetSortBy} from './definitions';
 
 export interface Filter {
   name?: string | number;

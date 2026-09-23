@@ -4,9 +4,9 @@ import {
   getFilteredFilters,
   SearchableFilter,
   Filter,
-  FacetSortBy,
   mostPopulated,
 } from './use-searchable-facet';
+import {FacetSortBy} from './definitions';
 
 describe('getLetterCategories', () => {
   it('returns an array of unique letter categories sorted alphabetically', () => {

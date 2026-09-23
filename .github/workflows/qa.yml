@@ -16,5 +16,10 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npm run lint
+      # Before the tests, because it is the cheapest check here and it guards
+      # a failure neither the tests nor `next build` can see: a dynamic page
+      # is never prerendered, so a server component reading a value out of a
+      # client module builds green and dies on the first request.
+      - run: npm run check:rsc
       - run: npm run test:ci
       - run: npm run compile

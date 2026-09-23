@@ -25,7 +25,8 @@
     "db:generate": "turbo run db:generate",
     "db:migrate": "turbo run db:migrate",
     "image:verify": "bash scripts/verify-image.sh",
-    "build:scripts": "tsc -p tsconfig.scripts.json"
+    "build:scripts": "tsc -p tsconfig.scripts.json",
+    "check:rsc": "node scripts/check-rsc-boundary.js"
   },
   "devDependencies": {
     "@p-322/eslint-config": "*",
