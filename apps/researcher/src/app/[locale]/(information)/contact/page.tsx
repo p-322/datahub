@@ -8,10 +8,7 @@ export default async function Contact() {
 
   return (
     <>
-      <LocalizedMarkdown
-        name="contact"
-        contentPath="@p-322/content"
-      />
+      <LocalizedMarkdown name="contact" contentPath="@p-322/content" />
       <p className="font-semibold">{t('mailUs')}</p>
     </>
   );

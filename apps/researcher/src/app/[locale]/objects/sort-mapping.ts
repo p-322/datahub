@@ -1,7 +1,4 @@
-import {
-  SortBy as SortBySearchOption,
-  SortOrder,
-} from '@p-322/api';
+import {SortBy as SortBySearchOption, SortOrder} from '@p-322/api';
 
 export enum SortByUserOption {
   DateCreatedDesc = 'dateCreatedDesc',

@@ -4,11 +4,7 @@ import {getTranslations} from 'next-intl/server';
 import ErrorMessage from '@/components/error-message';
 import CommunityCard from './community-card';
 import {ListStoreUpdater} from '@/components/list-store-updater';
-import {
-  Paginator,
-  SearchField,
-  OrderSelector,
-} from '@p-322/ui/list';
+import {Paginator, SearchField, OrderSelector} from '@p-322/ui/list';
 import {AddCommunityButton} from './buttons';
 import {MyCommunityToggle} from './my-community-toggle';
 import SignedIn from '@/lib/community/signed-in';

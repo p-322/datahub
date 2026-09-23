@@ -2,10 +2,7 @@
 
 import {useTranslations} from 'next-intl';
 import {Badge, BadgeAction, BadgeIcon} from '../badge';
-import {
-  useListStore,
-  Type as SearchParamType,
-} from '@p-322/list-store';
+import {useListStore, Type as SearchParamType} from '@p-322/list-store';
 import {SearchResultFilter} from './definitions';
 import {useMemo} from 'react';
 import {MagnifyingGlassIcon, TagIcon} from '@heroicons/react/24/solid';

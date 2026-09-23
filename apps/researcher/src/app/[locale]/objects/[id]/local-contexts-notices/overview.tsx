@@ -5,11 +5,7 @@ import {
   localContextsNoticeEnrichmentTypeMapping,
   LocalContextsNoticeEnrichmentType,
 } from './mapping';
-import {
-  LocalizedMarkdown,
-  Notifications,
-  SlideOutButton,
-} from '@p-322/ui';
+import {LocalizedMarkdown, Notifications, SlideOutButton} from '@p-322/ui';
 import {ChatBubbleBottomCenterTextIcon} from '@heroicons/react/24/outline';
 import {SignedInWithCommunitySideOut} from '@/components/slide-outs';
 import {LocalContextsNoticeForm} from './form';

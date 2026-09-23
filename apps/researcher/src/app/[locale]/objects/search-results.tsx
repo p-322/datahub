@@ -31,11 +31,7 @@ import {
   SearchFieldWithLabel,
   OrderSelector,
 } from '@p-322/ui/list';
-import {
-  SmallScreenSubMenu,
-  SubMenuButton,
-  SubMenuDialog,
-} from '@p-322/ui';
+import {SmallScreenSubMenu, SubMenuButton, SubMenuDialog} from '@p-322/ui';
 import {AdjustmentsHorizontalIcon} from '@heroicons/react/20/solid';
 import {ElementType} from 'react';
 import {ListStoreUpdater} from '@/components/list-store-updater';

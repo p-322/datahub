@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  useSlideOut,
-  useNotifications,
-  SlideOutButton,
-} from '@p-322/ui';
+import {useSlideOut, useNotifications, SlideOutButton} from '@p-322/ui';
 import {useForm, SubmitHandler, FormProvider} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useLocale, useTranslations} from 'next-intl';

@@ -2,10 +2,7 @@
 
 import {SearchFieldWithLabel} from '@p-322/ui/list';
 import {useRouter} from '@/navigation';
-import {
-  defaultImageFetchMode,
-  useListStore,
-} from '@p-322/list-store';
+import {defaultImageFetchMode, useListStore} from '@p-322/list-store';
 
 export function InitialSearchField() {
   const router = useRouter();

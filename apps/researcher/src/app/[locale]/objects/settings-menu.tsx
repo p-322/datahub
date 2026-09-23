@@ -1,11 +1,7 @@
 'use client';
 
 import PopoverMenu from '@/components/popover';
-import {
-  useListStore,
-  ImageFetchMode,
-  ListView,
-} from '@p-322/list-store';
+import {useListStore, ImageFetchMode, ListView} from '@p-322/list-store';
 import {ListBulletIcon, Squares2X2Icon} from '@heroicons/react/24/solid';
 import {useTranslations} from 'next-intl';
 

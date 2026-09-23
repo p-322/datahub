@@ -42,3 +42,6 @@ blob-report/
 playwright/.cache/
 # Compiled maintenance scripts (npm run build:scripts)
 build-scripts/
+
+# Local verify log (scripts/verify.sh).
+tmp/

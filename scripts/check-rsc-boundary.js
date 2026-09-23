@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // A server component may render a client component, but it may not READ a
 // value out of a 'use client' module. Next turns every export of such a
 // module into a client reference, so an enum member or a plain object comes
@@ -76,7 +75,10 @@ walk('apps/researcher/src', file => {
     if (match[1]) continue; // `import type` is erased before it can matter
     const pkg = match[3].replace(/\/list$/, '');
     for (const raw of match[2].split(',')) {
-      const name = raw.trim().split(/\s+as\s+/)[0].replace(/^type\s+/, '');
+      const name = raw
+        .trim()
+        .split(/\s+as\s+/)[0]
+        .replace(/^type\s+/, '');
       if (!name || /^type\s/.test(raw.trim())) continue;
       const hit = clientValues[pkg]?.get(name);
       if (hit) {
@@ -92,9 +94,13 @@ if (problems.length) {
   console.error(
     'Server components reading values out of client modules:\n  ' +
       problems.join('\n  ') +
-      '\n\nMove the value to a module without \'use client\' (for list-store, ' +
+      "\n\nMove the value to a module without 'use client' (for list-store, " +
       'that is src/definitions.ts).'
   );
-  process.exit(1);
+  // Not process.exit: that would cut off the write above if stderr is a pipe.
+  process.exitCode = 1;
+} else {
+  console.log(
+    'RSC boundary: no server component reads a value from a client module.'
+  );
 }
-console.log('RSC boundary: no server component reads a value from a client module.');

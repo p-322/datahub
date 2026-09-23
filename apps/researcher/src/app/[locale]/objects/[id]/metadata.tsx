@@ -1,17 +1,10 @@
 import {useTranslations} from 'next-intl';
 import {PropsWithChildren, ReactNode} from 'react';
 import useObject from './use-object';
-import {
-  SlideOutButton,
-  LocalizedMarkdown,
-  Notifications,
-} from '@p-322/ui';
+import {SlideOutButton, LocalizedMarkdown, Notifications} from '@p-322/ui';
 import {UserEnrichmentForm} from './user-enrichment-form';
 import {ChatBubbleBottomCenterTextIcon} from '@heroicons/react/24/outline';
-import type {
-  Actor,
-  HeritageObjectEnrichmentType,
-} from '@p-322/enricher';
+import type {Actor, HeritageObjectEnrichmentType} from '@p-322/enricher';
 import {ReadMoreText} from '@/components/read-more-text';
 import {SignedInWithCommunitySideOut} from '@/components/slide-outs';
 import {ProvidedBy} from './provided-by';

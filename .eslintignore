@@ -1,1 +1,3 @@
 build/
+# Compiled output of npm run build:scripts; gitignored, but lint still walks it.
+build-scripts/

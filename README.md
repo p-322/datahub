@@ -27,6 +27,16 @@ The following commands will run for all the workspaces. If you want to run a com
 
     npm install
 
+#### Before pushing
+
+    npm run verify
+
+Runs everything CI runs, in CI's order — lint, the RSC boundary check, tests,
+compile, the enrichment scripts, and the production build — stopping at the
+first failure and writing the whole output to `tmp/verify.log`. Two pushes on
+2026-09-23 went red for things already true on disk; both would have been
+caught here in a couple of minutes.
+
 #### Run development server
 
     npm run dev

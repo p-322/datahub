@@ -34,9 +34,7 @@ export async function LocalizedMarkdown({
   let Markdown;
   try {
     if (contentPath === '@p-322/content') {
-      Markdown = dynamic(
-        () => import(`@p-322/content/${locale}/${name}.mdx`)
-      );
+      Markdown = dynamic(() => import(`@p-322/content/${locale}/${name}.mdx`));
     }
     if (contentPath === '@/messages') {
       Markdown = dynamic(() => import(`@/messages/${locale}/${name}.mdx`));
