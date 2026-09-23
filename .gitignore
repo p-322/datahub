@@ -40,3 +40,5 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+# Compiled maintenance scripts (npm run build:scripts)
+build-scripts/

@@ -1,0 +1,24 @@
+{
+  // Compiles the maintenance scripts (and only what they import) to plain
+  // ESM that `node` runs directly. The repo has no TypeScript runner, and
+  // adding one made the load fail on a mismatched esbuild binary; `tsc` is
+  // already here and deterministic.
+  "extends": "./packages/ts-config/base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "build-scripts",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "lib": ["es2023"],
+    "noEmitOnError": true,
+    "declaration": false,
+    "types": ["node"]
+  },
+  // types.d.ts carries `declare module 'edtf'`.
+  "include": [
+    "scripts/**/*.ts",
+    "packages/api/src/edtf.ts",
+    "packages/api/src/types.d.ts"
+  ]
+}

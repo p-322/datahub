@@ -19,13 +19,18 @@ which ~28 minutes is the load).
 
 | # | Request | Status |
 | --- | --- | --- |
-| 1 | Hierarchical path encoding for the `*Path` facets | asked |
-| 2 | Localize the `*Path` facet labels | not yet sent |
-| 3 | Event `additionalTypes` as objects with labels | not yet sent |
-| 4 | Event parties as arrays | not yet sent |
-| 5 | Split `facets.subjects` into subjects / places / cultures | not yet sent |
-| 6 | Flatten `search.<locale>` | not yet sent |
-| 7 | Dutch names in `facets.countriesCreated.nl` | not yet sent |
+| 1 | Hierarchical path encoding for the `*Path` facets | agreed, building |
+| 2 | Localize the `*Path` facet labels | agreed for types/materials/subjects; locations stay English |
+| 3 | Event `additionalTypes` as objects with labels | agreed, needs a Getty fetch |
+| 4 | Event parties as arrays | **withdrawn** — the premise was wrong; see below |
+| 5 | Split `facets.subjects` into subjects / places / cultures | agreed, building |
+| 6 | Flatten `search.<locale>` | on hold |
+| 7 | Dutch names in `facets.countriesCreated.nl` | on hold |
+
+Agreed sequence: 1 and 2 together, then 5, then 3 — three commits on their side,
+**one delivery**, so the datahub reindexes once. Their pipeline's Temporal
+workflow state was at 2.38 MB against a 2 MiB ceiling (since raised to 32 MiB)
+and requests 1, 2 and 5 all add columns, so batching more than this is not free.
 
 ---
 
@@ -101,13 +106,11 @@ that node, so the modal loads a level per expansion instead of shipping every
 bucket to the browser. The current flat field cannot do this, and the
 aggregation is capped at 10,000 buckets to keep the response finite.
 
-**On the separator.** Across 3,109 distinct facet labels in a 9,227-document
-sample, `|` appears in none. For comparison `/` appears in three
-(`Zanzibar Central/South Region`, `combination inorganic/organic animal
-material`) and `>` in 67 (Getty's guide terms, e.g. `<iron and iron alloy>`),
-so neither of those is safe. If you would rather not rely on that sample, the
-unit separator `\u001f` cannot occur in a label at all; tell us which you pick
-and we will split on it.
+**On the separator: `|`, confirmed against the whole population.** We sampled;
+Tabulous then checked every label in every source — AAT English 7,980, AAT
+Dutch 7,887, WM thesaurus 23,165, GeoNames 9,645, M49 882, 49,559 in total —
+and `|` occurs in none of them. (`/` occurs in three, `>` in 67, so neither was
+usable.) Settled: `|`, which stays readable in a query string and in logs.
 
 **Scope.** All four path facets: `typesPath`, `materialsPath`, `subjectsPath`,
 `locationsCreatedPath`. The plain facets (`types`, `materials`, `subjects`,
@@ -164,6 +167,18 @@ With Dutch labels in the path fields, all four facets can use the hierarchy and
 the trade disappears. Worth doing together with request 1, since both touch the
 same fields.
 
+**Agreed, for three of the four.** `aat-ancestry.csv` carries `PrefLabelNl` for
+7,887 of 8,078 concepts (97.6%), so `typesPath`, `materialsPath` and
+`subjectsPath` become properly Dutch. `locationsCreatedPath` cannot: the place
+names come from GeoNames and the tiers from M49, and neither source we hold has
+a Dutch ladder. Locations therefore stay English in both locales — the same
+situation as today, and the same as `facets.countriesCreated` (request 7).
+
+**Keep emitting `.nl` for locations even though it holds English.** The searcher
+asks for `facets.locationsCreatedPath.<locale>`; if the `nl` key were omitted
+rather than duplicated, the Dutch facet would come back empty instead of merely
+untranslated.
+
 **Then on our side.** One line each in the `facetFields` table in
 `packages/api/src/objects/searcher.ts`: types, subjects and materials move from
 `facets.<name>` back to `facets.<name>Path`, and the comment explaining why we
@@ -184,8 +199,24 @@ the 133,119 `additionalTypes` values on timeline events in a 41,748-document
 sample. Those render as translated labels. The other 57.1% render as nothing,
 because there is no label to fall back on.
 
-Sending `{id, name}` fixes the whole set. Tabulous already resolves AAT labels
-for `facets.types`, so the labels are in reach.
+Sending `{id, name}` fixes the whole set — but not from the tables that exist.
+Only 1 of the 30 AAT ids used as event types appears in `aat-ancestry.csv`,
+which is built from the thesaurus alignment; the event-method vocabulary
+(`aat:300417638` gift, `300417642` purchase, `300417641` bequest…) was never
+fetched. The 29 English labels that do exist are hand-vendored in
+`aat-terms.txt` with no generator and no check, which Tabulous tracks as T16.
+No Dutch labels exist anywhere.
+
+Agreed route: extend `make-aat-ancestry.ts` to fetch those 30 ids from Getty,
+giving proper `{id, name: {nl, en}}`, rather than shipping the vendored English.
+
+**Where it belongs: the terms/facets dataset, not the index dataset.** It is a
+vocabulary rather than object data, and that is where the Getty fetch machinery
+already lives. It also keeps a network dependency and its retries out of the
+million-row index build, and out of the pipeline whose workflow state is the
+one under pressure — thirty rows will never be what exhausts it there. From the
+datahub's side the location makes no difference, as long as the labels reach
+`events[].additionalTypes[]` in the index documents.
 
 A cheaper partial alternative: the delivery already carries `event.label` on
 52.9% of timeline events, with readable Dutch ("Verwerving: schenking",
@@ -205,21 +236,35 @@ rather than the main path.
 
 ---
 
-## 4. Event parties as arrays
+## 4. Event parties as arrays — withdrawn
 
-`transferredFrom`, `transferredTo` and `carriedOutBy` carry one party each,
-while the source graph is many-valued. Your handoff puts this at 3.8% of
-maker-bearing objects showing one maker where several exist (T19), with
-`object.creators[]` complete.
+The premise was wrong, and the correction is worth recording because it was the
+request argued hardest.
 
-For a provenance timeline this matters more than the percentage suggests: "who
-handed this object to whom" is the claim the page exists to make, and showing
-one party where the record knows two states something the source does not.
+Acquisition and custody events are not truncated. Each source row is one party
+and the party id is part of the event IRI, so an object bequeathed by two people
+produces two acquisition events rather than one with a party dropped. Checked
+against 10,379 documents: 93.4% carry more than one acquisition event, and 180
+of them carry two that share both a date and an `additionalTypes` set — those
+are the multi-party transactions, present in full:
 
-Arrays would be the clean fix. If the pipeline constraint makes that hard,
-a `"partial": true` flag on the affected event would at least let the interface
-say "and others" instead of presenting a truncation as the whole truth. What we
-would rather not keep is silent truncation.
+```
+object 166532
+  1994        ['aat:300157782','aat:300417641']   from: F.E. Rosenbaum c.n.
+  1994        ['aat:300157782','aat:300417641']   from: L. Elhorst
+  1994-01-24  ['aat:300417641']                   to:   Stichting NMVW
+```
+
+Only production events truncate — one maker where an object has several, 11,040
+objects (T19). That does not justify changing `ProvenanceEvent`, so this request
+is withdrawn; a `partial` flag on production events when T19 lands is the
+proportionate fix, and Tabulous has it queued.
+
+It does leave the datahub with a display problem of its own making: the object
+above is one bequest that renders as three timeline rows. The existing grouping
+by formatted date puts all three under "1994", but within that group the same
+event type appears twice with different parties. Merging same-type same-date
+events into one row naming both parties is our work, not theirs.
 
 **Then on our side.** `transferredFrom`, `transferredTo` and `carriedOutBy`
 become arrays in `eventDocSchema` and in `ProvenanceEvent`
@@ -239,7 +284,8 @@ is hard to use and hard to label honestly.
 
 Field names we would use: `facets.subjects` (what is depicted),
 `facets.placesDepicted`, `facets.cultures`, each with its `*Path` counterpart
-under the same naming.
+under the same naming. Agreed: `InSchemeLabel` is already in `terms.csv`, so it
+is a column-map addition and three facets where there was one.
 
 **Then on our side.** Two new facets threaded through four places: the
 `facetFields` table and the filters schema in
@@ -269,6 +315,10 @@ It is on the list because a consumer should not have to know that flattening
 happens, and the next consumer may not check. A single flat array of strings
 per locale says what is meant.
 
+On hold. Flattening would cost another million-row fan-out in the pipeline for
+something already verified to work and never read back, which is not a trade
+worth making while the workflow state budget is tight.
+
 **Then on our side.** Nothing. The datahub never reads `search` — it only
 queries it — so this one changes no code here. It is a request about the
 contract being honest, not about unblocking us.
@@ -285,6 +335,12 @@ names for countries.
 
 Small, and cosmetic next to the rest — but it is the facet most visible on the
 search page.
+
+On hold. The GeoNames dump's `alternatenames` column has no language tags, and
+the language-tagged data is in GeoNames' separate `alternateNames` file, which
+the pipeline does not fetch. The cheapest honest fix is a 189-row hand-kept
+Dutch country table, in the pattern of `organizations.csv` — worth doing, not
+worth blocking a delivery for.
 
 **Then on our side.** Nothing: the searcher already asks for
 `facets.countriesCreated.<locale>`, so Dutch values simply start appearing. It
