@@ -16,6 +16,7 @@ import {
 } from '@colonial-collections/list-store';
 import {
   HeritageObjectSearchResult,
+  SearchResultFilter,
   SortBy,
   SortByEnum,
   SortOrder,
@@ -28,7 +29,6 @@ import {
   SelectedFilters,
   SearchFieldWithLabel,
   OrderSelector,
-  DateRangeFacet,
 } from '@colonial-collections/ui/list';
 import {
   SmallScreenSubMenu,
@@ -56,66 +56,125 @@ const filterSettings: ReadonlyArray<FilterSetting> = [
   {name: 'publishers', searchParamType: 'array'},
   {name: 'materials', searchParamType: 'array'},
   {name: 'creators', searchParamType: 'array'},
-  {name: 'dateCreatedStart', searchParamType: 'number'},
-  {name: 'dateCreatedEnd', searchParamType: 'number'},
+  {name: 'centuries', searchParamType: 'array'},
+  {name: 'decades', searchParamType: 'array'},
+  {name: 'datePrecision', searchParamType: 'array'},
+  {name: 'dateOpenness', searchParamType: 'array'},
 ];
 
 interface Facet {
   name: string;
   // `Component` needs to be uppercase to be valid JSX
   Component: ElementType;
+  // Render this facet only when another one has a selection.
+  onlyWith?: keyof HeritageObjectSearchResult['filters'];
 }
 
-interface DateRangeFacet extends Facet {
-  startDateKey: string;
-  endDateKey: string;
-}
-
-const facets: ReadonlyArray<Facet | DateRangeFacet> = [
+// The two "from"/"to" year boxes are gone. They asked the user to know the
+// numbers, they filtered by containment so an object dated 1830/1860 vanished
+// from a search for 1840–1850, and an object dated "before 1887" — a sixth of
+// everything dated — was dropped the moment a start year was typed, because
+// it has no start year to compare. Periods are now browsable buckets read
+// from the museum's own dating statement.
+const facets: ReadonlyArray<Facet> = [
   {name: 'locations', Component: SearchableMultiSelectFacet},
-  {
-    name: 'dateCreated',
-    Component: DateRangeFacet,
-    startDateKey: 'dateCreatedStart',
-    endDateKey: 'dateCreatedEnd',
-  },
+  {name: 'centuries', Component: MultiSelectFacet},
+  // Decades only once a century is chosen: a hundred decades in the sidebar
+  // helps nobody, and drilling in is what the century list is for.
+  {name: 'decades', Component: MultiSelectFacet, onlyWith: 'centuries'},
+  {name: 'datePrecision', Component: MultiSelectFacet},
+  {name: 'dateOpenness', Component: MultiSelectFacet},
   {name: 'types', Component: SearchableMultiSelectFacet},
-  {name: 'subjects', Component: MultiSelectFacet},
+  // Subjects: thousands of distinct terms in the Sawubona data, where the
+  // Triply index had a handful. MultiSelectFacet renders every bucket, which
+  // buried the rest of the menu; this shows the top five with the usual
+  // search / A-Z / sort modal behind "more", as types and makers do.
+  {name: 'subjects', Component: SearchableMultiSelectFacet},
   {name: 'materials', Component: SearchableMultiSelectFacet},
   {name: 'creators', Component: SearchableMultiSelectFacet},
   {name: 'publishers', Component: MultiSelectFacet},
 ];
 
+// The date facets come out of Elasticsearch as bare keys — 1800, 1830,
+// "openStart" — because that is what is indexed. Turning them into "19de
+// eeuw", "jaren 1830" and "begin onbekend" is a presentation concern, so it
+// happens here rather than in the index.
+type Labeller = (
+  filters: SearchResultFilter[],
+  t: (key: string, values?: Record<string, string | number>) => string
+) => SearchResultFilter[];
+
+const asCentury: Labeller = (filters, t) =>
+  [...filters]
+    // Chronological, not by count: a list of periods that jumps about is
+    // unreadable.
+    .sort((a, b) => Number(a.id) - Number(b.id))
+    .map(filter => {
+      const firstYear = Number(filter.id);
+      const ordinal = Math.floor(Math.abs(firstYear) / 100) + 1;
+      return {
+        ...filter,
+        name: t(firstYear < 0 ? 'centuryBeforeCommonEra' : 'century', {
+          century: ordinal,
+        }),
+      };
+    });
+
+const asDecade: Labeller = (filters, t) =>
+  [...filters]
+    .sort((a, b) => Number(a.id) - Number(b.id))
+    .map(filter => ({...filter, name: t('decade', {decade: filter.id})}));
+
+// Fixed vocabularies, so each value gets its own message key.
+const asTerm =
+  (prefix: string): Labeller =>
+  (filters, t) =>
+    filters.map(filter => ({...filter, name: t(`${prefix}.${filter.id}`)}));
+
+const labellers: Partial<
+  Record<keyof HeritageObjectSearchResult['filters'], Labeller>
+> = {
+  centuries: asCentury,
+  decades: asDecade,
+  datePrecision: asTerm('datePrecisionValue'),
+  dateOpenness: asTerm('dateOpennessValue'),
+};
+
 interface FacetMenuProps {
   filters: HeritageObjectSearchResult['filters'];
+  selected: Record<string, unknown>;
 }
 
-async function FacetMenu({filters}: FacetMenuProps) {
+async function FacetMenu({filters, selected}: FacetMenuProps) {
   const t = await getTranslations('Filters');
 
   return (
     <div className="w-full flex flex-col gap-6">
       <SearchFieldWithLabel />
-      {facets.map(({name, Component, ...customProps}) => {
-        const facetProps = Object.keys(customProps).length
-          ? customProps
-          : {
-              filters:
-                filters[name as keyof HeritageObjectSearchResult['filters']],
-              filterKey: name,
-            };
+      {facets.map(({name, Component, onlyWith}) => {
+        if (onlyWith !== undefined && !hasSelection(selected[onlyWith])) {
+          return null;
+        }
+
+        const key = name as keyof HeritageObjectSearchResult['filters'];
+        const label = labellers[key];
 
         return (
           <Component
             key={name}
             title={t(`${name}Filter`)}
             testId={`${name}Filter`}
-            {...facetProps}
+            filterKey={name}
+            filters={label ? label(filters[key], t) : filters[key]}
           />
         );
       })}
     </div>
   );
+}
+
+function hasSelection(value: unknown) {
+  return Array.isArray(value) && value.length > 0;
 }
 
 interface Props {
@@ -196,7 +255,10 @@ export default async function SearchResults({searchParams = {}}: Props) {
               <h1 tabIndex={0}>Search for objects</h1>
               <h2 tabIndex={0}>Search facets</h2>
             </div>
-            <FacetMenu filters={searchResult.filters} />
+            <FacetMenu
+              filters={searchResult.filters}
+              selected={searchOptions.filters ?? {}}
+            />
           </aside>
 
           <main
@@ -212,7 +274,10 @@ export default async function SearchResults({searchParams = {}}: Props) {
                 <span>{t('filters')}</span>
               </SubMenuButton>
               <SubMenuDialog title={t('filters')}>
-                <FacetMenu filters={searchResult.filters} />
+                <FacetMenu
+                  filters={searchResult.filters}
+                  selected={searchOptions.filters ?? {}}
+                />
               </SubMenuDialog>
             </SmallScreenSubMenu>
             <SelectedFilters

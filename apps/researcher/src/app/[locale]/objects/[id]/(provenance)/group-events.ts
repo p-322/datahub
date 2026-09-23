@@ -2,7 +2,11 @@ import {UserProvenanceEvent} from './definitions';
 
 interface GroupByDateRangeProps {
   events: UserProvenanceEvent[];
-  formatDateRange: (props: {startDate?: Date; endDate?: Date}) => string;
+  formatTimeSpan: (props: {
+    edtf?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }) => string;
 }
 
 // This function groups an array of events by their date range.
@@ -10,11 +14,11 @@ interface GroupByDateRangeProps {
 // and each value is an array of all events that fall within that date range.
 export function groupByDateRange({
   events,
-  formatDateRange,
+  formatTimeSpan,
 }: GroupByDateRangeProps) {
   return events.reduce(
     (eventGroups: {[dateRange: string]: UserProvenanceEvent[]}, event) => {
-      const dateRange = formatDateRange(event.date || {}) || '';
+      const dateRange = formatTimeSpan(event.date || {}) || '';
       if (!eventGroups[dateRange]) {
         eventGroups[dateRange] = [];
       }

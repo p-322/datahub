@@ -24,11 +24,13 @@
     "test:e2e:open": "turbo run test:e2e:open",
     "db:generate": "turbo run db:generate",
     "db:migrate": "turbo run db:migrate",
-    "image:verify": "bash scripts/verify-image.sh"
+    "image:verify": "bash scripts/verify-image.sh",
+    "enrich-dates": "tsx scripts/enrich-dates.ts"
   },
   "devDependencies": {
     "@colonial-collections/eslint-config": "*",
     "gts": "5.3.0",
+    "tsx": "4.19.2",
     "turbo": "1.13.3"
   },
   "engines": {

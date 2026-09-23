@@ -33,6 +33,10 @@ const response = {
     },
     creators: emptyAggregation,
     publishers: emptyAggregation,
+    centuries: {buckets: [{key: 1800, doc_count: 1}]},
+    decades: emptyAggregation,
+    datePrecision: {buckets: [{key: 'range', doc_count: 1}]},
+    dateOpenness: {buckets: [{key: 'openStart', doc_count: 1}]},
   },
 };
 
@@ -72,7 +76,9 @@ describe('search', () => {
     expect(body.query.bool.filter).toStrictEqual([
       {term: {kind: 'HeritageObject'}},
       {term: {'facets.materials.nl': 'hout'}},
-      {range: {'facets.yearCreatedStart': {gte: 1800}}},
+      // Overlap against the range field, so an object whose start year is
+      // unknown is not silently dropped by a "from" year.
+      {range: {'facets.dateCreated': {gte: 1800, relation: 'intersects'}}},
     ]);
     expect(body.sort).toStrictEqual([
       {'sort.name.nl': {order: 'desc', missing: '_last'}},
@@ -96,6 +102,13 @@ describe('search', () => {
     expect(result.filters.materials).toStrictEqual([
       {id: 'hout', name: 'hout', totalCount: 1},
       {id: 'pigment', name: 'pigment', totalCount: 1},
+    ]);
+    // Date facets come back as the raw keys; the search page labels them.
+    expect(result.filters.centuries).toStrictEqual([
+      {id: 1800, name: 1800, totalCount: 1},
+    ]);
+    expect(result.filters.dateOpenness).toStrictEqual([
+      {id: 'openStart', name: 'openStart', totalCount: 1},
     ]);
   });
 

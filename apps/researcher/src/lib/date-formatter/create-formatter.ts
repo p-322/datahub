@@ -1,4 +1,5 @@
 import {DateTimeFormatOptions, TranslationValues} from 'next-intl';
+import {formatEdtf} from './format-edtf';
 
 interface FormatterProps {
   t: (key: string, options?: TranslationValues) => string;
@@ -8,6 +9,10 @@ interface FormatterProps {
 interface FormatDateRangeProps {
   startDate?: Date;
   endDate?: Date;
+}
+
+interface TimeSpanProps extends FormatDateRangeProps {
+  edtf?: string;
 }
 
 export const dateFormatSettings: DateTimeFormatOptions = {
@@ -80,6 +85,13 @@ export function createFormatter({t, formatDateTime}: FormatterProps) {
   return {
     formatDate: (date: Date) => formatDate({date, t, formatDateTime}),
     formatDateRange: ({startDate, endDate}: FormatDateRangeProps) =>
+      formatDateRange({startDate, endDate, t, formatDateTime}),
+
+    // Prefers the museum's own EDTF statement ("before 1887", "12th
+    // century", "circa 1973") and falls back to the derived start/end pair
+    // when there is no EDTF or it cannot be parsed.
+    formatTimeSpan: ({edtf, startDate, endDate}: TimeSpanProps) =>
+      formatEdtf({edtf, t}) ??
       formatDateRange({startDate, endDate, t, formatDateTime}),
   };
 }

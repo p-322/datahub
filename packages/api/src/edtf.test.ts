@@ -1,0 +1,158 @@
+import {describeEdtf, toDateFacets} from './edtf';
+import {describe, expect, it} from '@jest/globals';
+
+describe('describeEdtf', () => {
+  it('reads a plain year', () => {
+    expect(describeEdtf('1933')).toMatchObject({
+      startYear: 1933,
+      endYear: 1933,
+      precision: 'year',
+      qualifier: 'exact',
+      openness: 'closed',
+      centuries: [1900],
+      decades: [1930],
+    });
+  });
+
+  it('reads a day and a month', () => {
+    expect(describeEdtf('1921-11-07')).toMatchObject({precision: 'day'});
+    expect(describeEdtf('1921-11')).toMatchObject({precision: 'month'});
+  });
+
+  it('reads an open start as "before"', () => {
+    expect(describeEdtf('../1887')).toMatchObject({
+      startYear: undefined,
+      endYear: 1887,
+      precision: 'open',
+      openness: 'openStart',
+      centuries: [],
+    });
+  });
+
+  it('reads an open end as "after"', () => {
+    expect(describeEdtf('1887/..')).toMatchObject({
+      startYear: 1887,
+      endYear: undefined,
+      openness: 'openEnd',
+    });
+  });
+
+  it('reads unspecified digits as the century, not as a 99-year range', () => {
+    expect(describeEdtf('11XX')).toMatchObject({
+      startYear: 1100,
+      endYear: 1199,
+      precision: 'century',
+      centuries: [1100],
+    });
+  });
+
+  it('does not put a century-precision date into every one of its decades', () => {
+    // "The twelfth century" says nothing about the 1130s, so it must not
+    // show up under a decade nobody claimed.
+    expect(describeEdtf('11XX')).toMatchObject({decades: []});
+    expect(describeEdtf('193X')).toMatchObject({decades: [1930]});
+  });
+
+  it('reads unspecified digits as the decade', () => {
+    expect(describeEdtf('193X')).toMatchObject({
+      startYear: 1930,
+      endYear: 1939,
+      precision: 'decade',
+    });
+  });
+
+  it('calls a stated interval a range, whatever its width', () => {
+    // The distinction that matters: this is not "the 19th century", it is a
+    // thirty-year window between two years the museum stated.
+    expect(describeEdtf('1830/1860')).toMatchObject({
+      startYear: 1830,
+      endYear: 1860,
+      precision: 'range',
+      centuries: [1800],
+      decades: [1830, 1840, 1850, 1860],
+    });
+  });
+
+  it('keeps approximation and uncertainty apart', () => {
+    expect(describeEdtf('1973~')).toMatchObject({qualifier: 'approximate'});
+    expect(describeEdtf('1900?')).toMatchObject({qualifier: 'uncertain'});
+    expect(describeEdtf('1800%/1825%')).toMatchObject({
+      qualifier: 'approximateAndUncertain',
+    });
+  });
+
+  it('takes the qualifier from either endpoint of an interval', () => {
+    expect(describeEdtf('0500?/1000?')).toMatchObject({
+      qualifier: 'uncertain',
+      precision: 'range',
+    });
+  });
+
+  it('reads BCE years', () => {
+    expect(describeEdtf('-0049/0830')).toMatchObject({
+      startYear: -49,
+      endYear: 830,
+    });
+  });
+
+  it('reads a season', () => {
+    expect(describeEdtf('1949-21')).toMatchObject({
+      precision: 'season',
+      season: 21,
+      startYear: 1949,
+      endYear: 1949,
+    });
+  });
+
+  it('accepts an interval whose bounds are equal, which the parser rejects', () => {
+    expect(describeEdtf('1914/1914')).toMatchObject({
+      startYear: 1914,
+      endYear: 1914,
+    });
+  });
+
+  it('spans several centuries when a range crosses a boundary', () => {
+    expect(describeEdtf('1780/1820')).toMatchObject({
+      centuries: [1700, 1800],
+    });
+  });
+
+  it('does not enumerate centuries for a very wide range', () => {
+    expect(describeEdtf('-0049/0830')).toMatchObject({
+      centuries: [],
+      decades: [],
+    });
+  });
+
+  it('returns undefined for something that is not EDTF', () => {
+    expect(describeEdtf('circa 1900')).toBeUndefined();
+    expect(describeEdtf('')).toBeUndefined();
+  });
+});
+
+describe('toDateFacets', () => {
+  it('produces an open-ended range for "before"', () => {
+    expect(toDateFacets('../1887')).toStrictEqual({
+      dateCreated: {lte: 1887},
+      datePrecision: 'open',
+      dateQualifier: 'exact',
+      dateOpenness: 'openStart',
+    });
+  });
+
+  it('produces a closed range with centuries and decades', () => {
+    expect(toDateFacets('1830/1860')).toStrictEqual({
+      dateCreated: {gte: 1830, lte: 1860},
+      datePrecision: 'range',
+      dateQualifier: 'exact',
+      dateOpenness: 'closed',
+      centuries: [1800],
+      decades: [1830, 1840, 1850, 1860],
+    });
+  });
+
+  it('is empty for a missing or unparseable value', () => {
+    expect(toDateFacets(undefined)).toStrictEqual({});
+    expect(toDateFacets('not a date')).toStrictEqual({});
+  });
+});

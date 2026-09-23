@@ -29,7 +29,7 @@ export default async function Details({params}: Props) {
   const locale = (await getLocale()) as LocaleEnum;
   const object = await heritageObjects.getById({id, locale});
   const t = await getTranslations('ObjectDetails');
-  const {formatDateRange} = await getDateFormatter();
+  const {formatTimeSpan} = await getDateFormatter();
 
   if (!object) {
     return <div data-testid="no-entity">{t('noEntity')}</div>;
@@ -230,7 +230,7 @@ export default async function Details({params}: Props) {
                 translationKey="dateCreated"
                 enrichmentType={HeritageObjectEnrichmentType.DateCreated}
               >
-                {object.dateCreated && formatDateRange(object.dateCreated)}
+                {object.dateCreated && formatTimeSpan(object.dateCreated)}
               </Metadata>
 
               <Metadata

@@ -44,12 +44,19 @@ const facetFields = {
   materials: {field: 'facets.materials', localized: true},
   creators: {field: 'facets.creators', localized: false},
   publishers: {field: 'facets.publisher', localized: true},
+  // Derived from the EDTF statement at index time; see packages/api/src/edtf.ts.
+  centuries: {field: 'facets.centuries', localized: false},
+  decades: {field: 'facets.decades', localized: false},
+  datePrecision: {field: 'facets.datePrecision', localized: false},
+  dateOpenness: {field: 'facets.dateOpenness', localized: false},
 } as const;
 
 type FacetName = keyof typeof facetFields;
 
+// An Elasticsearch integer_range of years, open where the date is open.
+const dateCreatedField = 'facets.dateCreated';
+// Kept for sorting: a range field cannot be sorted on.
 const yearCreatedStartField = 'facets.yearCreatedStart';
-const yearCreatedEndField = 'facets.yearCreatedEnd';
 
 // Facet menus render every bucket and the UI searches within them, so a
 // truncated list makes a term unreachable. The Wereldmuseum delivery has
@@ -72,6 +79,14 @@ const searchOptionsSchema = z.object({
       materials: z.array(z.string()).optional().default([]),
       creators: z.array(z.string()).optional().default([]),
       publishers: z.array(z.string()).optional().default([]),
+      centuries: z.array(z.string()).optional().default([]),
+      decades: z.array(z.string()).optional().default([]),
+      datePrecision: z.array(z.string()).optional().default([]),
+      dateOpenness: z.array(z.string()).optional().default([]),
+      // Inclusive year bounds typed by the user. Matched by overlap, not
+      // containment: an object dated 1830/1860 answers "1840 to 1850", and
+      // one dated "before 1887" answers "from 1800" — it has no start year,
+      // and excluding it would silently drop a sixth of the dated objects.
       dateCreatedStart: z.number().optional(),
       dateCreatedEnd: z.number().optional(),
     })
@@ -109,6 +124,10 @@ const rawSearchResponseSchema = z.object({
     materials: rawAggregationSchema,
     creators: rawAggregationSchema,
     publishers: rawAggregationSchema,
+    centuries: rawAggregationSchema,
+    decades: rawAggregationSchema,
+    datePrecision: rawAggregationSchema,
+    dateOpenness: rawAggregationSchema,
   }),
 });
 
@@ -151,16 +170,21 @@ export class HeritageObjectSearcher {
       }
     }
 
-    if (options.filters?.dateCreatedStart !== undefined) {
+    const from = options.filters?.dateCreatedStart;
+    const to = options.filters?.dateCreatedEnd;
+    if (from !== undefined || to !== undefined) {
+      // One query against the integer_range field. `intersects` returns every
+      // object whose date range overlaps the years asked for, and a bound the
+      // document leaves open counts as unbounded — which is what makes
+      // "before 1887" answer a search for "from 1800".
       filter.push({
         range: {
-          [yearCreatedStartField]: {gte: options.filters.dateCreatedStart},
+          [dateCreatedField]: {
+            ...(from !== undefined ? {gte: from} : {}),
+            ...(to !== undefined ? {lte: to} : {}),
+            relation: 'intersects',
+          },
         },
-      });
-    }
-    if (options.filters?.dateCreatedEnd !== undefined) {
-      filter.push({
-        range: {[yearCreatedEndField]: {lte: options.filters.dateCreatedEnd}},
       });
     }
 
@@ -227,9 +251,10 @@ export class HeritageObjectSearcher {
         materials: this.buildFilters(aggregations.materials.buckets),
         creators: this.buildFilters(aggregations.creators.buckets),
         publishers: this.buildFilters(aggregations.publishers.buckets),
-        // Year range is a slider in the UI, driven by min/max, not buckets.
-        dateCreatedStart: [],
-        dateCreatedEnd: [],
+        centuries: this.buildFilters(aggregations.centuries.buckets),
+        decades: this.buildFilters(aggregations.decades.buckets),
+        datePrecision: this.buildFilters(aggregations.datePrecision.buckets),
+        dateOpenness: this.buildFilters(aggregations.dateOpenness.buckets),
       },
     };
   }

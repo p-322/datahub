@@ -82,7 +82,7 @@ facets.creators               keyword         agent names (not localized)
 facets.publisher.en / .nl     keyword         owning institution name
 facets.countriesCreated.en/.nl keyword
 facets.yearCreatedStart       integer         derived from object.dateCreated
-facets.yearCreatedEnd         integer
+facets.yearCreatedEnd         integer                (kept for sorting)
 facets.hasImage               boolean
 
 facets.typesPath.en / .nl     keyword         the term and its thesaurus ancestors,
@@ -92,6 +92,38 @@ facets.locationsCreatedPath.en/.nl keyword    "Java" carries ["Java", "Indonesia
 
 sort.name.en / .nl            keyword  (normalizer: lowercase, asciifolding)
 ```
+
+### 3.1a Date fields the datahub derives at load time
+
+Tabulous ships the museum's dating statement as EDTF in the payload
+(`object.dateCreated.edtf`). The datahub reads it while loading and writes
+these indexed fields; Tabulous emits none of them. The derivation is
+`packages/api/src/edtf.ts`, the enrichment step is
+`datahub/scripts/enrich-dates.ts`, and the same function formats the date on
+the page, so a facet and a label cannot disagree.
+
+```
+facets.dateCreated            integer_range   inclusive years; a bound is OMITTED
+                                              where the notation is open, which is
+                                              what lets "../1887" answer a search
+                                              from 1800 under `relation: intersects`
+facets.datePrecision          keyword         day | month | season | year | decade |
+                                              century | millennium | range | open —
+                                              read from the notation, not from the
+                                              width of the range: "11XX" is century
+                                              precision, "1830/1860" is a range
+facets.dateQualifier          keyword         exact | approximate | uncertain |
+                                              approximateAndUncertain (EDTF ~ ? %)
+facets.dateOpenness           keyword         closed | openStart | openEnd | unbounded
+facets.centuries              short[]         first years of every century the date
+                                              touches; 1800 is the 19th century
+facets.decades                short[]         first years of every decade, but only
+                                              for dates precise to a decade or finer
+```
+
+A century-precision date carries its century and no decades: "the twelfth
+century" says nothing about the 1130s, and listing all ten would fill the
+decade facet with objects nobody dated that finely.
 
 The searcher facets on the `*Path` fields for types, subjects, materials and
 locations (filter and aggregation both), so a filter on a broad term matches

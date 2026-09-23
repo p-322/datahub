@@ -58,6 +58,10 @@ export type Image = {
 
 export type TimeSpan = {
   id: string;
+  // The museum's own dating statement, e.g. "../1887", "11XX", "1973~".
+  // Formatted in preference to the derived pair, which cannot express
+  // "before", "circa" or "the twelfth century". See packages/api/src/edtf.ts.
+  edtf?: string;
   startDate?: Date;
   endDate?: Date;
 };

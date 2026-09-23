@@ -282,6 +282,7 @@ function toTimeSpan(
   }
   return compact({
     id: doc.id ?? fallbackId,
+    edtf: doc.edtf,
     startDate: toDate(doc.startDate),
     endDate: toDate(doc.endDate),
   });

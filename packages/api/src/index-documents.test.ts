@@ -78,6 +78,7 @@ describe('toHeritageObject', () => {
       ],
       dateCreated: {
         id: 'https://data.sawubona-commons.eu/objects/1234#dateCreated',
+        edtf: '188X',
         startDate: new Date('1880-01-01'),
         endDate: new Date('1889-12-31'),
       },
@@ -171,6 +172,7 @@ describe('toProvenanceEvents', () => {
       ],
       date: {
         id: 'https://data.sawubona-commons.eu/objects/1234/events/1#date',
+        edtf: '1902',
         startDate: new Date('1902-01-01'),
         endDate: new Date('1902-12-31'),
       },
@@ -221,6 +223,7 @@ describe('toProvenanceEvents', () => {
         additionalTypes: [{id: 'http://vocab.getty.edu/aat/300417642'}],
         date: {
           id: 'https://example.org/o/3/e/1#date',
+          edtf: '1911',
           startDate: new Date('1911-01-01'),
           endDate: new Date('1911-12-31'),
         },

@@ -6,7 +6,21 @@
     "noEndDate": "No end date",
     "yearInputLabel": "yyyy",
     "monthInputLabel": "mm",
-    "dayInputLabel": "dd"
+    "dayInputLabel": "dd",
+    "before": "before {year}",
+    "after": "after {year}",
+    "century": "{century}th century",
+    "centuryBeforeCommonEra": "{century}th century BCE",
+    "decade": "{decade}s",
+    "yearRange": "{start}–{end}",
+    "yearBeforeCommonEra": "{year} BCE",
+    "approximately": "circa {date}",
+    "uncertainly": "{date}?",
+    "approximatelyAndUncertainly": "circa {date}?",
+    "spring": "spring {year}",
+    "summer": "summer {year}",
+    "autumn": "autumn {year}",
+    "winter": "winter {year}"
   },
   "Meta": {
     "title": "Sawubona Commons Datahub"
@@ -346,7 +360,6 @@
     "materialsFilter": "Materials",
     "creatorsFilter": "Maker(s)",
     "locationsFilter": "Locations of creation",
-    "dateCreatedFilter": "Date made",
     "search": "Search for text",
     "filters": "Selected facets",
     "fromYear": "From year",
@@ -367,7 +380,31 @@
     "accessibilityFacetLabel": "filter {title} on with {name}",
     "accessibilityFacetCount": "{count} results",
     "accessibilityInitLetter": "Filter within the filter items with initial letter {category}",
-    "facetJumpToResults": "Jump to results"
+    "facetJumpToResults": "Jump to results",
+    "centuriesFilter": "Period",
+    "decadesFilter": "Decade",
+    "datePrecisionFilter": "Dating precision",
+    "dateOpennessFilter": "Date completeness",
+    "century": "{century}th century",
+    "centuryBeforeCommonEra": "{century}th century BCE",
+    "decade": "{decade}s",
+    "datePrecisionValue": {
+      "day": "To the day",
+      "month": "To the month",
+      "season": "To the season",
+      "year": "To the year",
+      "decade": "To the decade",
+      "century": "To the century",
+      "millennium": "To the millennium",
+      "range": "A stated range",
+      "open": "Open-ended"
+    },
+    "dateOpennessValue": {
+      "closed": "Start and end known",
+      "openStart": "Start unknown",
+      "openEnd": "End unknown",
+      "unbounded": "Neither end known"
+    }
   },
   "Sort": {
     "dateCreatedDesc": "Date made - Descending",

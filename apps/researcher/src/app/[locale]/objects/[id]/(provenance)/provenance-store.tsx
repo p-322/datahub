@@ -47,10 +47,10 @@ export function ProvenanceProvider({
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
   const [showTimeline, setShowTimeline] = useState(true);
   const [showDataTable, setShowDataTable] = useState(true);
-  const {formatDateRange} = useDateFormatter();
+  const {formatTimeSpan} = useDateFormatter();
   const eventGroups = useMemo(
-    () => groupByDateRange({events, formatDateRange}),
-    [events, formatDateRange]
+    () => groupByDateRange({events, formatTimeSpan}),
+    [events, formatTimeSpan]
   );
 
   const eventGroupsFiltered = useMemo(() => {
@@ -59,8 +59,8 @@ export function ProvenanceProvider({
         ? selectedEvents.map(id => events.find(event => event.id === id)!)
         : events;
 
-    return groupByDateRange({events: eventsToShow, formatDateRange});
-  }, [events, formatDateRange, selectedEvents]);
+    return groupByDateRange({events: eventsToShow, formatTimeSpan});
+  }, [events, formatTimeSpan, selectedEvents]);
 
   const context = {
     selectedEvents,

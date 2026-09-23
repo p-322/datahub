@@ -2,8 +2,8 @@ import {describe, expect} from '@jest/globals';
 import {groupByDateRange} from './group-events';
 import {UserProvenanceEvent} from './definitions';
 
-// A simple `formatDateRange` mock that returns a string representation of a date range.
-function formatDateRange({
+// A simple `formatTimeSpan` mock that returns a string representation of a date range.
+function formatTimeSpan({
   startDate,
   endDate,
 }: {
@@ -47,7 +47,7 @@ describe('groupByDateRange', () => {
     ];
 
     // @ts-expect-error:TS2322
-    const result = groupByDateRange({events, formatDateRange});
+    const result = groupByDateRange({events, formatTimeSpan});
 
     expect(result['1/1/2022 - 1/5/2022']).toHaveLength(1);
     expect(result['1/3/2022 - 1/7/2022']).toHaveLength(2);
@@ -57,7 +57,7 @@ describe('groupByDateRange', () => {
   it('handles empty events array', () => {
     const events: UserProvenanceEvent[] = [];
 
-    const result = groupByDateRange({events, formatDateRange});
+    const result = groupByDateRange({events, formatTimeSpan});
 
     expect(Object.keys(result)).toHaveLength(0);
   });

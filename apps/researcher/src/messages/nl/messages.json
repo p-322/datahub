@@ -9,7 +9,21 @@
     "noEndDate": "Geen einddatum",
     "yearInputLabel": "jjjj",
     "monthInputLabel": "mm",
-    "dayInputLabel": "dd"
+    "dayInputLabel": "dd",
+    "before": "vóór {year}",
+    "after": "na {year}",
+    "century": "{century}e eeuw",
+    "centuryBeforeCommonEra": "{century}e eeuw v.Chr.",
+    "decade": "jaren {decade}",
+    "yearRange": "{start}–{end}",
+    "yearBeforeCommonEra": "{year} v.Chr.",
+    "approximately": "circa {date}",
+    "uncertainly": "{date}?",
+    "approximatelyAndUncertainly": "circa {date}?",
+    "spring": "voorjaar {year}",
+    "summer": "zomer {year}",
+    "autumn": "najaar {year}",
+    "winter": "winter {year}"
   },
   "Home": {
     "title": "Sawubona Commons",
@@ -346,7 +360,6 @@
     "locationsFilter": "Locaties van creatie",
     "materialsFilter": "Materialen",
     "creatorsFilter": "Maker(s)",
-    "dateCreatedFilter": "Datum gemaakt",
     "search": "Zoeken",
     "filters": "Filters",
     "fromYear": "Van jaar",
@@ -367,7 +380,31 @@
     "accessibilityFacetLabel": "filter op {title} met {name}",
     "accessibilityFacetCount": "{count} resultaten",
     "accessibilityInitLetter": "Filter binnen de filteritems op beginletter {category}",
-    "facetJumpToResults": "Ga naar de resultaten"
+    "facetJumpToResults": "Ga naar de resultaten",
+    "centuriesFilter": "Periode",
+    "decadesFilter": "Decennium",
+    "datePrecisionFilter": "Nauwkeurigheid datering",
+    "dateOpennessFilter": "Volledigheid datering",
+    "century": "{century}e eeuw",
+    "centuryBeforeCommonEra": "{century}e eeuw v.Chr.",
+    "decade": "jaren {decade}",
+    "datePrecisionValue": {
+      "day": "Tot op de dag",
+      "month": "Tot op de maand",
+      "season": "Tot op het seizoen",
+      "year": "Tot op het jaar",
+      "decade": "Tot op het decennium",
+      "century": "Tot op de eeuw",
+      "millennium": "Tot op het millennium",
+      "range": "Een opgegeven reeks",
+      "open": "Open einde"
+    },
+    "dateOpennessValue": {
+      "closed": "Begin en eind bekend",
+      "openStart": "Begin onbekend",
+      "openEnd": "Eind onbekend",
+      "unbounded": "Begin noch eind bekend"
+    }
   },
   "Sort": {
     "dateCreatedDesc": "Datum gemaakt - Aflopend",
