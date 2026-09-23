@@ -308,14 +308,6 @@ export type DateFacets = {
   // An Elasticsearch integer_range. An absent bound is unbounded, which is
   // what makes "before 1887" behave correctly under an intersects query.
   dateCreated?: {gte?: number; lte?: number};
-  // A scalar to sort on: a range field cannot be a sort key. Tabulous ships
-  // yearCreatedEnd but never yearCreatedStart, in either delivery, so the
-  // "oldest/newest first" ordering was sorting every document on a field
-  // that does not exist — which ties them all and leaves Elasticsearch to
-  // return them in internal document order. Derived here from the same EDTF
-  // string as everything else. Absent where the notation has no start
-  // ("before 1887"), so those sort last rather than pretending to a year.
-  yearCreatedStart?: number;
   datePrecision?: DatePrecision;
   dateQualifier?: DateQualifier;
   dateOpenness?: DateOpenness;
@@ -348,7 +340,6 @@ export function toDateFacets(value: string | undefined): DateFacets {
     ...(range.gte !== undefined || range.lte !== undefined
       ? {dateCreated: range}
       : {}),
-    ...(date.startYear !== undefined ? {yearCreatedStart: date.startYear} : {}),
     datePrecision: date.precision,
     dateQualifier: date.qualifier,
     dateOpenness: date.openness,

@@ -143,7 +143,6 @@ describe('toDateFacets', () => {
   it('produces a closed range with centuries and decades', () => {
     expect(toDateFacets('1830/1860')).toStrictEqual({
       dateCreated: {gte: 1830, lte: 1860},
-      yearCreatedStart: 1830,
       datePrecision: 'range',
       dateQualifier: 'exact',
       dateOpenness: 'closed',
@@ -180,28 +179,5 @@ describe('toDateFacets', () => {
   it('places the BCE dates those errors were probably meant to be', () => {
     expect(describeEdtf('-2449~')?.centuries).toStrictEqual([-2500]);
     expect(describeEdtf('-3499')?.centuries).toStrictEqual([-3500]);
-  });
-});
-
-describe('toDateFacets sort key', () => {
-  // Tabulous ships yearCreatedEnd but never yearCreatedStart, so the search
-  // page's date ordering had no field to sort on. Derived from the EDTF.
-  it('carries the start year as a scalar to sort on', () => {
-    expect(toDateFacets('1830/1860').yearCreatedStart).toBe(1830);
-    expect(toDateFacets('1933').yearCreatedStart).toBe(1933);
-    expect(toDateFacets('11XX').yearCreatedStart).toBe(1100);
-    expect(toDateFacets('-0049/0830').yearCreatedStart).toBe(-49);
-  });
-
-  it('omits it where the notation has no start, so those sort last', () => {
-    expect(toDateFacets('../1887').yearCreatedStart).toBeUndefined();
-    expect(toDateFacets('1887/..').yearCreatedStart).toBe(1887);
-  });
-
-  it('agrees with the lower bound of the range it is sorted alongside', () => {
-    for (const value of ['1830/1860', '1933', '11XX', '193X', '1887/..']) {
-      const facets = toDateFacets(value);
-      expect(facets.yearCreatedStart).toBe(facets.dateCreated?.gte);
-    }
   });
 });
