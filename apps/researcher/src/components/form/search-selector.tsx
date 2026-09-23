@@ -14,7 +14,7 @@ import {useDebounce} from 'use-debounce';
 import classNames from 'classnames';
 import useSWR from 'swr';
 import {useFormContext} from 'react-hook-form';
-import {Thing} from '@colonial-collections/api';
+import type {Thing} from '@colonial-collections/api';
 import {useTranslations} from 'next-intl';
 
 async function fetcher([url, query]: [string, string]): Promise<Thing[]> {
