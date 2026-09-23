@@ -45,6 +45,34 @@ run() {
   return 1
 }
 
+# `next build` imports every page and route module while collecting page
+# data, and many construct Zod-validated clients at module load, so it needs
+# server-side config present — DATABASE_URL, the endpoint URLs, a Clerk key.
+# The image build sets placeholders for exactly this. Rather than repeat them
+# here, where they would quietly drift, read them out of the Dockerfile: a
+# placeholder added there is picked up automatically, and one removed there
+# fails here the same way it would fail CI.
+dockerfile_build_env() {
+  sed -n '/^ENV SEARCH_ENDPOINT_URL=/,/[^\\]$/p' Dockerfile |
+    sed 's/^ENV //; s/\\$//' |
+    tr -s ' \t' '\n' |
+    grep '='
+}
+
+run_build() {
+  local placeholders
+  placeholders=$(dockerfile_build_env)
+  if [ -z "$placeholders" ]; then
+    echo "Could not read the build-time placeholders from the Dockerfile." >&2
+    echo "Expected an 'ENV SEARCH_ENDPOINT_URL=...' block; has it moved?" >&2
+    return 1
+  fi
+  echo "Building with $(echo "$placeholders" | wc -l | tr -d ' ') placeholders from the Dockerfile:"
+  echo "$placeholders" | sed 's/=.*/=…/; s/^/  /'
+  # shellcheck disable=SC2046
+  env $(echo "$placeholders") npm run build
+}
+
 failed=""
 # QA runs the first four, in this order. The image build runs `build`, which
 # is where `next build` lints and typechecks the app a second time, with
@@ -58,7 +86,7 @@ for step in \
   "test|npm run test:ci" \
   "compile|npm run compile" \
   "scripts|npm run build:scripts" \
-  "build|npm run build"; do
+  "build|run_build"; do
   name="${step%%|*}"
   # shellcheck disable=SC2086
   if ! run "$name" ${step#*|}; then
