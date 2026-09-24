@@ -264,3 +264,79 @@ describe('toPersonThing', () => {
     });
   });
 });
+
+describe('toProvenanceEvents deduplication', () => {
+  const withEvents = (events: unknown[]) =>
+    objectDocumentSchema.parse({
+      id: 'https://example.org/o/9',
+      object: {id: 'https://example.org/o/9'},
+      events,
+    });
+
+  // The museum's source tells these apart by fields the delivery does not
+  // carry, so they arrive as exact copies differing only in an id built from
+  // ConXrefID. One real object repeats the same sentence 27 times.
+  it('collapses events that differ only in their id', () => {
+    const document = withEvents([
+      {
+        id: 'https://example.org/e/1',
+        type: 'acquisition',
+        description: {nl: 'In bezit geweest van Piers, Martin Albertus'},
+      },
+      {
+        id: 'https://example.org/e/2',
+        type: 'acquisition',
+        description: {nl: 'In bezit geweest van Piers, Martin Albertus'},
+      },
+    ]);
+
+    const events = toProvenanceEvents(document, 'nl');
+
+    expect(events).toHaveLength(1);
+    // The first id survives, so the timeline's select buttons keep working.
+    expect(events[0].id).toBe('https://example.org/e/1');
+  });
+
+  // The reason the key is the whole event: "In bezit geweest van X" is a
+  // confirmed ownership and "(mogelijk) X" an explicit maybe. A key of
+  // (type, party, date) would merge them into one line.
+  it('keeps events whose description differs', () => {
+    const document = withEvents([
+      {
+        id: 'https://example.org/e/1',
+        type: 'acquisition',
+        transferredFrom: {id: 'https://example.org/p/1', name: 'F. Coppens'},
+        description: {nl: 'In bezit geweest van Coppens'},
+      },
+      {
+        id: 'https://example.org/e/2',
+        type: 'acquisition',
+        transferredFrom: {id: 'https://example.org/p/1', name: 'F. Coppens'},
+        description: {nl: '(mogelijk) Coppens F. Dhr.'},
+      },
+    ]);
+
+    expect(toProvenanceEvents(document, 'nl')).toHaveLength(2);
+  });
+
+  // The producer's array order varies between runs, so key order within an
+  // object can too. A plain JSON.stringify would call these different.
+  it('collapses events whose fields arrive in a different order', () => {
+    const document = withEvents([
+      {id: 'https://example.org/e/1', type: 'acquisition', description: 'x'},
+      {description: 'x', type: 'acquisition', id: 'https://example.org/e/2'},
+    ]);
+
+    expect(toProvenanceEvents(document, 'nl')).toHaveLength(1);
+  });
+
+  it('leaves an object whose events are all distinct alone', () => {
+    const document = withEvents([
+      {id: 'https://example.org/e/1', type: 'production'},
+      {id: 'https://example.org/e/2', type: 'acquisition'},
+      {id: 'https://example.org/e/3', type: 'transferOfCustody'},
+    ]);
+
+    expect(toProvenanceEvents(document, 'nl')).toHaveLength(3);
+  });
+});

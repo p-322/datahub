@@ -214,6 +214,32 @@ export function expandCurie(value: string): string {
   return base ? `${base}${rest}` : value;
 }
 
+/**
+ * A deterministic string for a value, ignoring one top-level key.
+ *
+ * JSON.stringify alone will not do: two events with the same content can
+ * serialise differently if their keys arrive in a different order, and this
+ * runs over a producer whose array order already varies between runs.
+ */
+function stableKey(value: unknown, ignore?: string): string {
+  const write = (node: unknown, top: boolean): string => {
+    if (Array.isArray(node)) {
+      return `[${node.map(item => write(item, false)).join(',')}]`;
+    }
+    if (node !== null && typeof node === 'object') {
+      const entries = Object.entries(node as Record<string, unknown>)
+        .filter(([k]) => !(top && k === ignore))
+        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+      return `{${entries
+        .map(([k, v]) => `${JSON.stringify(k)}:${write(v, false)}`)
+        .join(',')}}`;
+    }
+    return JSON.stringify(node) ?? 'null';
+  };
+
+  return write(value, true);
+}
+
 function compact<T extends object>(obj: T): T {
   return Object.fromEntries(
     Object.entries(obj).filter(([, v]) => v !== undefined)
@@ -381,32 +407,57 @@ export function toOrganization(
  * object.dateCreated in all 20,000 documents of a slice — but a timeline
  * that begins at acquisition is missing the object's beginning, and 4% of
  * productions name a maker that appears nowhere else on the page.
+ *
+ * Events identical but for their id are collapsed to the first. The
+ * museum's source distinguishes them by fields the delivery does not carry,
+ * so they arrive as exact copies: one object repeats "In bezit geweest van
+ * Piers, Martin Albertus" 27 times and reaches 74 events where the source
+ * makes 7 statements. Across the delivery this removes 3,870 of 3,206,849
+ * events (0.12%) on 3,066 of 1,039,214 objects (0.30%).
+ *
+ * The key is the whole event minus its id, which is the only field that
+ * varies within a group — it is built from the museum's ConXrefID. A looser
+ * key would eventually merge "In bezit geweest van X" with "(mogelijk) X",
+ * a confirmed ownership and an explicit maybe, into one line. Nothing
+ * references an event by id: `startsAfter` and `endsBefore` appear nowhere
+ * in the delivery, so keeping only the first id dangles nothing.
  */
 export function toProvenanceEvents(
   document: ObjectDocument,
   locale: Locale
 ): ProvenanceEvent[] {
-  return (document.events ?? []).map(doc =>
-    compact({
-      id: doc.id,
-      type: doc.type as ProvenanceEventType,
-      additionalTypes: toThings(
-        doc.additionalTypes?.map(t =>
-          typeof t === 'string' ? {id: expandCurie(t)} : t
-        ),
-        locale
-      ),
-      date: toTimeSpan(doc.date, `${doc.id}#date`),
-      transferredFrom: toAgent(doc.transferredFrom, locale),
-      transferredTo: toAgent(doc.transferredTo, locale),
-      carriedOutBy: toAgent(doc.carriedOutBy, locale),
-      label: localize(doc.label, locale),
-      description: localize(doc.description, locale),
-      location: toPlace(doc.location, locale),
-      startsAfter: doc.startsAfter,
-      endsBefore: doc.endsBefore,
+  const seen = new Set<string>();
+
+  return (document.events ?? [])
+    .filter(doc => {
+      const key = stableKey(doc, 'id');
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
     })
-  );
+    .map(doc =>
+      compact({
+        id: doc.id,
+        type: doc.type as ProvenanceEventType,
+        additionalTypes: toThings(
+          doc.additionalTypes?.map(t =>
+            typeof t === 'string' ? {id: expandCurie(t)} : t
+          ),
+          locale
+        ),
+        date: toTimeSpan(doc.date, `${doc.id}#date`),
+        transferredFrom: toAgent(doc.transferredFrom, locale),
+        transferredTo: toAgent(doc.transferredTo, locale),
+        carriedOutBy: toAgent(doc.carriedOutBy, locale),
+        label: localize(doc.label, locale),
+        description: localize(doc.description, locale),
+        location: toPlace(doc.location, locale),
+        startsAfter: doc.startsAfter,
+        endsBefore: doc.endsBefore,
+      })
+    );
 }
 
 export function toPersonThing(document: PersonDocument, locale: Locale): Thing {
