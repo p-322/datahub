@@ -17,6 +17,8 @@ import {getDateFormatter} from '@/lib/date-formatter/actions';
 import {LocaleEnum} from '@/definitions';
 import Map from './map';
 import {ReadMoreText} from '@/components/read-more-text';
+import Provenance from './(provenance)/overview';
+import LocalContextsNotices from './local-contexts-notices/overview';
 
 export const dynamic = 'force-dynamic';
 
@@ -269,7 +271,7 @@ export default async function Details({params}: Props) {
                 ))}
               </Metadata>
             </div>
-            {/* <LocalContextsNotices /> */}
+            <LocalContextsNotices />
           </main>
           <aside className="w-full lg:w-1/3 self-stretch flex flex-col justify-start order-1 lg:order-2">
             {galleryImages.length > 0 && (
@@ -282,7 +284,7 @@ export default async function Details({params}: Props) {
             )}
           </aside>
         </div>
-        {/* <Provenance objectId={id} /> */}
+        <Provenance objectId={id} />
         {organization && (
           <div className="w-full">
             <div className="mx-auto px-4 sm:px-10 max-w-[1800px]">
