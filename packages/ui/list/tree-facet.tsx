@@ -11,21 +11,7 @@ import {
 } from '@heroicons/react/24/solid';
 import {SelectedFiltersForKey} from './selected-filters';
 import {useTranslations} from 'next-intl';
-import {
-  buildTree,
-  filterTree,
-  idsToExpand,
-  mostPopulated,
-  pathSeparator,
-  TreeNode,
-} from '@p-322/list-store';
-
-// The sidebar rows come straight from the facet, where a value is its whole
-// chain. Only the tree runs them through buildTree.
-const leafName = (filter: SearchResultFilter) => {
-  const parts = String(filter.name ?? filter.id).split(pathSeparator);
-  return parts[parts.length - 1];
-};
+import {buildTree, filterTree, idsToExpand, TreeNode} from '@p-322/list-store';
 
 // A facet whose values are thesaurus chains — "kostuum (wijze van mode)|
 // kledingaccessoires|hoeden" — shown as the tree they describe.
@@ -107,14 +93,14 @@ function Row({node, filterKey, expanded, toggle}: RowProps) {
 interface ExpandedTreeProps {
   filterKey: string;
   filters: SearchResultFilter[];
+  roots: TreeNode[];
 }
 
-function ExpandedTree({filterKey, filters}: ExpandedTreeProps) {
+function ExpandedTree({filterKey, filters, roots}: ExpandedTreeProps) {
   const t = useTranslations('Filters');
   const [search, setSearch] = useState('');
   const [opened, setOpened] = useState<Set<string>>(new Set());
 
-  const roots = useMemo(() => buildTree(filters), [filters]);
   const shown = useMemo(() => filterTree(roots, search), [roots, search]);
 
   // A search that leaves its matches collapsed behind their ancestors hides
@@ -193,33 +179,36 @@ interface Props {
 
 export function TreeFacet({title, filters, filterKey, testId}: Props) {
   const t = useTranslations('Filters');
+  const roots = useMemo(() => buildTree(filters), [filters]);
 
   if (!filters.length) {
     return null;
   }
 
-  // The sidebar keeps showing the five biggest, as every other facet does.
-  // On a thesaurus facet those are the broadest terms, which is the summary
-  // worth having at a glance: this collection is mostly Asia and Africa.
-  const preview = mostPopulated(filters, 5);
+  // The five biggest ROOTS, not the five biggest values. Taking the biggest
+  // values put Asia, South-eastern Asia and Indonesia in the sidebar as
+  // three siblings — nested terms shown as peers, with counts containing one
+  // another, reading as 770,000 objects in a collection of 1,039,214. The
+  // roots are the summary: mostly Asia, then the Americas and Africa.
+  const preview = roots.slice(0, 5);
 
   return (
     <FacetWrapper testId={testId} title={title}>
       <div className="flex items-center w-full my-1">
         <FacetTitle />
       </div>
-      {preview.map(filter => (
+      {preview.map(node => (
         <FacetCheckBox
-          key={`TreeFacet-${filter.id}`}
+          key={`TreeFacet-${node.id}`}
           filterKey={filterKey}
-          name={leafName(filter)}
-          id={filter.id}
-          count={filter.totalCount}
+          name={node.name}
+          id={node.id}
+          count={node.totalCount}
         />
       ))}
       <Modal id={filterKey}>
         <ModalHeader title={title} />
-        <ExpandedTree filterKey={filterKey} filters={filters} />
+        <ExpandedTree filterKey={filterKey} filters={filters} roots={roots} />
       </Modal>
       <ModalButton
         id={filterKey}
