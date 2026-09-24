@@ -89,9 +89,17 @@ export type Event = {
   date?: TimeSpan;
 };
 
+// Every kind of event the delivery carries. Upstream modelled only the two
+// that transfer an object between parties; the timeline dropped the rest,
+// which is 940,795 of 3,206,849 events in the Wereldmuseum delivery — most
+// of it production, the event that begins an object's life.
 export enum ProvenanceEventType {
   Acquisition = 'acquisition',
+  Production = 'production',
   TransferOfCustody = 'transferOfCustody',
+  HistoricalEvent = 'historicalEvent',
+  Destruction = 'destruction',
+  Activity = 'activity',
 }
 
 export type ProvenanceEvent = {
@@ -101,6 +109,14 @@ export type ProvenanceEvent = {
   date?: TimeSpan;
   transferredFrom?: Agent;
   transferredTo?: Agent;
+  // Who performed the event, where no object changed hands: the maker of a
+  // production, the actor of an activity. Distinct from the two parties of a
+  // transfer, and the only place a maker appears on an event.
+  carriedOutBy?: Agent;
+  // The event's own name, as the source wrote it. Historical events are
+  // almost always labelled and little else; without this they arrive as a
+  // bare date.
+  label?: string;
   description?: string;
   location?: Place;
   startsAfter?: string; // ID of another provenance event

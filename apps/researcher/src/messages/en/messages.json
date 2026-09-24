@@ -263,7 +263,9 @@
     "addProvenanceButton": "Add provenance",
     "addProvenanceTitle": "Add provenance",
     "needAccountToAddProvenanceTitle": "To add provenance to this object you need to have an account.",
-    "needCommunityToAddProvenanceTitle": "To add provenance to this object you need to be part of a community."
+    "needCommunityToAddProvenanceTitle": "To add provenance to this object you need to be part of a community.",
+    "eventName": "Event",
+    "carriedOutBy": "Carried out by"
   },
   "ProvidedBy": {
     "name": "Provided by <name></name>",

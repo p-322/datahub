@@ -62,12 +62,17 @@ interface ProvenanceEventRowProps {
   dateRange: string;
 }
 
+// Each row renders only the fields its event actually has, so one list
+// serves all six kinds: a production shows a date and sometimes a maker, a
+// historical event its name, an acquisition its two parties.
 const metadata: ReadonlyArray<{
   prop: keyof UserProvenanceEvent;
   translationKey: string;
 }> = [
+  {prop: 'eventName', translationKey: 'eventName'},
   {prop: 'transferredToName', translationKey: 'transferredTo'},
   {prop: 'transferredFromName', translationKey: 'transferredFrom'},
+  {prop: 'carriedOutByName', translationKey: 'carriedOutBy'},
   {prop: 'typeName', translationKey: 'type'},
   {prop: 'locationName', translationKey: 'location'},
 ];

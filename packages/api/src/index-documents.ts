@@ -103,9 +103,8 @@ export const organizationDocSchema = thingDocSchema
   })
   .passthrough();
 
-// Tabulous emits six event kinds mirroring the CRM classes; the datahub's
-// provenance timeline models two of them (ProvenanceEventType). The others
-// are kept in the document for later use and skipped by toProvenanceEvents.
+// The six event kinds Tabulous emits, mirroring the CRM classes. All six
+// reach the provenance timeline; ProvenanceEventType is the same set.
 export const eventTypeSchema = z.enum([
   'acquisition',
   'transferOfCustody',
@@ -369,39 +368,45 @@ export function toOrganization(
   });
 }
 
-const provenanceEventTypes: ReadonlyArray<EventType> = [
-  ProvenanceEventType.Acquisition,
-  ProvenanceEventType.TransferOfCustody,
-];
-
-// Only the event kinds the provenance timeline understands. Production
-// events duplicate object.creators; historical/destruction/activity events
-// await UI that can show them.
+/**
+ * Every event on the object, in the order the delivery gives them.
+ *
+ * Upstream passed only acquisitions and transfers of custody, on the
+ * grounds that production duplicates object.creators and the rest awaited
+ * a UI. Measured against this delivery, that dropped 940,795 of 3,206,849
+ * events: 912,389 productions, 27,455 historical events, 614 destructions,
+ * 337 activities.
+ *
+ * Production does repeat the object's date — its EDTF is identical to
+ * object.dateCreated in all 20,000 documents of a slice — but a timeline
+ * that begins at acquisition is missing the object's beginning, and 4% of
+ * productions name a maker that appears nowhere else on the page.
+ */
 export function toProvenanceEvents(
   document: ObjectDocument,
   locale: Locale
 ): ProvenanceEvent[] {
-  return (document.events ?? [])
-    .filter(doc => provenanceEventTypes.includes(doc.type))
-    .map(doc =>
-      compact({
-        id: doc.id,
-        type: doc.type as ProvenanceEventType,
-        additionalTypes: toThings(
-          doc.additionalTypes?.map(t =>
-            typeof t === 'string' ? {id: expandCurie(t)} : t
-          ),
-          locale
+  return (document.events ?? []).map(doc =>
+    compact({
+      id: doc.id,
+      type: doc.type as ProvenanceEventType,
+      additionalTypes: toThings(
+        doc.additionalTypes?.map(t =>
+          typeof t === 'string' ? {id: expandCurie(t)} : t
         ),
-        date: toTimeSpan(doc.date, `${doc.id}#date`),
-        transferredFrom: toAgent(doc.transferredFrom, locale),
-        transferredTo: toAgent(doc.transferredTo, locale),
-        description: localize(doc.description, locale),
-        location: toPlace(doc.location, locale),
-        startsAfter: doc.startsAfter,
-        endsBefore: doc.endsBefore,
-      })
-    );
+        locale
+      ),
+      date: toTimeSpan(doc.date, `${doc.id}#date`),
+      transferredFrom: toAgent(doc.transferredFrom, locale),
+      transferredTo: toAgent(doc.transferredTo, locale),
+      carriedOutBy: toAgent(doc.carriedOutBy, locale),
+      label: localize(doc.label, locale),
+      description: localize(doc.description, locale),
+      location: toPlace(doc.location, locale),
+      startsAfter: doc.startsAfter,
+      endsBefore: doc.endsBefore,
+    })
+  );
 }
 
 export function toPersonThing(document: PersonDocument, locale: Locale): Thing {

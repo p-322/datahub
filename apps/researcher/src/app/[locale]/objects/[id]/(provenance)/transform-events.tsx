@@ -107,6 +107,10 @@ export async function transformEvents(
         motivations: getMotivations(event),
         transferredToName: event.transferredTo?.name,
         transferredFromName: event.transferredFrom?.name,
+        // Only the museum's own events carry these; a community
+        // enrichment is a statement about a transfer and has neither.
+        carriedOutByName: isEnrichment ? undefined : event.carriedOutBy?.name,
+        eventName: isEnrichment ? undefined : event.label,
         locationName: event.location?.name,
         date: event.date,
         label: `${t('initial')}${index + 1}`,

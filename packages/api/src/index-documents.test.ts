@@ -159,11 +159,12 @@ describe('toOrganization', () => {
 });
 
 describe('toProvenanceEvents', () => {
-  it('maps acquisition and custody events, including sparse ones, and skips the other kinds', () => {
+  it('maps every kind of event, including sparse ones', () => {
     const events = toProvenanceEvents(objectDocument, 'en');
 
-    expect(objectDocument.events).toHaveLength(3); // Incl. a production event
-    expect(events).toHaveLength(2);
+    // Production used to be dropped here, along with historical events,
+    // destructions and activities: 940,795 of the delivery's 3,206,849.
+    expect(events).toHaveLength(objectDocument.events!.length);
     expect(events[0]).toStrictEqual({
       id: 'https://data.sawubona-commons.eu/objects/1234/events/1',
       type: ProvenanceEventType.Acquisition,
@@ -193,6 +194,24 @@ describe('toProvenanceEvents', () => {
       id: 'https://data.sawubona-commons.eu/objects/1234/events/2',
       type: ProvenanceEventType.TransferOfCustody,
       startsAfter: 'https://data.sawubona-commons.eu/objects/1234/events/1',
+    });
+    // A production names neither party. Its maker is in carriedOutBy, and
+    // its own name in label — the two fields the timeline was missing.
+    expect(events[2]).toStrictEqual({
+      id: 'https://data.sawubona-commons.eu/objects/1234/events/3',
+      type: ProvenanceEventType.Production,
+      label: 'Production',
+      carriedOutBy: {
+        id: 'https://example.org/agents/unknown',
+        name: 'Unknown maker',
+        type: 'Unknown',
+      },
+      date: {
+        id: 'https://data.sawubona-commons.eu/objects/1234/events/3#date',
+        edtf: '188X',
+        startDate: new Date('1880-01-01'),
+        endDate: new Date('1889-12-31'),
+      },
     });
   });
 

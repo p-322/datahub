@@ -263,7 +263,9 @@
     "addProvenanceButton": "Herkomstgebeurtenis toevoegen",
     "addProvenanceTitle": "Herkomstgebeurtenis toevoegen",
     "needAccountToAddProvenanceTitle": "Om herkomstgegevens toe te voegen, heb je een account nodig.",
-    "needCommunityToAddProvenanceTitle": "Om herkomstgegevens aan dit object toe te voegen, moet je deel uitmaken van een community."
+    "needCommunityToAddProvenanceTitle": "Om herkomstgegevens aan dit object toe te voegen, moet je deel uitmaken van een community.",
+    "eventName": "Gebeurtenis",
+    "carriedOutBy": "Uitgevoerd door"
   },
   "ProvidedBy": {
     "name": "Geleverd door <name></name>",
