@@ -88,7 +88,9 @@ describe('search', () => {
       {'sort.name.nl': {order: 'desc', missing: '_last'}},
     ]);
     expect(body.aggregations.creators).toStrictEqual({
-      terms: {field: 'facets.creators', size: 10000},
+      // 20,000, against 11,032 distinct makers in v4. Below their number the
+      // facet does not shorten, it loses makers entirely.
+      terms: {field: 'facets.creators', size: 20000},
     });
     expect(body.aggregations.publishers.terms.field).toBe(
       'facets.publisher.nl'

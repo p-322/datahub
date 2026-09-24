@@ -73,10 +73,29 @@ const dateCreatedField = 'facets.dateCreated';
 const yearCreatedStartField = 'facets.yearCreatedStart';
 
 // Facet menus render every bucket and the UI searches within them, so a
-// truncated list makes a term unreachable. The Wereldmuseum delivery has
-// >2,400 distinct subjects and >1,300 types in a 4% sample alone, so keep
-// upstream's 10,000. Exact counts: one shard, so no shard_size skew.
-const facetBucketSize = 10000;
+// truncated list does not degrade — it makes a term unreachable, and the
+// facet looks exactly as it would if the term did not exist.
+//
+// Cardinality of every facet field in sawubona-objects-v4, 1,039,214
+// documents, measured 2026-09-24:
+//
+//   creators 11,032   locationsCreatedPath 6,616   placesDepicted 2,948
+//   subjectsPath 2,917   typesPath 2,648   materialsPath 569
+//   culturesPath 502
+//
+// Upstream's 10,000 was inherited and never checked against the data; it cut
+// about a thousand makers out of the facet. 20,000 clears the largest field
+// by 81%. One shard, so these are exact counts and there is no shard_size
+// skew to allow for.
+//
+// This is a ceiling, not a solution. `creators` is the one facet whose
+// vocabulary grows with the collection rather than with a thesaurus — a
+// second museum could double it — and raising a number each time is not a
+// plan. That facet wants its search moved to Elasticsearch (a terms
+// aggregation with `include` driven by what the user types) instead of
+// shipping every value to the browser. Until then, es-verify-load.sh checks
+// the cardinality of every facet field against this number on each load.
+const facetBucketSize = 20000;
 
 const searchOptionsSchema = z.object({
   locale: localeSchema,
