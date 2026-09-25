@@ -9,22 +9,32 @@ interface GroupByDateRangeProps {
   }) => string;
 }
 
-// This function groups an array of events by their date range.
-// The function returns an object where each key is a string representation of a date range,
-// and each value is an array of all events that fall within that date range.
+/**
+ * Groups already-sorted events by the date range they read as, keeping the
+ * order they arrived in.
+ *
+ * A Map, not an object. An object reorders its own keys: any key that looks
+ * like an array index is enumerated first, in ascending numeric order,
+ * before every other key. Group labels are dates, so "1908" and "1942" are
+ * index-like and "1873–1942", "before 1899" and "No date" are not — which
+ * put a timeline in the order 1908, 1942, 1873–1942, and made the sort look
+ * broken when it was not. A Map keeps insertion order whatever the key.
+ */
 export function groupByDateRange({
   events,
   formatTimeSpan,
 }: GroupByDateRangeProps) {
-  return events.reduce(
-    (eventGroups: {[dateRange: string]: UserProvenanceEvent[]}, event) => {
-      const dateRange = formatTimeSpan(event.date || {}) || '';
-      if (!eventGroups[dateRange]) {
-        eventGroups[dateRange] = [];
-      }
-      eventGroups[dateRange].push(event);
-      return eventGroups;
-    },
-    {}
-  );
+  const eventGroups = new Map<string, UserProvenanceEvent[]>();
+
+  for (const event of events) {
+    const dateRange = formatTimeSpan(event.date || {}) || '';
+    const group = eventGroups.get(dateRange);
+    if (group) {
+      group.push(event);
+    } else {
+      eventGroups.set(dateRange, [event]);
+    }
+  }
+
+  return eventGroups;
 }

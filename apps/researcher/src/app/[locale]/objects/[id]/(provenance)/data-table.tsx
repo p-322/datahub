@@ -45,7 +45,7 @@ export default function DataTable() {
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {Object.entries(eventGroupsFiltered).map(([dateRange, eventGroup]) => (
+        {[...eventGroupsFiltered].map(([dateRange, eventGroup]) => (
           <ProvenanceEventRow
             key={dateRange}
             dateRange={dateRange}

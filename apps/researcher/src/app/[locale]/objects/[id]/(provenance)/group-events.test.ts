@@ -49,9 +49,9 @@ describe('groupByDateRange', () => {
     // @ts-expect-error:TS2322
     const result = groupByDateRange({events, formatTimeSpan});
 
-    expect(result['1/1/2022 - 1/5/2022']).toHaveLength(1);
-    expect(result['1/3/2022 - 1/7/2022']).toHaveLength(2);
-    expect(result['1/6/2022 - 1/10/2022']).toHaveLength(1);
+    expect(result.get('1/1/2022 - 1/5/2022')).toHaveLength(1);
+    expect(result.get('1/3/2022 - 1/7/2022')).toHaveLength(2);
+    expect(result.get('1/6/2022 - 1/10/2022')).toHaveLength(1);
   });
 
   it('handles empty events array', () => {
@@ -59,6 +59,27 @@ describe('groupByDateRange', () => {
 
     const result = groupByDateRange({events, formatTimeSpan});
 
-    expect(Object.keys(result)).toHaveLength(0);
+    expect(result.size).toBe(0);
+  });
+
+  // The regression this shape exists for. An object would enumerate "1908"
+  // and "1942" first, in ascending numeric order, because they read as array
+  // indices; the range and the two textual labels would follow. That put the
+  // 1873–1942 event third on an object page, behind two events that sorted
+  // after it, and made the sort look broken.
+  it('keeps year-labelled groups in the order the events arrived', () => {
+    const labels = ['1873–1942', '1908', '1942', 'before 1899', ''];
+    const events = labels.map((edtf, index) => ({
+      id: `event${index}`,
+      date: {id: `date${index}`, edtf},
+    }));
+
+    const result = groupByDateRange({
+      // @ts-expect-error:TS2322
+      events,
+      formatTimeSpan: ({edtf}) => edtf ?? '',
+    });
+
+    expect([...result.keys()]).toEqual(labels);
   });
 });

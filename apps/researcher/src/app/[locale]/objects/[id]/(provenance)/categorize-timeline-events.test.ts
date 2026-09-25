@@ -12,7 +12,7 @@ describe('categorizeEvents', () => {
     };
 
     // @ts-expect-error:TS2345
-    const result = categorizeEvents(eventGroups);
+    const result = categorizeEvents(new Map(Object.entries(eventGroups)));
 
     expect(result.eventsWithoutDates).toEqual([
       {id: 'event1', date: undefined},
@@ -31,7 +31,7 @@ describe('categorizeEvents', () => {
     };
 
     // @ts-expect-error:TS2345
-    const result = categorizeEvents(eventGroups);
+    const result = categorizeEvents(new Map(Object.entries(eventGroups)));
 
     expect(result.eventsWithoutDates).toEqual([
       {id: 'event1', date: {startDate: undefined, endDate: undefined}},
@@ -66,7 +66,7 @@ describe('categorizeEvents', () => {
     };
 
     // @ts-expect-error:TS2345
-    const result = categorizeEvents(eventGroups);
+    const result = categorizeEvents(new Map(Object.entries(eventGroups)));
 
     expect(result.eventsWithoutDates).toEqual([]);
     expect(result.rangeEvents).toEqual([
@@ -108,7 +108,7 @@ describe('categorizeEvents', () => {
     };
 
     // @ts-expect-error:TS2345
-    const result = categorizeEvents(eventGroups);
+    const result = categorizeEvents(new Map(Object.entries(eventGroups)));
 
     expect(result.eventsWithoutDates).toEqual([]);
     expect(result.rangeEvents).toEqual([]);
@@ -170,7 +170,7 @@ describe('categorizeEvents', () => {
     };
 
     // @ts-expect-error:TS2345
-    const result = categorizeEvents(eventGroups);
+    const result = categorizeEvents(new Map(Object.entries(eventGroups)));
 
     expect(result.eventsWithoutDates).toEqual([
       {id: 'event1', label: 'P1', startDate: undefined, endDate: undefined},

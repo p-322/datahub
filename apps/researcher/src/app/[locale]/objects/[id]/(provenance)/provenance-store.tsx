@@ -17,8 +17,8 @@ interface SelectedEventContextType {
   selectedEvents: string[];
   setSelectedEvents: Dispatch<SetStateAction<string[]>>;
   events: UserProvenanceEvent[];
-  eventGroups: {[dateRange: string]: UserProvenanceEvent[]};
-  eventGroupsFiltered: {[dateRange: string]: UserProvenanceEvent[]};
+  eventGroups: Map<string, UserProvenanceEvent[]>;
+  eventGroupsFiltered: Map<string, UserProvenanceEvent[]>;
   showTimeline: boolean;
   showDataTable: boolean;
   setShowTimeline: Dispatch<SetStateAction<boolean>>;
@@ -29,8 +29,8 @@ const SelectedEventContext = createContext<SelectedEventContextType>({
   selectedEvents: [],
   setSelectedEvents: () => {},
   events: [],
-  eventGroups: {},
-  eventGroupsFiltered: {},
+  eventGroups: new Map(),
+  eventGroupsFiltered: new Map(),
   showTimeline: true,
   showDataTable: true,
   setShowTimeline: () => {},
