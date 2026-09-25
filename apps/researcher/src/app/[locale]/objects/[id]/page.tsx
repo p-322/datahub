@@ -15,7 +15,7 @@ import {HeritageObjectEnrichmentType} from '@p-322/enricher';
 import ISO6391, {LanguageCode} from 'iso-639-1';
 import {getDateFormatter} from '@/lib/date-formatter/actions';
 import {LocaleEnum} from '@/definitions';
-import Map from './map';
+// Map is not rendered on this page; see ./map/index.tsx.
 import {ReadMoreText} from '@/components/read-more-text';
 import Provenance from './(provenance)/overview';
 import LocalContextsNotices from './local-contexts-notices/overview';
@@ -334,11 +334,20 @@ export default async function Details({params}: Props) {
                       </div>
                     )}
                   </div>
+                  {/* The map showed a marker on the data provider's own
+                      address at zoom 7, which is a pin somewhere in the
+                      country the address just named. Taken off the page until
+                      there is a map worth having: the geography that means
+                      something here is where an object came from, and that
+                      needs coordinates on the places the index already
+                      carries.
+
                   {organization.address && (
                     <div className="w-full md:w-1/2 mt-6 md:mt-0 h-[300px] md:h-[400px] lg:h-[500px]">
                       <Map address={organization.address} />
                     </div>
                   )}
+                  */}
                 </div>
               </div>
             </div>
