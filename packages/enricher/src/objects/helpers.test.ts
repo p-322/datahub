@@ -40,6 +40,23 @@ describe('fromPropertyToType', () => {
 
     expect(type).toEqual(HeritageObjectEnrichmentType.Material);
   });
+
+  // Enrichments published by the Colonial Collections datahub are read too,
+  // and they name the same properties under that datahub's namespace.
+  it('returns the same type for the property in the old vocabulary', () => {
+    const type = fromPropertyToType(
+      'https://n2t.net/ark:/27023/9819f32405815dc7f2e0ecd9d8a9e604#material'
+    );
+
+    expect(type).toEqual(HeritageObjectEnrichmentType.Material);
+  });
+
+  // Reading a second namespace must not turn into accepting any namespace.
+  it('still rejects a known name under an unknown namespace', () => {
+    expect(() => fromPropertyToType('https://example.org/ns#material')).toThrow(
+      'Unknown property: "https://example.org/ns#material"'
+    );
+  });
 });
 
 describe('fromTypeToClass', () => {

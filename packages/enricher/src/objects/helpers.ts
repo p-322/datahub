@@ -1,4 +1,5 @@
 import {ontologyUrl} from '../definitions';
+import {legacyOntologyUrl} from '../legacy';
 import {HeritageObjectEnrichmentType} from './definitions';
 
 // E.g. from 'material' to 'https://sawubona-commons.eu/ns/nanopub#material'
@@ -13,11 +14,16 @@ export function fromTypeToProperty(type: HeritageObjectEnrichmentType) {
   throw new TypeError(`Unknown type: "${type}"`);
 }
 
-// E.g. from 'https://sawubona-commons.eu/ns/nanopub#material' to 'material'
+// E.g. from 'https://sawubona-commons.eu/ns/nanopub#material' to 'material'.
+// Also reads the same property in the vocabulary of the Colonial Collections
+// datahub, whose enrichments are shown alongside ours; see ../legacy.ts.
 export function fromPropertyToType(property: string | undefined) {
   const entries = Object.entries(HeritageObjectEnrichmentType);
   for (const entry of entries) {
-    if (property === `${ontologyUrl}${entry[1]}`) {
+    if (
+      property === `${ontologyUrl}${entry[1]}` ||
+      property === `${legacyOntologyUrl}${entry[1]}`
+    ) {
       return entry[1];
     }
   }

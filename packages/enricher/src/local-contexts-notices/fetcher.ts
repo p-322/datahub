@@ -1,4 +1,9 @@
 import {ontologyUrl} from '../definitions';
+import {
+  legacyObjectIri,
+  legacyOntologyUrl,
+  legacyTestCreatorPrefix,
+} from '../legacy';
 import {toLocalContextsNoticeEnrichment} from './rdf-helpers';
 import {isIri} from '@p-322/iris';
 import {SparqlEndpointFetcher} from 'fetch-sparql-endpoint';
@@ -33,6 +38,7 @@ export class LocalContextsNoticesEnrichmentFetcher {
     const query = `
       PREFIX as: <https://www.w3.org/ns/activitystreams#>
       PREFIX cc: <${ontologyUrl}>
+      PREFIX legacy: <${legacyOntologyUrl}>
       PREFIX dc: <http://purl.org/dc/elements/1.1/>
       PREFIX dcterms: <http://purl.org/dc/terms/>
       PREFIX ex: <https://example.org/>
@@ -66,10 +72,23 @@ export class LocalContextsNoticesEnrichmentFetcher {
           ex:name ?groupName .
       }
       WHERE {
+        # The object is matched under its own IRI and under the identifier
+        # the Colonial Collections datahub gave it, so their enrichments show
+        # on it too (../legacy.ts). ?source stays our IRI: it is the key the
+        # loader reads the results back under.
         BIND(<${iri}> AS ?source)
+        VALUES ?about { <${iri}> <${legacyObjectIri(iri)}> }
+        VALUES ?kind { cc:Nanopub legacy:Nanopub }
 
+        # The kind is matched in Query's admin graph, not in the nanopub's
+        # own pubinfo. Query records every nanopub's type here whichever
+        # way it was declared; the old datahub declared it with rdf:type,
+        # which appears in npa:graph as npx:hasNanopubType and nowhere
+        # else. Measured 2026-09-25: no nanopub in the store has a type in
+        # its pubinfo that this graph lacks.
         graph npa:graph {
           ?np npa:hasHeadGraph ?head ;
+            npx:hasNanopubType ?kind ;
             dcterms:created ?dateCreated .
         }
 
@@ -80,14 +99,14 @@ export class LocalContextsNoticesEnrichmentFetcher {
         }
 
         graph ?pubInfo {
-          ?np npx:hasNanopubType cc:Nanopub ;
-            npx:introduces ?annotation ;
+          ?np npx:introduces ?annotation ;
             dcterms:license ?license .
         }
 
         graph ?provenance {
           ?assertion prov:wasAttributedTo ?creator .
           ?creator rdfs:label ?creatorName .
+          FILTER(!STRSTARTS(STR(?creator), "${legacyTestCreatorPrefix}"))
 
           OPTIONAL {
             ?creator prov:qualifiedDelegation [
@@ -99,7 +118,7 @@ export class LocalContextsNoticesEnrichmentFetcher {
 
         graph ?assertion {
           ?annotation a oa:Annotation ;
-             oa:hasTarget ?source .
+             oa:hasTarget ?about .
 
           ?annotation oa:hasBody ?body .
           ?body as:context ?context .
