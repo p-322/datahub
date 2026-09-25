@@ -35,50 +35,54 @@ interface CommunityCardProps {
 export default function CommunityCard({community}: CommunityCardProps) {
   const t = useTranslations('Communities');
 
+  // The same surface as the frosted search card on the home page: rounded,
+  // lightly shaded, lifting to the full card shadow on hover. The avatar sits
+  // inside the card, small and in greyscale, so a row of cards reads as text
+  // first and pictures second.
   return (
     <Link
       href={`/communities/${community.slug}`}
-      className="mb-20 pb-5 group bg-accent-100 text-ink-800 rounded hover:bg-accent-200 transition no-underline border border-ink-800 flex flex-col items"
+      className="frost-card shadow-card-sm hover:shadow-card transition-shadow group flex flex-col gap-4 p-6 text-ink-800 no-underline"
       tabIndex={0}
     >
-      <div className="-mt-20 w-full flex justify-center">
+      <div className="flex items-center gap-4">
         <Image
-          width={144}
-          height={144}
+          width={56}
+          height={56}
           src={community.imageUrl}
           alt=""
-          className="w-36 h-36 rounded-full border border-ink-800 transition object-cover"
+          className="w-14 h-14 shrink-0 rounded-full object-cover grayscale"
         />
+        <h2 className="text-lg leading-snug">
+          {t.rich('communityName', {
+            name: () => (
+              <strong
+                className="font-semibold"
+                data-testid="community-item-name"
+              >
+                {community.name}
+              </strong>
+            ),
+          })}
+        </h2>
       </div>
 
-      <h2 className="text-xl font-normal w-full flex justify-center mt-4 px-4">
-        {t.rich('communityName', {
-          name: () => (
-            <strong
-              className="font-semibold ml-1"
-              data-testid="community-item-name"
-            >
-              {community.name}
-            </strong>
-          ),
-        })}
-      </h2>
-      <div className="text-center m-4 line-clamp-3 grow">
-        {community.description}
-      </div>
+      {community.description && (
+        <p className="text-ink-600 line-clamp-3">{community.description}</p>
+      )}
 
-      <div className="flex border-ink-700 border-y text-sm">
-        <div className="w-1/2 p-4 border-ink-700 border-r">
+      <ul className="mt-auto flex flex-wrap gap-x-6 gap-y-1 text-sm text-ink-600">
+        <li>
           {t.rich('membershipCount', {
             count: community.membershipCount,
           })}
-        </div>
-        <div className="w-1/2 p-4">
+        </li>
+        <li>
           <Suspense>
             <ObjectListCount communityId={community.id} />
           </Suspense>
-        </div>
-      </div>
+        </li>
+      </ul>
     </Link>
   );
 }
