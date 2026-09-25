@@ -34,6 +34,7 @@ export default async function LocalContextsNotices() {
       creatorName: notice.pubInfo.creator?.name,
       isCurrentPublisher: false,
       dateCreated: notice.pubInfo.dateCreated,
+      createdWith: notice.pubInfo.createdWith,
       inLanguage: notice.inLanguage,
       label: tNotices(
         localContextsNoticeEnrichmentTypeMapping[
@@ -51,6 +52,7 @@ export default async function LocalContextsNotices() {
     creatorName: t('defaultProvider'),
     isCurrentPublisher: true,
     dateCreated: undefined,
+    createdWith: undefined,
     communityName: undefined,
     inLanguage: undefined,
     label: tNotices('attributionIncompleteLabel'),
@@ -137,6 +139,7 @@ export default async function LocalContextsNotices() {
                     isCurrentPublisher={notice.isCurrentPublisher}
                     subText={notice.isCurrentPublisher ? t('defaultLabel') : ''}
                     dateCreated={notice.dateCreated}
+                    createdWith={notice.createdWith}
                   />
                 </div>
               </div>

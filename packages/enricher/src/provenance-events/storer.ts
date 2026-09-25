@@ -1,5 +1,9 @@
 import {nanopubId, NanopubClient} from '../client';
-import {ontologyUrl, type BasicEnrichment} from '../definitions';
+import {
+  ontologyUrl,
+  softwareToolIri,
+  type BasicEnrichment,
+} from '../definitions';
 import {getDateAsXsd, DateType} from './helpers';
 import {
   provenanceEventEnrichmentBeingCreatedSchema,
@@ -43,7 +47,7 @@ export class ProvenanceEventEnrichmentStorer {
     const isAcquisition = opts.type === ProvenanceEventType.Acquisition;
 
     // Make clear what application has published this nanopub
-    const softwareToolId = DF.namedNode('https://datahub.sawubona-commons.eu/');
+    const softwareToolId = DF.namedNode(softwareToolIri);
 
     publicationStore.addQuad(
       DF.quad(

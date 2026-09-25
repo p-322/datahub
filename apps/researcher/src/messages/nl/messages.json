@@ -271,6 +271,7 @@
     "name": "Geleverd door <name></name>",
     "community": "Namens de <name></name> gemeenschap",
     "date": "Op <date></date>",
+    "madeWith": "Gemaakt met <link></link>",
     "showCitationButton": "Toon bron",
     "citationTitle": "Bron"
   },

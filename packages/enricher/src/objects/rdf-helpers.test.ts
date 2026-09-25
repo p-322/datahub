@@ -36,7 +36,8 @@ beforeAll(async () => {
       ex:dateCreated "2023-01-01"^^xsd:date ;
       ex:citation "Citation" ;
       ex:description "Description" ;
-      ex:inLanguage "en" .
+      ex:inLanguage "en" ;
+      ex:createdWith <https://app.colonialcollections.nl/> .
 
     ex:myPerson a ex:Actor ;
       ex:name "Person" ;
@@ -98,6 +99,7 @@ describe('toHeritageObjectEnrichment', () => {
         },
         license: 'https://example.com/license',
         dateCreated: new Date('2023-01-01T00:00:00.000Z'),
+        createdWith: 'https://app.colonialcollections.nl/',
       },
       citation: 'Citation',
       description: 'Description',

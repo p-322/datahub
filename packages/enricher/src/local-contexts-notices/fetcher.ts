@@ -61,6 +61,7 @@ export class LocalContextsNoticesEnrichmentFetcher {
           ex:citation ?comment ;
           ex:inLanguage ?language ;
           ex:license ?license ;
+          ex:createdWith ?createdWith ;
           ex:creator ?creator ;
           ex:createdOnBehalfOf ?group ;
           ex:dateCreated ?dateCreated .
@@ -101,6 +102,12 @@ export class LocalContextsNoticesEnrichmentFetcher {
         graph ?pubInfo {
           ?np npx:introduces ?annotation ;
             dcterms:license ?license .
+
+          # The application it was made with, so the page can tell ours
+          # from enrichments made elsewhere. Optional: a nanopub need not say.
+          OPTIONAL {
+            ?np npx:wasCreatedWith ?createdWith .
+          }
         }
 
         graph ?provenance {

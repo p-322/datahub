@@ -160,6 +160,7 @@ function ProvenanceEventRow({
                 communityName={event.communityName}
                 id={event.id}
                 isCurrentPublisher={event.isCurrentPublisher}
+                createdWith={event.createdWith}
               />
             </div>
           </div>

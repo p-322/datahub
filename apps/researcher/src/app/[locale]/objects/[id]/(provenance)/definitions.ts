@@ -25,6 +25,8 @@ export type UserProvenanceEvent = {
   communityName?: string;
   isCurrentPublisher: boolean;
   inLanguage?: string;
+  // The application a community enrichment says it was made with.
+  createdWith?: string;
 };
 
 export type TimelineEvent = {

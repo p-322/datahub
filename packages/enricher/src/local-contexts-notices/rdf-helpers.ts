@@ -20,6 +20,7 @@ export function toLocalContextsNoticeEnrichment(rawEnrichment: Resource) {
   const creator = onlyOne(createActors(rawEnrichment, 'ex:creator'))!;
   const group = onlyOne(createActors(rawEnrichment, 'ex:createdOnBehalfOf'));
   const license = getPropertyValue(rawEnrichment, 'ex:license')!;
+  const createdWith = getPropertyValue(rawEnrichment, 'ex:createdWith');
   const dateCreated = onlyOne(createDates(rawEnrichment, 'ex:dateCreated'))!;
   const citation = getPropertyValue(rawEnrichment, 'ex:citation');
   const description = getPropertyValue(rawEnrichment, 'ex:description');
@@ -39,6 +40,9 @@ export function toLocalContextsNoticeEnrichment(rawEnrichment: Resource) {
       creator: creatorWithGroup,
       license,
       dateCreated,
+      // Only when the nanopub says: defu below strips nullish values from
+      // the top level but not from inside pubInfo.
+      ...(createdWith !== undefined && {createdWith}),
     },
   };
 

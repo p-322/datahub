@@ -2,7 +2,8 @@
 
 import {SlideOut, SlideOutButton} from '@p-322/ui';
 import classNames from 'classnames';
-import {useTranslations} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
+import {madeElsewhere} from '@/lib/made-elsewhere';
 import {useDateFormatter} from '@/lib/date-formatter/hooks';
 
 interface ProvidedByProps {
@@ -13,6 +14,9 @@ interface ProvidedByProps {
   id: string;
   isCurrentPublisher: boolean;
   subText?: string;
+  // The application the enrichment says it was made with; see
+  // lib/made-elsewhere.ts for when that marks it as made elsewhere.
+  createdWith?: string;
 }
 
 export function ProvidedBy({
@@ -23,9 +27,12 @@ export function ProvidedBy({
   communityName,
   id,
   subText,
+  createdWith,
 }: ProvidedByProps) {
   const t = useTranslations('ProvidedBy');
+  const locale = useLocale();
   const {formatDate} = useDateFormatter();
+  const elsewhere = madeElsewhere(createdWith, locale);
 
   return (
     <div
@@ -44,6 +51,17 @@ export function ProvidedBy({
           <div>
             {t.rich('community', {
               name: () => <strong tabIndex={0}>{communityName}</strong>,
+            })}
+          </div>
+        )}
+        {elsewhere && (
+          <div>
+            {t.rich('madeWith', {
+              link: () => (
+                <a href={elsewhere.url} className="underline">
+                  {elsewhere.name}
+                </a>
+              ),
             })}
           </div>
         )}

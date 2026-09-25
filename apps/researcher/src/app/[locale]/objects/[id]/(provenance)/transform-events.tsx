@@ -123,6 +123,7 @@ export async function transformEvents(
           ? event.pubInfo.creator.isPartOf?.name
           : undefined,
         isCurrentPublisher: !isEnrichment,
+        createdWith: isEnrichment ? event.pubInfo.createdWith : undefined,
         inLanguage:
           isEnrichment && event.inLanguage
             ? ISO6391.getName(event.inLanguage)

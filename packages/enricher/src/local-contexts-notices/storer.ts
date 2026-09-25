@@ -1,5 +1,9 @@
 import {nanopubId, NanopubClient} from '../client';
-import {ontologyUrl, type BasicEnrichment} from '../definitions';
+import {
+  ontologyUrl,
+  softwareToolIri,
+  type BasicEnrichment,
+} from '../definitions';
 import {
   localContextsNoticeEnrichmentBeingCreatedSchema,
   LocalContextsNoticeEnrichmentBeingCreated,
@@ -41,7 +45,7 @@ export class LocalContextsNoticeEnrichmentStorer {
     const languageCode = opts.inLanguage;
 
     // Make clear what application has published this nanopub
-    const softwareToolId = DF.namedNode('https://datahub.sawubona-commons.eu/');
+    const softwareToolId = DF.namedNode(softwareToolIri);
 
     publicationStore.addQuad(
       DF.quad(

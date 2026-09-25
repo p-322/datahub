@@ -28,6 +28,12 @@ export const nanopubAgentIri =
   'https://datahub.sawubona-commons.eu/nanopub-agent';
 export const nanopubAgentName = 'Sawubona Commons Bot';
 
+// The application every nanopublication of ours says it was made with, as
+// `npx:wasCreatedWith` in its pubinfo. The storers write it; the object page
+// reads it back to tell our enrichments from ones made with another tool.
+// One constant for both, so the two cannot drift apart.
+export const softwareToolIri = 'https://datahub.sawubona-commons.eu/';
+
 export const creatorSchema = z.object({
   id: z.string().url(),
   name: z.string(),
@@ -76,4 +82,8 @@ export type PubInfo = {
   creator: Actor;
   license: string;
   dateCreated: Date;
+  // The `npx:wasCreatedWith` of the nanopublication: the application it was
+  // made with. Ours is `softwareToolIri`. Absent when the nanopublication
+  // does not say.
+  createdWith?: string;
 };

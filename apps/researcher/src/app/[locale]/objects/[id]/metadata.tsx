@@ -78,6 +78,7 @@ export function Metadata({
                 dateCreated={enrichment.pubInfo.dateCreated}
                 citation={enrichment.citation}
                 creator={enrichment.pubInfo.creator}
+                createdWith={enrichment.pubInfo.createdWith}
                 languageCode={enrichment.inLanguage}
               >
                 <ReadMoreText text={enrichment.description} />
@@ -102,6 +103,7 @@ interface MetadataEntryProps {
   dateCreated?: Date;
   citation?: string;
   creator?: Actor;
+  createdWith?: string;
   languageCode?: string;
   translationKey: string;
   children?: ReactNode;
@@ -112,6 +114,7 @@ export async function MetadataEntry({
   dateCreated,
   citation,
   creator,
+  createdWith,
   languageCode,
   translationKey,
   children,
@@ -136,6 +139,7 @@ export async function MetadataEntry({
           communityName={creator?.isPartOf?.name}
           id={translationKey}
           isCurrentPublisher={isCurrentPublisher}
+          createdWith={createdWith}
         />
       </div>
     </div>

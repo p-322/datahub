@@ -271,6 +271,7 @@
     "name": "Provided by <name></name>",
     "community": "On behalf of <name></name> community",
     "date": "On <date></date>",
+    "madeWith": "Made with <link></link>",
     "showCitationButton": "Show resource",
     "citationTitle": "Resource"
   },
