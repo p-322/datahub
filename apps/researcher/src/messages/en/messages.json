@@ -208,7 +208,7 @@
     "title": "Local Contexts Notices",
     "description": "The Local Contexts Collections Care (CC) Notices are visible identifiers developed specifically for institutions and repositories to support proper cultural care and stewardship of collections, led and guided by Indigenous protocols and authority. <link> Learn more about the Local Contexts Collections Care Notices</link>.",
     "listLabel": "Notices for this object",
-    "defaultProvider": "Team Harnem",
+    "defaultProvider": "Sawubona Commons",
     "defaultLabel": "This is a standard Notice added to each object to indicate an incomplete, incorrect and/or missing attribution.",
     "addLocalContextsNoticeButton": "Add your Local Contexts Notice",
     "needAccountToAddLocalContextsNotice": "To add Local Contexts Notices to this object, you need an account.",
