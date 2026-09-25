@@ -129,7 +129,7 @@ export default async function CommunityPage({params}: Props) {
               <Image
                 width="0"
                 height="0"
-                className="w-32 h-32 lg:w-48 lg:h-48 rounded-full  border border-ink-700 object-cover"
+                className="w-32 h-32 lg:w-48 lg:h-48 rounded-full border border-ink-700 object-cover grayscale"
                 sizes="(min-width: 1024px) 192px, 128px"
                 src={community.imageUrl}
                 alt=""
@@ -206,7 +206,7 @@ export default async function CommunityPage({params}: Props) {
                   data-testid={`object-list-item-${objectList.id}`}
                   href={`/communities/${params.slug}/${objectList.id}`}
                   key={objectList.id}
-                  className="no-underline bg-accent-100 rounded-lg flex flex-col justify-between"
+                  className="no-underline frost-card shadow-card-sm hover:shadow-card transition-shadow overflow-hidden flex flex-col justify-between"
                 >
                   <div className="text-sm text-accent-600 pt-4 px-4">
                     {t('objectListsCardType')}
@@ -264,7 +264,7 @@ export default async function CommunityPage({params}: Props) {
                       <Image
                         src={membership.imageUrl}
                         alt=""
-                        className="w-full rounded-full"
+                        className="w-full rounded-full grayscale"
                         width={40}
                         height={40}
                       />
