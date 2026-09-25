@@ -3,16 +3,6 @@ import {FundingDisclosure, Wordmark} from '@p-322/ui/branding';
 import {getTranslations} from 'next-intl/server';
 import ToFilteredListButton from './to-filtered-list-button';
 
-export const secondaryNavigation = [
-  {translationKey: 'about', href: '/about'},
-  {translationKey: 'faq', href: '/faq'},
-  {translationKey: 'contact', href: '/contact'},
-  {
-    translationKey: 'consortium',
-    href: 'https://sawubona-commons.eu/',
-  },
-];
-
 export default async function Footer() {
   const t = await getTranslations('Navigation');
 
@@ -38,13 +28,6 @@ export default async function Footer() {
               <ToFilteredListButton baseUrl="/communities">
                 {t('communities')}
               </ToFilteredListButton>
-            </nav>
-            <nav className="flex flex-col gap-1 text-sm">
-              {secondaryNavigation.map(item => (
-                <Link key={item.href} href={item.href}>
-                  {t(item.translationKey)}
-                </Link>
-              ))}
             </nav>
           </div>
         </div>

@@ -16,15 +16,6 @@ export default function Navigation() {
 
   const tNavigation = useTranslations('Navigation');
   const tLanguageSelector = useTranslations('LanguageSelector');
-  const subMenuItems = useMemo(
-    () =>
-      [{name: tNavigation('about'), href: '/about'}].map(item => ({
-        ...item,
-        active: item.href === pathname,
-      })),
-    [pathname, tNavigation]
-  );
-
   const languageMenuItems = useMemo(
     () =>
       locales.map(localeItem => ({
@@ -59,11 +50,6 @@ export default function Navigation() {
         <Link href="/" className="flex items-center">
           {tNavigation('home')}
         </Link>
-        <NavigationMenu
-          buttonText={tNavigation('subMenuButton')}
-          menuItems={subMenuItems}
-          Link={Link}
-        />
       </nav>
       <div className="order-4 lg:order-4 text-sm  flex items-center">
         <NavigationMenu
