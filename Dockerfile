@@ -35,11 +35,9 @@ ARG APP
 ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
 ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
 ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
-ARG NEXT_PUBLIC_COMMUNITY_ENRICHMENT_LICENSE="https://creativecommons.org/licenses/by/4.0/"
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} \
     NEXT_PUBLIC_CLERK_SIGN_IN_URL=${NEXT_PUBLIC_CLERK_SIGN_IN_URL} \
     NEXT_PUBLIC_CLERK_SIGN_UP_URL=${NEXT_PUBLIC_CLERK_SIGN_UP_URL} \
-    NEXT_PUBLIC_COMMUNITY_ENRICHMENT_LICENSE=${NEXT_PUBLIC_COMMUNITY_ENRICHMENT_LICENSE} \
     NEXT_TELEMETRY_DISABLED=1 \
     NODE_ENV=production
 # BUILD-TIME PLACEHOLDERS for server-side config. `next build` imports every
@@ -50,7 +48,15 @@ ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} \
 # starts, so the real values from the host (Enterprise: /etc/enterprise/
 # datahub.env + /run/datahub.env from 1Password) take effect at runtime. This
 # stage's ENV does not carry over to the runner stage.
+# COMMUNITY_ENRICHMENT_LICENSE is the odd one out: a real value rather than a
+# placeholder, because three server actions read it at module load and
+# `next build` imports them. Like the rest of this block it does not reach the
+# runner stage — the host supplies it at runtime (devops local.datahub_env).
+#
+# SEARCH_ENDPOINT_URL stays the first line: scripts/verify.sh finds this block
+# by matching `^ENV SEARCH_ENDPOINT_URL=` and replays it into its own build.
 ENV SEARCH_ENDPOINT_URL=http://build-placeholder.invalid/sawubona \
+    COMMUNITY_ENRICHMENT_LICENSE=https://creativecommons.org/licenses/by/4.0/ \
     NANOPUB_SPARQL_ENDPOINT_URL=http://build-placeholder.invalid/sparql \
     NANOPUB_WRITE_ENDPOINT_URL=http://build-placeholder.invalid/ \
     NANOPUB_PRIVATE_KEY=build-placeholder \
