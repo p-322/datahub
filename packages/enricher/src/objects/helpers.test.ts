@@ -4,8 +4,14 @@ import {
   fromTypeToClass,
   fromTypeToProperty,
 } from './helpers';
-import {ontologyVersionIdentifier, ontologyUrl} from '../definitions';
 import {describe, expect, it} from '@jest/globals';
+
+// The IRIs are written out in full rather than built from `ontologyUrl`.
+// Asserting against the same constant the code interpolates proves only that
+// a template literal works; these tests are here to pin the vocabulary that
+// goes out in a nanopub, so they have to state it.
+const material = 'https://sawubona-commons.eu/ns/nanopub#material';
+const Material = 'https://sawubona-commons.eu/ns/nanopub#Material';
 
 describe('fromTypeToProperty', () => {
   it('throws if the property is unknown', () => {
@@ -18,7 +24,7 @@ describe('fromTypeToProperty', () => {
   it('returns the property of a type', () => {
     const property = fromTypeToProperty(HeritageObjectEnrichmentType.Material);
 
-    expect(property).toEqual(`${ontologyUrl}material`);
+    expect(property).toEqual(material);
   });
 });
 
@@ -30,7 +36,7 @@ describe('fromPropertyToType', () => {
   });
 
   it('returns the type of a property', () => {
-    const type = fromPropertyToType(`${ontologyUrl}material`);
+    const type = fromPropertyToType(material);
 
     expect(type).toEqual(HeritageObjectEnrichmentType.Material);
   });
@@ -47,8 +53,6 @@ describe('fromTypeToClass', () => {
   it('returns the class of a type', () => {
     const className = fromTypeToClass(HeritageObjectEnrichmentType.Material);
 
-    expect(className).toEqual(
-      `${ontologyUrl}Material${ontologyVersionIdentifier}`
-    );
+    expect(className).toEqual(Material);
   });
 });

@@ -1,10 +1,32 @@
 import {z} from 'zod';
 
-export const ontologyUrl =
-  'https://n2t.net/ark:/27023/9819f32405815dc7f2e0ecd9d8a9e604#';
+// The vocabulary Sawubona Commons publishes its nanopublications in. Every
+// class and property a nanopub of ours carries is named under this namespace,
+// and `?np a sc:Nanopub` is what tells our enrichments apart from every other
+// nanopub on the network — so the writers in */storer.ts and the readers in
+// */fetcher.ts take it from here and nowhere else.
+//
+// Should a class ever have to change meaning, the vocabulary moves as a whole
+// to a dated namespace — `/ns/nanopub/<year>#` — rather than growing a suffix
+// per class.
+export const ontologyUrl = 'https://sawubona-commons.eu/ns/nanopub#';
 
-// There currently is only one version of (the classes in) the ontology
-export const ontologyVersionIdentifier = 'Version1';
+// The agent every nanopublication of ours is signed by, and the label the
+// network shows it under.
+//
+// One agent for the whole application, not one per contributor: a key has to
+// be introduced and then endorsed by an already-trusted agent before the
+// network will attribute what it signs, and that is a step no contributor
+// should have to take before they can say something. Who actually made the
+// statement is recorded in the provenance graph as `prov:wasAttributedTo`,
+// which is what the fetchers read for the name shown on an object page.
+//
+// Hard-coded rather than configured, next to the vocabulary it publishes
+// under, because a misconfigured value here would sign under the wrong
+// identity and a nanopublication cannot be edited afterwards.
+export const nanopubAgentIri =
+  'https://datahub.sawubona-commons.eu/nanopub-agent';
+export const nanopubAgentName = 'Sawubona Commons Bot';
 
 export const creatorSchema = z.object({
   id: z.string().url(),

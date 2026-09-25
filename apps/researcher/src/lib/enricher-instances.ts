@@ -88,8 +88,9 @@ export const localContextsNoticesEnrichmentFetcher =
   );
 
 // Writing is user-initiated and must not be swallowed: if someone submits an
-// enrichment while the endpoints are unset or the server is down, that has to
-// surface as an error rather than as a save that silently did nothing.
+// enrichment while the endpoint or the key is unset, or the registry is down,
+// that has to surface as an error rather than as a save that silently did
+// nothing.
 //
 // `?? ''` because the client validates its options with Zod at construction,
 // which happens when this module is imported: an *unset* variable would throw
@@ -98,6 +99,6 @@ export const localContextsNoticesEnrichmentFetcher =
 export const creator = new EnrichmentCreator({
   nanopubClient: new NanopubClient({
     endpointUrl: env.NANOPUB_WRITE_ENDPOINT_URL ?? '',
-    proxyEndpointUrl: env.NANOPUB_WRITE_PROXY_ENDPOINT_URL ?? '',
+    privateKey: env.NANOPUB_PRIVATE_KEY ?? '',
   }),
 });

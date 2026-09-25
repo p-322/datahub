@@ -80,7 +80,7 @@ export class LocalContextsNoticesEnrichmentFetcher {
         }
 
         graph ?pubInfo {
-          ?np a cc:Nanopub ;
+          ?np npx:hasNanopubType cc:Nanopub ;
             npx:introduces ?annotation ;
             dcterms:license ?license .
         }

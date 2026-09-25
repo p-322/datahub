@@ -1,5 +1,8 @@
-import {creatorSchema} from './definitions';
+import {creatorSchema, nanopubAgentIri, nanopubAgentName} from './definitions';
 import type * as RDF from '@rdfjs/types';
+// Namespaced on purpose: this library exports a `NanopubClient` of its own,
+// and the two would be indistinguishable at the call site below.
+import * as nanopubJs from '@nanopub/nanopub-js';
 import {DataFactory} from 'rdf-data-factory';
 import rdfSerializer from 'rdf-serialize';
 import {RdfStore} from 'rdf-stores';
@@ -17,8 +20,13 @@ const assertionGraph = DF.namedNode(`${nanopubTempIri}assertion`);
 const provenanceGraph = DF.namedNode(`${nanopubTempIri}provenance`);
 
 const constructorOptionsSchema = z.object({
+  // The Nanopub Registry to publish to. Empty disables publishing: an
+  // enrichment submitted while it is unset fails with a clear error rather
+  // than silently going nowhere.
   endpointUrl: z.string(),
-  proxyEndpointUrl: z.string(),
+  // The signing key, base64 of the PKCS#8 DER, on one line. Empty disables
+  // publishing for the same reason.
+  privateKey: z.string(),
 });
 
 export type NanopubClientConstructorOptions = z.infer<
@@ -34,16 +42,10 @@ const addOptionsSchema = z.object({
 export type AddOptions = z.infer<typeof addOptionsSchema>;
 
 const saveOptionsSchema = z.object({
-  creator: z.string().url(),
   store: z.instanceof(RdfStore<number>),
 });
 
 type SaveOptions = z.infer<typeof saveOptionsSchema>;
-
-const saveResponseSchema = z.object({
-  id: z.string().url(),
-  url: z.string().url(),
-});
 
 export type Nanopub = {
   id: string;
@@ -53,48 +55,53 @@ export type Nanopub = {
 // You should use the high-level EnrichmentCreator in most cases
 export class NanopubClient {
   private readonly endpointUrl: string;
-  private readonly proxyEndpointUrl: string;
+  private readonly privateKey: string;
 
   constructor(options: NanopubClientConstructorOptions) {
     const opts = constructorOptionsSchema.parse(options);
 
     this.endpointUrl = opts.endpointUrl;
-    this.proxyEndpointUrl = opts.proxyEndpointUrl;
+    this.privateKey = opts.privateKey;
   }
 
+  /**
+   * Sign the assembled nanopublication and publish it to the Registry.
+   *
+   * Signing happens here, in this process, with the key from
+   * `NANOPUB_PRIVATE_KEY`. It used to happen in a signing proxy we ran on
+   * fly.io, which held the key and was handed the TriG over HTTP; nanopub-js
+   * does the same work without a service in between.
+   *
+   * The key check is left on its default, which warns when nothing on the
+   * network introduces this key rather than refusing to sign. The test
+   * registry enforces no trust at all, so refusing would block the only
+   * environment we can exercise before the key is endorsed in production.
+   */
   private async save(options: SaveOptions) {
     const opts = saveOptionsSchema.parse(options);
+
+    if (this.endpointUrl === '' || this.privateKey === '') {
+      throw new Error(
+        'Cannot publish a nanopublication: NANOPUB_WRITE_ENDPOINT_URL or NANOPUB_PRIVATE_KEY is not set'
+      );
+    }
 
     const quadStream = opts.store.match(); // All quads
     const dataStream = rdfSerializer.serialize(quadStream, {
       contentType: 'application/trig',
     });
-    const data = await streamToString(dataStream);
+    const trig = await streamToString(dataStream);
 
-    const searchParams = new URLSearchParams({
-      'server-url': this.endpointUrl,
-      signer: opts.creator,
-    });
-    const url = `${this.proxyEndpointUrl}/publish?${searchParams.toString()}`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      body: data,
-      headers: {'Content-Type': 'application/trig'},
+    const nanopub = nanopubJs.NanopubClass.fromRdf(trig, 'trig', {
+      privateKey: this.privateKey,
+      name: nanopubAgentName,
+      orcid: nanopubAgentIri,
     });
 
-    if (!response.ok) {
-      throw new Error(
-        `Failed to store nanopublication: ${response.statusText} (${response.status})`
-      );
-    }
+    await nanopub.sign();
+    const {uri} = await nanopub.publish(this.endpointUrl);
 
-    // TBD: fetch the published nanopub info from location 'responseData.url'?
-    const rawResponseData = await response.json();
-    const responseData = saveResponseSchema.parse(rawResponseData);
-    const nanopubIri = responseData.id;
-
-    return nanopubIri;
+    return uri;
   }
 
   async add(options: AddOptions) {
@@ -250,10 +257,7 @@ export class NanopubClient {
       primaryStore.addQuad(quad);
     });
 
-    const nanopubIri = await this.save({
-      creator: opts.creator.id,
-      store: primaryStore,
-    });
+    const nanopubIri = await this.save({store: primaryStore});
 
     const nanopub: Nanopub = {
       id: nanopubIri,

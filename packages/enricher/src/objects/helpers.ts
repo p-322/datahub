@@ -1,7 +1,7 @@
-import {ontologyVersionIdentifier, ontologyUrl} from '../definitions';
+import {ontologyUrl} from '../definitions';
 import {HeritageObjectEnrichmentType} from './definitions';
 
-// E.g. from 'material' to 'https://data.colonialcollections.nl/schemas/nanopub#material'
+// E.g. from 'material' to 'https://sawubona-commons.eu/ns/nanopub#material'
 export function fromTypeToProperty(type: HeritageObjectEnrichmentType) {
   const entries = Object.entries(HeritageObjectEnrichmentType);
   for (const entry of entries) {
@@ -13,7 +13,7 @@ export function fromTypeToProperty(type: HeritageObjectEnrichmentType) {
   throw new TypeError(`Unknown type: "${type}"`);
 }
 
-// E.g. from 'https://data.colonialcollections.nl/schemas/nanopub#material' to 'material'
+// E.g. from 'https://sawubona-commons.eu/ns/nanopub#material' to 'material'
 export function fromPropertyToType(property: string | undefined) {
   const entries = Object.entries(HeritageObjectEnrichmentType);
   for (const entry of entries) {
@@ -27,12 +27,12 @@ export function fromPropertyToType(property: string | undefined) {
   throw new TypeError(`Unknown property: "${property}"`);
 }
 
-// E.g. from 'material' to 'https://data.colonialcollections.nl/schemas/nanopub#MaterialVersion1'
+// E.g. from 'material' to 'https://sawubona-commons.eu/ns/nanopub#Material'
 export function fromTypeToClass(type: HeritageObjectEnrichmentType) {
   const entries = Object.entries(HeritageObjectEnrichmentType);
   for (const [key, value] of entries) {
     if (type === value) {
-      return `${ontologyUrl}${key}${ontologyVersionIdentifier}`;
+      return `${ontologyUrl}${key}`;
     }
   }
 

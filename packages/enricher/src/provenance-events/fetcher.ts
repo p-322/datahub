@@ -99,7 +99,7 @@ export class ProvenanceEventEnrichmentFetcher {
         }
 
         graph ?pubInfo {
-          ?np a cc:Nanopub ;
+          ?np npx:hasNanopubType cc:Nanopub ;
             npx:introduces ?attributeAssignment ;
             dcterms:license ?license .
         }

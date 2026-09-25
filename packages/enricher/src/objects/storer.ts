@@ -42,7 +42,7 @@ export class HeritageObjectEnrichmentStorer {
     const languageCode = opts.inLanguage;
 
     // Make clear what application has published this nanopub
-    const softwareToolId = DF.namedNode('https://app.colonialcollections.nl/');
+    const softwareToolId = DF.namedNode('https://datahub.sawubona-commons.eu/');
 
     publicationStore.addQuad(
       DF.quad(
@@ -56,15 +56,20 @@ export class HeritageObjectEnrichmentStorer {
       DF.quad(
         softwareToolId,
         DF.namedNode('http://www.w3.org/2000/01/rdf-schema#label'),
-        DF.literal('Colonial Collections')
+        DF.literal('Sawubona Commons')
       )
     );
 
-    // Generic type of the nanopub: a nanopub
+    // What kind of nanopub this is. `npx:hasNanopubType` rather than
+    // `rdf:type`: this is the predicate the nanopub network reads to build
+    // per-type lists, so it is what lets a registry cover only our types and
+    // what makes the type-specific query endpoint
+    // (router.knowledgepixels.com/query/repo/type/...) serve our
+    // nanopublications without the rest of the network in the way.
     publicationStore.addQuad(
       DF.quad(
         nanopubId,
-        DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+        DF.namedNode('http://purl.org/nanopub/x/hasNanopubType'),
         DF.namedNode(`${ontologyUrl}Nanopub`)
       )
     );
@@ -73,7 +78,7 @@ export class HeritageObjectEnrichmentStorer {
     publicationStore.addQuad(
       DF.quad(
         nanopubId,
-        DF.namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+        DF.namedNode('http://purl.org/nanopub/x/hasNanopubType'),
         DF.namedNode(fromTypeToClass(opts.type))
       )
     );

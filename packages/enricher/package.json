@@ -21,6 +21,7 @@
     "test:integration:watch": "npm run test:integration -- --watchAll"
   },
   "dependencies": {
+    "@nanopub/nanopub-js": "^0.4.0",
     "@p-322/iris": "*",
     "defu": "6.1.4",
     "edtf": "4.6.0",
@@ -33,9 +34,9 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
+    "@jest/globals": "29.7.0",
     "@p-322/eslint-config": "*",
     "@p-322/ts-config": "*",
-    "@jest/globals": "29.7.0",
     "@rdfjs/types": "1.1.0",
     "@types/jest": "29.5.12",
     "@types/node": "20.12.12",
