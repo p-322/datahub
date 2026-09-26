@@ -19,10 +19,6 @@ interface SelectedEventContextType {
   events: UserProvenanceEvent[];
   eventGroups: Map<string, UserProvenanceEvent[]>;
   eventGroupsFiltered: Map<string, UserProvenanceEvent[]>;
-  showTimeline: boolean;
-  showDataTable: boolean;
-  setShowTimeline: Dispatch<SetStateAction<boolean>>;
-  setShowDataTable: Dispatch<SetStateAction<boolean>>;
 }
 
 const SelectedEventContext = createContext<SelectedEventContextType>({
@@ -31,10 +27,6 @@ const SelectedEventContext = createContext<SelectedEventContextType>({
   events: [],
   eventGroups: new Map(),
   eventGroupsFiltered: new Map(),
-  showTimeline: true,
-  showDataTable: true,
-  setShowTimeline: () => {},
-  setShowDataTable: () => {},
 });
 
 export function ProvenanceProvider({
@@ -45,8 +37,6 @@ export function ProvenanceProvider({
   events: UserProvenanceEvent[];
 }) {
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
-  const [showTimeline, setShowTimeline] = useState(true);
-  const [showDataTable, setShowDataTable] = useState(true);
   const {formatTimeSpan} = useDateFormatter();
   const eventGroups = useMemo(
     () => groupByDateRange({events, formatTimeSpan}),
@@ -68,10 +58,6 @@ export function ProvenanceProvider({
     events,
     eventGroups,
     eventGroupsFiltered,
-    showTimeline,
-    setShowTimeline,
-    showDataTable,
-    setShowDataTable,
   };
   return (
     <SelectedEventContext.Provider value={context}>

@@ -12,16 +12,8 @@ import Language from '../language';
 export default function DataTable() {
   const t = useTranslations('Provenance');
 
-  const {
-    selectedEvents,
-    setSelectedEvents,
-    eventGroupsFiltered,
-    showDataTable,
-  } = useProvenance();
-
-  if (!showDataTable) {
-    return null;
-  }
+  const {selectedEvents, setSelectedEvents, eventGroupsFiltered} =
+    useProvenance();
 
   function showAllClick() {
     setSelectedEvents([]);

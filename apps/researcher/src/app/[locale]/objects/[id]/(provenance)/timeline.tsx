@@ -28,11 +28,7 @@ function TimelineButton({event}: {event: TimelineEvent}) {
 export default function ProvenanceTimeline() {
   const t = useTranslations('Provenance');
   const formatter = useFormatter();
-  const {events, showTimeline, eventGroups} = useProvenance();
-
-  if (!showTimeline) {
-    return null;
-  }
+  const {events, eventGroups} = useProvenance();
 
   const {rangeEvents, singleEvents, eventsWithoutDates} =
     categorizeEvents(eventGroups);

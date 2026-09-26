@@ -3,7 +3,6 @@ import DataTable from './data-table';
 import {getTranslations, getLocale} from 'next-intl/server';
 import {sortEvents} from './sort-events';
 import {ProvenanceProvider} from './provenance-store';
-import {ToggleViewButtons} from './buttons';
 import {LocaleEnum} from '@/definitions';
 import dynamic from 'next/dynamic';
 import {SlideOutButton, LocalizedMarkdown} from '@p-322/ui';
@@ -42,16 +41,12 @@ export default async function Provenance({objectId}: {objectId: string}) {
           <h2 id="provenance" className="text-2xl mb-2 mt-20" tabIndex={0}>
             {t('title')}
           </h2>
-          <p className="text-neutral-600 text-sm max-w-2xl mb-6">
-            {t('description')}
-          </p>
-          <p className="text-neutral-600 text-sm max-w-2xl mb-6">
-            {t('noData')}
-          </p>
-          <div className="flex justify-between items-center my-6">
-            <div>
-              <AddProvenanceButton />
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 my-6">
+            <div className="text-neutral-600 text-sm max-w-xl flex flex-col gap-6">
+              <p>{t('description')}</p>
+              <p>{t('noData')}</p>
             </div>
+            <AddProvenanceButton />
           </div>
           <AddProvenanceSlideOut objectId={objectId} />
         </div>
@@ -73,19 +68,11 @@ export default async function Provenance({objectId}: {objectId: string}) {
             {t('title')}
           </h2>
 
-          <div className="flex flex-col lg:flex-row justify-between my-6">
-            <div className="flex flex-col lg:flex-row justify-between w-2/3 items-start lg:gap-8 lg:border-r ">
-              <p className="text-neutral-600 text-sm max-w-xl mb-6">
-                {t('description')}
-              </p>
-              <div className="flex justify-end items-start pr-4">
-                <AddProvenanceButton />
-              </div>
-            </div>
-
-            <div className="flex gap-1 w-1/3 lg:justify-end items-start">
-              <ToggleViewButtons />
-            </div>
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 my-6">
+            <p className="text-neutral-600 text-sm max-w-xl">
+              {t('description')}
+            </p>
+            <AddProvenanceButton />
           </div>
           <AddProvenanceSlideOut objectId={objectId} />
           <Timeline />
