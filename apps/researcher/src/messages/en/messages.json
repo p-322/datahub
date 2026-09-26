@@ -252,7 +252,7 @@
     "noData": "No provenance events provided for this object.",
     "dataTableTitle": "Provenance data table",
     "timelineTitle": "Provenance timeline",
-    "timelineDescription": "In the timeline provenance events are plotted out by time. Click on an event to focus on that event.",
+    "timelineDescription": "In the timeline provenance events are plotted out by time. Click on an event to highlight it in the data table.",
     "timelineEventsWithoutDates": "{eventCount, plural, =1 {Provenance event {events} is not plotted on the timeline because there are no dates available.} other {# Provenance events {events} are not plotted on the timeline because there are no dates available.}}",
     "showAll": "Show all events",
     "showTimelineButton": "Show timeline",

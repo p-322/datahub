@@ -8,36 +8,25 @@ import {SelectEventsButton} from './buttons';
 import {ExclamationTriangleIcon, XMarkIcon} from '@heroicons/react/24/outline';
 import {ProvidedBy} from '../provided-by';
 import Language from '../language';
+import classNames from 'classnames';
+import {ReactNode, useEffect, useRef} from 'react';
 
 export default function DataTable() {
   const t = useTranslations('Provenance');
 
-  const {selectedEvents, setSelectedEvents, eventGroupsFiltered} =
-    useProvenance();
+  const {eventGroups} = useProvenance();
 
-  function showAllClick() {
-    setSelectedEvents([]);
-  }
-
+  // Every event is always listed. Selecting one, on the timeline or by its
+  // marker here, highlights it rather than hiding the rest: with the amount
+  // of provenance an object carries, narrowing the table only created a state
+  // to get lost in.
   return (
     <div className="w-full block">
-      <div className="flex justify-between items-center">
-        <h3 className="my-4 w-full pt-4" tabIndex={0}>
-          {t('dataTableTitle')}
-        </h3>
-        <div className="flex items-center text-ink-800 ">
-          {selectedEvents.length > 0 && (
-            <button
-              onClick={showAllClick}
-              className="p-1 sm:py-2 sm:px-3 rounded-full text-xs bg-accent-100 hover:bg-accent-50 text-neutral-800 transition flex items-center gap-1 mr-2 whitespace-nowrap"
-            >
-              {t('showAll')}
-            </button>
-          )}
-        </div>
-      </div>
+      <h3 className="my-4 w-full pt-4" tabIndex={0}>
+        {t('dataTableTitle')}
+      </h3>
       <div className="flex flex-col gap-6">
-        {[...eventGroupsFiltered].map(([dateRange, eventGroup]) => (
+        {[...eventGroups].map(([dateRange, eventGroup]) => (
           <ProvenanceEventRow
             key={dateRange}
             dateRange={dateRange}
@@ -74,6 +63,7 @@ function ProvenanceEventRow({
   dateRange,
 }: ProvenanceEventRowProps) {
   const t = useTranslations('Provenance');
+  const {selectedEvents} = useProvenance();
 
   return (
     <div className="flex flex-col md:flex-row gap-4 border-t">
@@ -82,9 +72,9 @@ function ProvenanceEventRow({
       </div>
       <div className="flex flex-col gap-4 w-full md:w-2/3 lg:w-3/4 ">
         {provenanceEvents.map(event => (
-          <div
+          <EventEntry
             key={event.id}
-            className="flex flex-col md:flex-row justify-between gap-4 border-b last:border-b-0 py-2"
+            selected={selectedEvents.includes(event.id)}
           >
             <div>
               <SelectEventsButton ids={[event.id]}>
@@ -155,9 +145,46 @@ function ProvenanceEventRow({
                 createdWith={event.createdWith}
               />
             </div>
-          </div>
+          </EventEntry>
         ))}
       </div>
+    </div>
+  );
+}
+
+interface EventEntryProps {
+  selected: boolean;
+  children: ReactNode;
+}
+
+// One event in the table. When it is selected it is tinted, and scrolled to
+// if it is off screen: `nearest` leaves the page where it is when the event
+// is already in view.
+function EventEntry({selected, children}: EventEntryProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!selected) {
+      return;
+    }
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    ref.current?.scrollIntoView({
+      block: 'nearest',
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  }, [selected]);
+
+  return (
+    <div
+      ref={ref}
+      className={classNames(
+        'flex flex-col md:flex-row justify-between gap-4 border-b last:border-b-0 py-2 -mx-2 px-2 rounded-lg transition-colors',
+        {'bg-accent-100': selected}
+      )}
+    >
+      {children}
     </div>
   );
 }

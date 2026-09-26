@@ -252,7 +252,7 @@
     "noData": "Geen herkomstgegevens aangeleverd.",
     "dataTableTitle": "Herkomst data tabel",
     "timelineTitle": "Tijdlijn van herkomst",
-    "timelineDescription": "In de tijdlijn worden de herkomstgebeurtenissen uitgezet op basis van de tijd. Klik op een gebeurtenis om de focus op de gebeurtenis te leggen.",
+    "timelineDescription": "In de tijdlijn worden de herkomstgebeurtenissen uitgezet op basis van de tijd. Klik op een gebeurtenis om die in de data tabel te markeren.",
     "timelineEventsWithoutDates": "{eventCount, plural, =1 {Herkomstgebeurtenis {events} is niet geplot op de tijdlijn omdat er geen data beschikbaar is.} other {# Herkomstgebeurtenissen {events} worden niet geplot op de tijdlijn omdat er geen data beschikbaar is}}",
     "showAll": "Toon alle gebeurtenissen",
     "showTimelineButton": "Tijdlijn weergeven",

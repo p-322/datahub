@@ -18,7 +18,6 @@ interface SelectedEventContextType {
   setSelectedEvents: Dispatch<SetStateAction<string[]>>;
   events: UserProvenanceEvent[];
   eventGroups: Map<string, UserProvenanceEvent[]>;
-  eventGroupsFiltered: Map<string, UserProvenanceEvent[]>;
 }
 
 const SelectedEventContext = createContext<SelectedEventContextType>({
@@ -26,7 +25,6 @@ const SelectedEventContext = createContext<SelectedEventContextType>({
   setSelectedEvents: () => {},
   events: [],
   eventGroups: new Map(),
-  eventGroupsFiltered: new Map(),
 });
 
 export function ProvenanceProvider({
@@ -43,21 +41,11 @@ export function ProvenanceProvider({
     [events, formatTimeSpan]
   );
 
-  const eventGroupsFiltered = useMemo(() => {
-    const eventsToShow =
-      selectedEvents.length > 0
-        ? selectedEvents.map(id => events.find(event => event.id === id)!)
-        : events;
-
-    return groupByDateRange({events: eventsToShow, formatTimeSpan});
-  }, [events, formatTimeSpan, selectedEvents]);
-
   const context = {
     selectedEvents,
     setSelectedEvents,
     events,
     eventGroups,
-    eventGroupsFiltered,
   };
   return (
     <SelectedEventContext.Provider value={context}>
