@@ -61,6 +61,49 @@ export async function countByCommunityId(communityId: string) {
   return result[0].count;
 }
 
+export interface ObjectListStats {
+  objectCount: number;
+  // When the newest object still in the list was added.
+  lastAddedAt: Date | null;
+}
+
+/**
+ * How many objects each of a community's lists holds, and when the newest of
+ * them was added, in one query.
+ *
+ * The list's own `updated_at` is not that date. The trigger that sets it fires
+ * on UPDATE of object_list, which is a rename or a new description; adding or
+ * removing an object touches object_item and leaves the list's row alone.
+ *
+ * A list with no objects has no row here: callers read a missing entry as zero
+ * objects and no date.
+ */
+export async function statsByCommunityId(
+  communityId: string
+): Promise<Map<number, ObjectListStats>> {
+  const rows = await db
+    .select({
+      objectListId: objectItems.objectListId,
+      // Postgres returns count(*) as bigint, which the driver hands over as a
+      // string; cast to int and map to a JS number.
+      objectCount: sql<number>`count(*)::int`.mapWith(Number),
+      lastAddedAt: sql<Date>`max(${objectItems.createdAt})`.mapWith(
+        objectItems.createdAt
+      ),
+    })
+    .from(objectItems)
+    .innerJoin(objectLists, eq(objectItems.objectListId, objectLists.id))
+    .where(eq(objectLists.communityId, communityId))
+    .groupBy(objectItems.objectListId);
+
+  return new Map(
+    rows.map(row => [
+      row.objectListId,
+      {objectCount: row.objectCount, lastAddedAt: row.lastAddedAt},
+    ])
+  );
+}
+
 interface CreateProps {
   communityId: string;
   name: string;

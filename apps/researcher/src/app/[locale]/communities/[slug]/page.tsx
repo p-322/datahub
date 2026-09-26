@@ -8,7 +8,7 @@ import ErrorMessage from '@/components/error-message';
 import {isClerkAPIResponseError} from '@clerk/nextjs/errors';
 import {revalidatePath} from 'next/cache';
 import {objectList} from '@p-322/database';
-import ObjectCard from './object';
+import {getDateFormatter} from '@/lib/date-formatter/actions';
 import CreateObjectListForm from '@/components/object-list-form/create-form';
 import {
   SlideOutButton,
@@ -66,15 +66,29 @@ export default async function CommunityPage({params}: Props) {
   }
 
   let objectLists;
+  let objectListStats;
   try {
-    objectLists = await objectList.getByCommunityId(community.id, {
-      withObjects: true,
-      limitObjects: 4,
-    });
+    [objectLists, objectListStats] = await Promise.all([
+      objectList.getByCommunityId(community.id),
+      objectList.statsByCommunityId(community.id),
+    ]);
   } catch (err) {
     console.error(err);
     return <ErrorMessage error={t('error')} />;
   }
+
+  const {formatDate} = await getDateFormatter();
+
+  // Who made a list, when they are still a member. created_by is a Clerk user
+  // id; the members are already loaded, so this costs no further lookup.
+  const memberName = (userId: string) => {
+    const member = memberships?.find(
+      membership => membership.userId === userId
+    );
+    return member
+      ? [member.firstName, member.lastName].filter(Boolean).join(' ')
+      : undefined;
+  };
 
   return (
     <>
@@ -201,41 +215,53 @@ export default async function CommunityPage({params}: Props) {
             </div>
           ) : (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-16">
-              {objectLists.map(objectList => (
-                <Link
-                  data-testid={`object-list-item-${objectList.id}`}
-                  href={`/communities/${params.slug}/${objectList.id}`}
-                  key={objectList.id}
-                  className="no-underline frost-card shadow-card-sm hover:shadow-card transition-shadow overflow-hidden flex flex-col justify-between"
-                >
-                  <div className="text-sm text-accent-600 pt-4 px-4">
-                    {t('objectListsCardType')}
-                  </div>
-                  <div className="px-4 pb-2">
-                    <h3 className="font-semibold text-lg mb-2">
-                      {objectList.name}
-                    </h3>
-                    <p>{objectList.description}</p>
-                  </div>
+              {objectLists.map(objectList => {
+                const stats = objectListStats.get(objectList.id);
+                const creator = memberName(objectList.createdBy);
 
-                  <div className="w-full relative">
-                    <ul className="mt-4 grid grid-cols-4 gap-2 min-h-24">
-                      {objectList.objects?.map(object => (
-                        <ObjectCard
-                          key={object.objectId}
-                          objectIri={object.objectIri}
-                        />
-                      ))}
-                    </ul>
-
-                    <div className="absolute bg-gradient-to-l from-ink-800 from-10% w-full top-0 bottom-0 flex justify-end pr-10">
-                      <button className="p-2 self-center flex items-center py-2 px-6 rounded-full bg-accent-100 text-ink-800 hover:bg-accent-400 transition">
-                        {t('goToListButton')}
-                      </button>
+                return (
+                  <Link
+                    data-testid={`object-list-item-${objectList.id}`}
+                    href={`/communities/${params.slug}/${objectList.id}`}
+                    key={objectList.id}
+                    className="no-underline frost-card shadow-card-sm hover:shadow-card transition-shadow flex flex-col gap-3 p-6"
+                  >
+                    <div>
+                      <div className="text-sm text-accent-600">
+                        {t('objectListsCardType')}
+                      </div>
+                      <h3 className="font-semibold text-lg">
+                        {objectList.name}
+                      </h3>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                    {objectList.description && (
+                      <p className="text-ink-600">{objectList.description}</p>
+                    )}
+                    <ul className="mt-auto flex flex-wrap gap-x-6 gap-y-1 text-sm text-ink-600">
+                      <li>
+                        {t('objectListsObjectCount', {
+                          count: stats?.objectCount ?? 0,
+                        })}
+                      </li>
+                      {creator && (
+                        <li>{t('objectListsCreatedBy', {name: creator})}</li>
+                      )}
+                      <li>
+                        {t('objectListsCreatedOn', {
+                          date: formatDate(objectList.createdAt),
+                        })}
+                      </li>
+                      {stats?.lastAddedAt && (
+                        <li>
+                          {t('objectListsLastAdded', {
+                            date: formatDate(stats.lastAddedAt),
+                          })}
+                        </li>
+                      )}
+                    </ul>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>
